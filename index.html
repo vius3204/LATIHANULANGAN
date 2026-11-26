@@ -3041,83 +3041,90 @@
 
     window.switchAdminTab = function (tab) {
       ["import", "manual", "manage", "analytics", "users", "settings"].forEach((t) => {
-        document.getElementById(`admPane${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.toggle("hidden", t !== tab);
-        const btn = document.getElementById(`admTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const cap = t.charAt(0).toUpperCase() + t.slice(1);
+        document.getElementById(`admPane${cap}`).classList.toggle("hidden", t !== tab);
+        const btn = document.getElementById(`admTab${cap}`);
         btn.className = t === tab
           ? "px-3 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500 shrink-0"
           : "px-3 py-3 text-xs font-bold text-slate-500 shrink-0";
       });
-    };
-
-    window.downloadTemplate = function (fmt) {
-      if (fmt === "json") {
-        const sample = [
-          { type: "bs", topic: "Bab 1", difficulty: "Mudah", question: "1. True/False: Bumi berotasi dari barat ke timur.", answer: true, explanation: "True (Benar)." },
-          { type: "pg", topic: "Bab 1", difficulty: "Sedang", question: "2. Pilihan Ganda: Ibu kota Indonesia adalah...", options: ["Surabaya", "Jakarta", "Bandung", "Medan"], answer: 1, explanation: "Jawaban B." },
-          { type: "pgk", topic: "Bab 1", difficulty: "HOTS", question: "3. Pilihan Ganda Kompleks: Pilih bilangan prima:", options: ["2", "3", "4", "5"], answer: [0, 1, 3], explanation: "2, 3, dan 5 adalah bilangan prima." },
-          { type: "mj", topic: "Bab 1", difficulty: "Sedang", question: "4. Menjodohkan: Garis pembatas fauna Asiatis dan Peralihan.", options: ["Garis Wallace", "Garis Weber", "Garis Khatulistiwa", "Garis Bujur"], answer: 0, explanation: "Garis Wallace." },
-          { type: "ur", topic: "Bab 1", difficulty: "Sedang", question: "5. Isian: Sebutkan 3 zona waktu di Indonesia!", keywords: ["wib", "wita", "wit"], sampleAnswer: "WIB, WITA, dan WIT.", explanation: "Pembagian zona waktu Indonesia." }
-        ];
-        triggerDownload("template-5-tipe-soal.json", JSON.stringify(sample, null, 2), "application/json");
-      } else {
-        triggerDownload("template-soal.csv", `type,question,optA,optB,optC,optD,answer,explanation\npg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
-      }
+      if (tab === "manage") renderAdminManageList();
+      if (tab === "analytics") renderAdminAnalytics();
+      if (tab === "users") renderAdminUsersAndReferrals();
     };
 
     function triggerDownload(filename, content, mime) {
       const blob = new Blob([content], { type: mime });
-      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url; a.download = filename; a.click();
-      URL.revokeObjectURL(url);
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
     }
 
-    window.validateImportJsonOnly = function () {
-      const raw = document.getElementById("importJsonTextarea").value.trim();
-      if (!raw) { showToast("Kolom JSON masih kosong.", "warning"); return; }
-      try {
-        const parsed = JSON.parse(raw);
-        const arr = Array.isArray(parsed) ? parsed : parsed.questions;
-        if (!Array.isArray(arr) || arr.length === 0) throw new Error("Array soal kosong.");
-        showToast(`Valid! Ditemukan ${arr.length} soal siap publikasi.`, "success");
-      } catch (e) { showToast("Format JSON error: " + e.message, "error"); }
+    window.downloadTemplate = function (fmt) {
+      if (fmt === "json") {
+        triggerDownload("template-soal-cbt.json", JSON.stringify([
+          { type: "bs", topic: "Topik 1", difficulty: "Mudah", question: "Contoh pernyataan True/False.", answer: true, hint: "Petunjuk singkat", explanation: "Pembahasan." },
+          { type: "pg", topic: "Topik 2", difficulty: "Sedang", question: "Contoh soal pilihan ganda?", options: ["Opsi A", "Opsi B", "Opsi C", "Opsi D"], answer: 1, hint: "Petunjuk singkat", explanation: "Pembahasan." }
+        ], null, 2), "application/json");
+      } else {
+        triggerDownload("template-soal-cbt.csv", "type,topic,difficulty,question,options,answer,explanation\npg,Geografi,Mudah,Ibu kota Indonesia?,Jakarta|Bandung|Surabaya|Medan,0,Jakarta.\nbs,Sejarah,Mudah,Bumi berbentuk bulat?,Benar|Salah,true,Benar.", "text/csv");
+      }
+    };
+
+    window.handleFileUpload = function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const raw = e.target.result;
+        if (file.name.endsWith(".csv")) {
+          const lines = raw.trim().split(/\r?\n/).slice(1);
+          const parsed = lines.map((line) => {
+            const parts = line.split(",");
+            return {
+              type: (parts[0] || "pg").trim(),
+              topic: (parts[1] || "Umum").trim(),
+              difficulty: (parts[2] || "Sedang").trim(),
+              question: (parts[3] || "").trim(),
+              options: (parts[4] || "").split("|").map((s) => s.trim()).filter(Boolean),
+              answer: parts[0]?.trim() === "bs" ? parts[5]?.trim() === "true" : parseInt(parts[5], 10) || 0,
+              explanation: (parts[6] || "").trim()
+            };
+          }).filter((x) => x.question);
+          document.getElementById("importJsonTextarea").value = JSON.stringify(parsed, null, 2);
+          showToast(`CSV dikonversi (${parsed.length} soal).`, "success");
+        } else {
+          document.getElementById("importJsonTextarea").value = raw;
+          showToast("File berhasil dimuat.", "success");
+        }
+      };
+      reader.readAsText(file);
     };
 
     window.parseQuickTextFormat = function () {
       const raw = document.getElementById("importJsonTextarea").value.trim();
-      if (!raw) { showToast("Tempel teks soal berformat Q: ... | A: ... | B: ... | K: A", "warning"); return; }
-      const lines = raw.split(/\r?\n/).filter((l) => l.trim());
-      const letterMap = { A: 0, B: 1, C: 2, D: 3, E: 4 };
-      const parsed = lines.map((line) => {
-        const parts = line.split("|").map((p) => p.trim());
-        const qText = (parts[0] || "").replace(/^Q:\s*/i, "");
-        const opts = parts.slice(1, 5).map((o) => o.replace(/^[A-D]:\s*/i, ""));
-        const keyPart = (parts.find((p) => /^K:/i.test(p)) || "K:A").replace(/^K:\s*/i, "").toUpperCase();
-        return { type: "pg", question: qText, options: opts, answer: letterMap[keyPart] ?? 0, explanation: "" };
-      });
-      document.getElementById("importJsonTextarea").value = JSON.stringify(parsed, null, 2);
-      showToast(`${parsed.length} soal teks dikonversi ke JSON!`, "success");
+      if (!raw) { showToast("Masukkan teks cepat terlebih dahulu.", "error"); return; }
+      const lines = raw.split(/\r?\n/).filter((l) => l.includes("Q:"));
+      const letterMap = { a: 0, b: 1, c: 2, d: 3, e: 4 };
+      const converted = lines.map((line) => {
+        const segs = line.split("|").map((s) => s.trim());
+        const q = (segs.find((s) => s.startsWith("Q:")) || "").replace(/^Q:\s*/i, "");
+        const opts = ["A:", "B:", "C:", "D:", "E:"].map((p) => (segs.find((s) => s.toUpperCase().startsWith(p)) || "").replace(new RegExp("^" + p + "\\s*", "i"), "")).filter(Boolean);
+        const kRaw = (segs.find((s) => s.toUpperCase().startsWith("K:")) || "").replace(/^K:\s*/i, "").toLowerCase();
+        const exp = (segs.find((s) => s.toUpperCase().startsWith("P:")) || "").replace(/^P:\s*/i, "");
+        return { type: "pg", topic: "Umum", difficulty: "Sedang", question: q, options: opts, answer: letterMap[kRaw] ?? (parseInt(kRaw, 10) || 0), explanation: exp };
+      }).filter((x) => x.question && x.options.length >= 2);
+      document.getElementById("importJsonTextarea").value = JSON.stringify(converted, null, 2);
+      showToast(`Berhasil mengonversi ${converted.length} soal ke JSON!`, "success");
     };
 
-    window.handleFileUpload = function (e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function (evt) {
-        const raw = evt.target.result;
-        if (file.name.endsWith(".csv")) {
-          const lines = raw.split(/\r?\n/).filter((l) => l.trim());
-          const qs = lines.slice(1).map((line) => {
-            const c = line.split(",").map((x) => x.replace(/^"|"$/g, "").trim());
-            return { type: c[0] || "pg", question: c[1] || "", options: [c[2], c[3], c[4], c[5]].filter(Boolean), answer: Number(c[6]) || 0, explanation: c[7] || "" };
-          });
-          document.getElementById("importJsonTextarea").value = JSON.stringify(qs, null, 2);
-        } else {
-          document.getElementById("importJsonTextarea").value = raw;
-        }
-        showToast("File dimuat ke editor.", "success");
-      };
-      reader.readAsText(file);
+    window.validateImportJsonOnly = function () {
+      try {
+        const arr = JSON.parse(document.getElementById("importJsonTextarea").value);
+        if (!Array.isArray(arr) || arr.length === 0) throw new Error("Harus berupa array non-kosong.");
+        showToast(`JSON Valid! Ditemukan ${arr.length} soal siap impor.`, "success");
+      } catch (err) { showToast("JSON Tidak Valid: " + err.message, "error"); }
     };
 
     window.processImportPackage = async function () {
@@ -3128,120 +3135,114 @@
       const token = document.getElementById("importToken").value.trim().toUpperCase();
       const kkm = parseInt(document.getElementById("importKkm").value, 10) || 75;
       const status = document.getElementById("importStatus").value;
-      const rawJson = document.getElementById("importJsonTextarea").value.trim();
-      if (!title || !rawJson) { showToast("Judul dan JSON soal wajib diisi!", "error"); return; }
+      if (!title) { showToast("Judul paket wajib diisi.", "error"); return; }
+
+      let questions;
       try {
-        const parsed = JSON.parse(rawJson);
-        const questions = Array.isArray(parsed) ? parsed : parsed.questions;
-        const newPkg = { id: "pkg_" + Date.now(), title, subject, tags, duration, token, kkm, status, description: `Paket ${subject} (${questions.length} soal).`, questions };
-        await savePackageToStorageAndCloud(newPkg);
-        logAdminAudit(`Import paket baru "${title}" (${questions.length} soal)`);
-        closeModal("adminModal");
-        showToast(`Paket "${title}" berhasil disimpan!`, "success");
-      } catch (err) { showToast("JSON tidak valid: " + err.message, "error"); }
+        questions = JSON.parse(document.getElementById("importJsonTextarea").value);
+        if (!Array.isArray(questions) || questions.length === 0) throw new Error("Array soal kosong.");
+      } catch (err) { showToast("Format JSON tidak valid: " + err.message, "error"); return; }
+
+      const newPkg = {
+        id: "pkg_" + Date.now(),
+        title, subject, tags, duration, token, kkm, status,
+        description: `Paket ${subject} (${questions.length} soal).`,
+        questions,
+        createdAt: new Date().toISOString()
+      };
+
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      localCustom.push(newPkg);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      if (db) { try { await setDoc(doc(db, "exam_packages", newPkg.id), newPkg); } catch (_) {} }
+      logAdminAudit(`Mengimpor & menyimpan paket "${title}" (${questions.length} soal)`);
+      showToast(`Paket "${title}" berhasil disimpan!`, "success");
+      await loadExamPackages();
+      renderAdminManageList();
     };
 
     window.toggleManualTypeFields = function () {
       const t = document.getElementById("manQType").value;
-      const hasOpts = ["pg", "pgk", "mj"].includes(t);
-      document.getElementById("manPgOptionsBox").style.display = hasOpts ? "grid" : "none";
-      const selSingle = document.getElementById("manCorrect");
-      const inpMulti = document.getElementById("manCorrectMulti");
-      if (t === "pgk") {
-        selSingle.classList.add("hidden");
-        inpMulti.classList.remove("hidden");
-        inpMulti.placeholder = "Indeks benar dipisah koma (mis: 0,2 untuk A & C)";
-      } else if (t === "ur") {
-        selSingle.classList.add("hidden");
-        inpMulti.classList.remove("hidden");
-        inpMulti.placeholder = "Kata kunci isian dipisah koma (opsional)";
-      } else {
-        selSingle.classList.remove("hidden");
-        inpMulti.classList.add("hidden");
-      }
+      document.getElementById("manPgOptionsBox").classList.toggle("hidden", t === "bs" || t === "ur");
+      document.getElementById("manCorrect").classList.toggle("hidden", t === "pgk" || t === "ur");
+      document.getElementById("manCorrectMulti").classList.toggle("hidden", t !== "pgk" && t !== "ur");
     };
 
     window.addManualQuestionToDraft = function () {
+      const qText = document.getElementById("manQuestion").value.trim();
+      if (!qText) { showToast("Teks pertanyaan tidak boleh kosong.", "error"); return; }
       const qType = document.getElementById("manQType").value;
-      const question = document.getElementById("manQuestion").value.trim();
-      const difficulty = document.getElementById("manDifficulty").value;
       const topic = document.getElementById("manTopic").value.trim() || "Umum";
+      const difficulty = document.getElementById("manDifficulty").value;
       const image = document.getElementById("manImageUrl").value.trim();
       const hint = document.getElementById("manHint").value.trim();
       const explanation = document.getElementById("manExplanation").value.trim();
+      const multiRaw = document.getElementById("manCorrectMulti").value.trim();
 
-      if (!question) { showToast("Pertanyaan wajib diisi.", "error"); return; }
-
-      let newQ = { type: qType, question, difficulty, topic, hint, explanation };
-      if (image) newQ.image = image;
-
-      if (qType === "pg" || qType === "mj") {
-        const opts = [0, 1, 2, 3].map((i) => document.getElementById(`manOpt${i}`).value.trim());
-        if (opts.some((o) => !o)) { showToast("Lengkapi 4 opsi jawaban.", "error"); return; }
-        newQ.options = opts;
-        newQ.answer = parseInt(document.getElementById("manCorrect").value, 10);
+      const item = { type: qType, topic, difficulty, question: qText, image, hint, explanation };
+      if (qType === "bs") {
+        item.answer = document.getElementById("manCorrect").value === "0";
+      } else if (qType === "pg" || qType === "mj") {
+        const opts = [0, 1, 2, 3].map((i) => document.getElementById(`manOpt${i}`).value.trim()).filter(Boolean);
+        if (opts.length < 2) { showToast("Isi minimal 2 opsi jawaban.", "error"); return; }
+        item.options = opts;
+        item.answer = parseInt(document.getElementById("manCorrect").value, 10) || 0;
       } else if (qType === "pgk") {
-        const opts = [0, 1, 2, 3].map((i) => document.getElementById(`manOpt${i}`).value.trim());
-        if (opts.some((o) => !o)) { showToast("Lengkapi 4 opsi pernyataan PG Kompleks.", "error"); return; }
-        const rawIdx = document.getElementById("manCorrectMulti").value.split(",").map((x) => parseInt(x.trim(), 10)).filter((n) => !isNaN(n) && n >= 0 && n < 4);
-        if (rawIdx.length === 0) { showToast("Isi indeks jawaban benar, misal: 0,2", "error"); return; }
-        newQ.options = opts;
-        newQ.answer = [...new Set(rawIdx)];
-      } else if (qType === "bs") {
-        newQ.answer = document.getElementById("manCorrect").value === "0";
-      } else {
-        const kws = document.getElementById("manCorrectMulti").value.split(",").map((k) => k.trim()).filter(Boolean);
-        if (kws.length) newQ.keywords = kws;
-        newQ.sampleAnswer = explanation || "Sesuai pembahasan.";
+        const opts = [0, 1, 2, 3].map((i) => document.getElementById(`manOpt${i}`).value.trim()).filter(Boolean);
+        item.options = opts;
+        item.answer = (multiRaw || "0,1").split(",").map((n) => parseInt(n.trim(), 10)).filter((n) => !isNaN(n));
+      } else if (qType === "ur") {
+        item.sampleAnswer = explanation || multiRaw;
+        item.keywords = multiRaw ? multiRaw.split(",").map((k) => k.trim()).filter(Boolean) : [];
       }
 
-      manualDraftQuestions.push(newQ);
+      manualDraftQuestions.push(item);
       document.getElementById("manualDraftCount").textContent = `Draft: ${manualDraftQuestions.length} soal`;
       document.getElementById("manQuestion").value = "";
-      document.getElementById("manImageUrl").value = "";
-      ["manOpt0", "manOpt1", "manOpt2", "manOpt3", "manCorrectMulti", "manHint", "manExplanation"].forEach((id) => (document.getElementById(id).value = ""));
-      showToast(`Soal (${getTypeLabel(qType)}) ditambahkan ke draft!`, "success");
+      showToast("Soal ditambahkan ke draft.", "success");
     };
 
     window.saveManualPackage = async function () {
       const title = document.getElementById("manPkgTitle").value.trim();
       const subject = document.getElementById("manPkgSubject").value.trim() || "Umum";
       const duration = parseInt(document.getElementById("manPkgDuration").value, 10) || 45;
-      if (!title || manualDraftQuestions.length === 0) { showToast("Isi judul dan minimal 1 soal.", "error"); return; }
-      await savePackageToStorageAndCloud({ id: "pkg_" + Date.now(), title, subject, duration, kkm: 75, status: "published", questions: [...manualDraftQuestions] });
-      logAdminAudit(`Membuat paket manual "${title}" (${manualDraftQuestions.length} soal)`);
+      if (!title || manualDraftQuestions.length === 0) { showToast("Isi judul paket dan minimal 1 soal draft.", "error"); return; }
+
+      const newPkg = {
+        id: "pkg_man_" + Date.now(),
+        title, subject, duration, kkm: 75, status: "published",
+        description: `Paket buatan manual (${manualDraftQuestions.length} soal).`,
+        questions: [...manualDraftQuestions]
+      };
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      localCustom.push(newPkg);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      if (db) { try { await setDoc(doc(db, "exam_packages", newPkg.id), newPkg); } catch (_) {} }
+      logAdminAudit(`Menerbitkan paket manual "${title}" (${manualDraftQuestions.length} soal)`);
       manualDraftQuestions = [];
-      closeModal("adminModal");
-      showToast("Paket manual tersimpan!", "success");
+      document.getElementById("manualDraftCount").textContent = "Draft: 0 soal";
+      document.getElementById("manPkgTitle").value = "";
+      showToast(`Paket "${title}" diterbitkan!`, "success");
+      await loadExamPackages();
     };
 
-    async function savePackageToStorageAndCloud(pkg) {
-      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]").filter((p) => p.id !== pkg.id);
-      localCustom.push(pkg);
-      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
-      if (db) {
-        try { await setDoc(doc(db, "exam_packages", pkg.id), pkg); } catch (_) {}
-      }
-      await loadExamPackages();
-    }
-
     function renderAdminManageList() {
-      const opts = examPackages.map((p) => `<option value="${p.id}">${p.title}</option>`).join("");
-      document.getElementById("mergePkgA").innerHTML = opts;
-      document.getElementById("mergePkgB").innerHTML = opts;
+      const optsHtml = examPackages.map((p) => `<option value="${p.id}">${p.title}</option>`).join("");
+      document.getElementById("mergePkgA").innerHTML = optsHtml;
+      document.getElementById("mergePkgB").innerHTML = optsHtml;
 
-      document.getElementById("adminManageList").innerHTML = examPackages.map((p) => `
+      document.getElementById("adminManageList").innerHTML = examPackages.map((pkg) => `
         <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
-          <div class="min-w-0">
-            <p class="font-extrabold truncate">${p.title} ${p.status === "draft" ? '<span class="text-amber-500">[DRAFT]</span>' : ""}</p>
-            <p class="text-[11px] text-slate-500">${p.subject} • ${p.questions.length} Soal • ${p.duration || 60}m</p>
+          <div>
+            <p class="font-bold">${pkg.title} <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800">${pkg.status || "published"}</span></p>
+            <p class="text-[11px] text-slate-400">${pkg.subject} • ${pkg.questions?.length || 0} soal • ${pkg.duration || 60}m</p>
           </div>
-          <div class="flex flex-wrap gap-1 shrink-0">
-            <button type="button" onclick="openInlinePackageEditor('${p.id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-goldbrand-300 text-[11px] font-bold">Edit</button>
-            <button type="button" onclick="togglePackageDraftStatus('${p.id}')" class="px-2 py-1 rounded-lg bg-amber-100 text-amber-800 text-[11px] font-bold">${p.status === "draft" ? "Terbitkan" : "Draft"}</button>
-            <button type="button" onclick="duplicateExamPackage('${p.id}')" class="px-2 py-1 rounded-lg bg-emeraldbrand-100 text-emeraldbrand-800 text-[11px] font-bold">Duplikat</button>
-            <button type="button" onclick="exportSinglePackageJson('${p.id}')" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-[11px] font-bold">JSON</button>
-            ${!p.isDefault ? `<button type="button" onclick="deleteExamPackage('${p.id}')" class="px-2 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold">Hapus</button>` : ""}
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" onclick="openInlinePackageEditor('${pkg.id}')" class="px-2.5 py-1 rounded-lg bg-emeraldbrand-700 text-white font-bold">Edit</button>
+            <button type="button" onclick="duplicatePackage('${pkg.id}')" class="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 font-bold">Duplikat</button>
+            <button type="button" onclick="togglePackageStatus('${pkg.id}')" class="px-2.5 py-1 rounded-lg bg-amber-500 text-white font-bold">${pkg.status === "draft" ? "Terbitkan" : "Draft"}</button>
+            <button type="button" onclick="exportSinglePackageJson('${pkg.id}')" class="px-2.5 py-1 rounded-lg bg-goldbrand-600 text-white font-bold">JSON</button>
+            ${!pkg.isDefault ? `<button type="button" onclick="deletePackage('${pkg.id}')" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold">Hapus</button>` : ""}
           </div>
         </div>`).join("");
     }
@@ -3255,76 +3256,101 @@
       document.getElementById("editPkgTitleInput").value = pkg.title;
       document.getElementById("editPkgDurationInput").value = pkg.duration || 60;
       document.getElementById("editPkgTokenInput").value = pkg.token || "";
-      document.getElementById("editPkgQuestionsJson").value = JSON.stringify(pkg.questions, null, 2);
+      document.getElementById("editPkgQuestionsJson").value = JSON.stringify(pkg.questions || [], null, 2);
     };
 
     window.saveInlineEditedPackage = async function () {
-      const pkg = examPackages.find((p) => p.id === editingPackageId);
-      if (!pkg) return;
+      if (!editingPackageId) return;
+      let parsedQs;
       try {
-        const qs = JSON.parse(document.getElementById("editPkgQuestionsJson").value);
-        if (!Array.isArray(qs) || qs.length === 0) throw new Error("Soal harus berupa array non-kosong.");
-        const updated = {
-          ...pkg,
-          title: document.getElementById("editPkgTitleInput").value.trim() || pkg.title,
-          duration: parseInt(document.getElementById("editPkgDurationInput").value, 10) || 60,
-          token: document.getElementById("editPkgTokenInput").value.trim().toUpperCase(),
-          questions: qs
-        };
-        await savePackageToStorageAndCloud(updated);
-        logAdminAudit(`Mengedit paket "${updated.title}"`);
-        document.getElementById("inlinePackageEditorBox").classList.add("hidden");
-        renderAdminManageList();
-        showToast("Perubahan paket berhasil disimpan!", "success");
-      } catch (e) { showToast("Error JSON: " + e.message, "error"); }
-    };
+        parsedQs = JSON.parse(document.getElementById("editPkgQuestionsJson").value);
+        if (!Array.isArray(parsedQs)) throw new Error("Harus berupa array soal.");
+      } catch (err) { showToast("JSON soal tidak valid: " + err.message, "error"); return; }
 
-    window.togglePackageDraftStatus = async function (pkgId) {
-      const pkg = examPackages.find((p) => p.id === pkgId);
-      if (!pkg) return;
-      pkg.status = pkg.status === "draft" ? "published" : "draft";
-      await savePackageToStorageAndCloud(pkg);
-      logAdminAudit(`Mengubah status paket "${pkg.title}" menjadi ${pkg.status}`);
+      const updatedTitle = document.getElementById("editPkgTitleInput").value.trim();
+      const updatedDur = parseInt(document.getElementById("editPkgDurationInput").value, 10) || 60;
+      const updatedToken = document.getElementById("editPkgTokenInput").value.trim().toUpperCase();
+
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      const basePkg = examPackages.find((p) => p.id === editingPackageId);
+      const mergedPkg = { ...basePkg, title: updatedTitle || basePkg.title, duration: updatedDur, token: updatedToken, questions: parsedQs, isDefault: false };
+      const idx = localCustom.findIndex((p) => p.id === editingPackageId);
+      if (idx >= 0) localCustom[idx] = mergedPkg;
+      else localCustom.push(mergedPkg);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      if (db) { try { await setDoc(doc(db, "exam_packages", mergedPkg.id), mergedPkg); } catch (_) {} }
+      logAdminAudit(`Mengedit paket "${mergedPkg.title}"`);
+      document.getElementById("inlinePackageEditorBox").classList.add("hidden");
+      showToast("Perubahan paket disimpan!", "success");
+      await loadExamPackages();
       renderAdminManageList();
     };
 
-    window.duplicateExamPackage = async function (pkgId) {
+    window.duplicatePackage = async function (pkgId) {
       const pkg = examPackages.find((p) => p.id === pkgId);
       if (!pkg) return;
-      const copy = { ...JSON.parse(JSON.stringify(pkg)), id: "pkg_" + Date.now(), title: pkg.title + " (Salinan)", isDefault: false };
-      await savePackageToStorageAndCloud(copy);
-      logAdminAudit(`Menduplikasi paket "${pkg.title}"`);
+      const copy = { ...JSON.parse(JSON.stringify(pkg)), id: "pkg_copy_" + Date.now(), title: `${pkg.title} (Salinan)`, isDefault: false };
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      localCustom.push(copy);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      if (db) { try { await setDoc(doc(db, "exam_packages", copy.id), copy); } catch (_) {} }
+      logAdminAudit(`Menduplikat paket "${pkg.title}"`);
+      await loadExamPackages();
       renderAdminManageList();
-      showToast("Paket berhasil diduplikasi!", "success");
+      showToast("Paket berhasil diduplikat!", "success");
+    };
+
+    window.togglePackageStatus = async function (pkgId) {
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      const pkg = examPackages.find((p) => p.id === pkgId);
+      if (!pkg) return;
+      const nextStatus = pkg.status === "draft" ? "published" : "draft";
+      const updated = { ...pkg, status: nextStatus, isDefault: false };
+      const idx = localCustom.findIndex((p) => p.id === pkgId);
+      if (idx >= 0) localCustom[idx] = updated;
+      else localCustom.push(updated);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      if (db) { try { await setDoc(doc(db, "exam_packages", updated.id), updated); } catch (_) {} }
+      logAdminAudit(`Mengubah status paket "${pkg.title}" menjadi ${nextStatus}`);
+      await loadExamPackages();
+      renderAdminManageList();
+    };
+
+    window.mergeSelectedPackages = async function () {
+      const idA = document.getElementById("mergePkgA").value;
+      const idB = document.getElementById("mergePkgB").value;
+      const pkgA = examPackages.find((p) => p.id === idA);
+      const pkgB = examPackages.find((p) => p.id === idB);
+      if (!pkgA || !pkgB) return;
+      const combinedQs = [...(pkgA.questions || []), ...(pkgB.questions || [])];
+      const mergedPkg = {
+        id: "pkg_merged_" + Date.now(),
+        title: `Tryout Gabungan: ${pkgA.subject} + ${pkgB.subject}`,
+        subject: "Tryout Gabungan",
+        duration: (pkgA.duration || 45) + (pkgB.duration || 45),
+        kkm: 75,
+        status: "published",
+        description: `Gabungan ${pkgA.title} dan ${pkgB.title} (${combinedQs.length} soal).`,
+        questions: combinedQs
+      };
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      localCustom.push(mergedPkg);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      if (db) { try { await setDoc(doc(db, "exam_packages", mergedPkg.id), mergedPkg); } catch (_) {} }
+      logAdminAudit(`Menggabungkan paket "${pkgA.title}" & "${pkgB.title}"`);
+      await loadExamPackages();
+      renderAdminManageList();
+      showToast(`Paket gabungan dibuat (${combinedQs.length} soal)!`, "success");
     };
 
     window.exportSinglePackageJson = function (pkgId) {
       const pkg = examPackages.find((p) => p.id === pkgId);
       if (!pkg) return;
-      triggerDownload(`${pkg.id}.json`, JSON.stringify(pkg.questions, null, 2), "application/json");
+      triggerDownload(`${pkg.id}.json`, JSON.stringify(pkg.questions || [], null, 2), "application/json");
     };
 
-    window.mergeSelectedPackages = async function () {
-      const a = examPackages.find((p) => p.id === document.getElementById("mergePkgA").value);
-      const b = examPackages.find((p) => p.id === document.getElementById("mergePkgB").value);
-      if (!a || !b) return;
-      const merged = {
-        id: "pkg_merge_" + Date.now(),
-        title: `Tryout Gabungan: ${a.subject} & ${b.subject}`,
-        subject: "Tryout Terpadu",
-        duration: (a.duration || 45) + (b.duration || 45),
-        kkm: 75,
-        status: "published",
-        questions: [...(a.questions || []), ...(b.questions || [])]
-      };
-      await savePackageToStorageAndCloud(merged);
-      logAdminAudit(`Menggabungkan "${a.title}" dan "${b.title}"`);
-      renderAdminManageList();
-      showToast(`Paket gabungan (${merged.questions.length} soal) dibuat!`, "success");
-    };
-
-    window.deleteExamPackage = async function (pkgId) {
-      if (!confirm("Hapus paket soal ini?")) return;
+    window.deletePackage = async function (pkgId) {
+      if (!confirm("Hapus paket ini secara permanen?")) return;
       const pkg = examPackages.find((p) => p.id === pkgId);
       const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]").filter((p) => p.id !== pkgId);
       localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
@@ -3332,186 +3358,180 @@
       logAdminAudit(`Menghapus paket "${pkg?.title || pkgId}"`);
       await loadExamPackages();
       renderAdminManageList();
-      showToast("Paket dihapus.", "info");
+      showToast("Paket dihapus.", "success");
     };
 
-    async function renderAdminAnalytics() {
-      const totalQ = examPackages.reduce((s, p) => s + (p.questions ? p.questions.length : 0), 0);
+    function renderTabSwitchLogsUI(logsArray = null) {
+      const tabLogs = Array.isArray(logsArray)
+        ? logsArray
+        : JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
+
+      document.getElementById("adminTabSwitchLogsList").innerHTML = tabLogs.length
+        ? tabLogs.map((l) => {
+            const badgeText = l.isGuest ? "TAMU" : (l.userClass || "XI");
+            return `
+            <div class="p-2 rounded-lg bg-white dark:bg-slate-900 border border-amber-300/60 dark:border-amber-900/60 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="font-extrabold text-amber-700 dark:text-amber-300">${l.participantName || "Peserta"}</span>
+                <span class="text-slate-500">(@${l.username || "-"} • ${badgeText})</span>
+                <span class="mx-1 text-slate-400">•</span>
+                <span class="font-bold text-slate-800 dark:text-slate-200">${l.examTitle || "Ujian"}</span>
+                <span class="text-slate-500">(Soal No. ${l.questionNumber || "-"} • ${l.eventType || "TAB_HIDDEN"})</span>
+              </div>
+              <div class="text-right font-mono text-[10px]">
+                <span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-extrabold">Ke-${l.violationCount || 1}</span>
+                <span class="text-slate-400 ml-1">${l.timestamp || ""}</span>
+              </div>
+            </div>`;
+          }).join("")
+        : `<p class="text-slate-400">Belum ada aktivitas pindah tab/aplikasi yang tercatat.</p>`;
+    }
+
+    function renderAdminAnalytics() {
+      const totalQ = examPackages.reduce((sum, p) => sum + (p.questions?.length || 0), 0);
       const reports = JSON.parse(localStorage.getItem("cbt_question_reports") || "[]");
       const auditLogs = JSON.parse(localStorage.getItem("cbt_admin_audit") || "[]");
-      let tabLogs = JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
-
-      if (db) {
-        try {
-          const snap = await getDocs(collection(db, "tab_switch_logs"));
-          const cloudMap = new Map();
-          tabLogs.forEach((item) => cloudMap.set(item.id, item));
-          snap.forEach((docSnap) => {
-            const d = docSnap.data();
-            cloudMap.set(d.id || docSnap.id, d);
-          });
-          tabLogs = Array.from(cloudMap.values()).sort((a, b) => {
-            const idA = String(a.id || "");
-            const idB = String(b.id || "");
-            return idB.localeCompare(idA);
-          });
-        } catch (_) {}
-      }
 
       document.getElementById("admStatPkg").textContent = examPackages.length;
       document.getElementById("admStatQ").textContent = totalQ;
       document.getElementById("admStatReports").textContent = reports.length;
 
-      renderTabSwitchLogsUI(tabLogs);
-
       document.getElementById("adminReportsList").innerHTML = reports.length
-        ? reports.map((r) => `<div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800"><p class="font-bold">${r.packageTitle} • <span class="text-slate-400 font-normal">${r.reporter} (${r.date})</span></p><p class="text-slate-600 dark:text-slate-300 mt-0.5">${r.question}</p><p class="text-rose-700 dark:text-rose-300 font-semibold mt-1">Alasan: ${r.reason}</p></div>`).join("")
+        ? reports.map((r) => `<div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/40 dark:bg-rose-950/20"><p class="font-bold">${r.packageTitle} — oleh ${r.reporter} (${r.date})</p><p class="text-slate-600 dark:text-slate-300 mt-0.5">Soal: ${r.question}</p><p class="text-rose-700 dark:text-rose-300 mt-0.5">Catatan: ${r.reason}</p></div>`).join("")
         : `<p class="text-slate-400">Belum ada laporan kesalahan soal.</p>`;
 
-      document.getElementById("adminAuditLogList").innerHTML = auditLogs.length
-        ? auditLogs.map((l) => `<div>${l}</div>`).join("")
-        : `<div class="text-slate-400">Belum ada log aktivitas.</div>`;
-    }
+      renderTabSwitchLogsUI();
 
-    window.clearAllReports = function () { localStorage.removeItem("cbt_question_reports"); renderAdminAnalytics(); };
-    function renderTabSwitchLogsUI(tabLogs) {
-      const tabLogEl = document.getElementById("adminTabSwitchLogsList");
-      if (!tabLogEl) return;
-      tabLogEl.innerHTML = tabLogs.length
-        ? tabLogs.map((l) => `
-            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
-              <div class="min-w-0">
-                <p class="font-extrabold text-slate-900 dark:text-white truncate">
-                  ${l.participantName || "Peserta"} <span class="text-slate-400 font-normal">(${l.userClass || "XI"} • @${l.username || "-"})</span>
-                  <span class="ml-1 px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-mono text-[10px]">#${l.violationCount || 1}×</span>
-                </p>
-                <p class="text-[10px] text-slate-500 truncate">${l.examTitle || "Ujian"} • Soal No. ${l.questionNumber || "-"} (${l.eventType || "TAB_HIDDEN"})</p>
-              </div>
-              <span class="text-[10px] font-mono text-slate-400 shrink-0">${l.timestamp || "-"}</span>
-            </div>
-          `).join("")
-        : `<p class="text-slate-400">Belum ada aktivitas pindah tab/aplikasi yang tercatat.</p>`;
+      document.getElementById("adminAuditLogList").innerHTML = auditLogs.length
+        ? auditLogs.map((a) => `<p class="py-0.5 border-b border-slate-100 dark:border-slate-900">${a}</p>`).join("")
+        : `<p class="text-slate-400">Belum ada log aktivitas admin.</p>`;
     }
 
     window.clearTabSwitchLogs = async function () {
-      localStorage.removeItem("cbt_tab_switch_logs");
+      if (!confirm("Hapus seluruh log pindah tab / aplikasi peserta?")) return;
+      localStorage.setItem("cbt_tab_switch_logs", "[]");
       if (db) {
         try {
           const snap = await getDocs(collection(db, "tab_switch_logs"));
-          await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, "tab_switch_logs", d.id))));
-        } catch (_) {}
+          const deletes = [];
+          snap.forEach((d) => deletes.push(deleteDoc(doc(db, "tab_switch_logs", d.id))));
+          await Promise.all(deletes);
+        } catch (err) {
+          console.warn("Failed clearing tab_switch_logs in cloud:", err);
+        }
       }
-      logAdminAudit("Membersihkan log informasi pindah tab peserta");
-      renderAdminAnalytics();
+      renderTabSwitchLogsUI([]);
       showToast("Log pindah tab dibersihkan.", "info");
     };
 
-    async function renderAdminUsersAndReferrals(cloudResultsOverride = null) {
+    window.clearAllReports = function () { localStorage.setItem("cbt_question_reports", "[]"); renderAdminAnalytics(); };
+
+    function renderAdminUsersAndReferrals(cloudResultsOverride = null) {
       const codes = getValidReferralCodes();
-      document.getElementById("activeReferralCodesList").innerHTML = codes.map((c) => `<span class="px-2.5 py-1 rounded-lg bg-goldbrand-500/20 border border-goldbrand-500/40 font-mono font-bold text-[11px]">${c}</span>`).join("");
+      document.getElementById("activeReferralCodesList").innerHTML = codes.map((c) => `<span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-goldbrand-300 font-mono font-bold">${c}</span>`).join("");
 
-      let combinedResults = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
-      if (Array.isArray(cloudResultsOverride) && cloudResultsOverride.length > 0) {
-        combinedResults = cloudResultsOverride;
-      } else if (db) {
-        try {
-          const snap = await getDocs(collection(db, "exam_results"));
-          const arr = [];
-          snap.forEach((d) => arr.push({ id: d.id, ...d.data() }));
-          if (arr.length > 0) combinedResults = arr;
-        } catch (_) {}
-      }
-
-      document.getElementById("adminResultsTable").innerHTML = combinedResults.length
-        ? combinedResults.map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) • ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">Skor: ${h.score}</span></div>`).join("")
-        : `<p class="text-slate-400">Belum ada data hasil ujian.</p>`;
+      const localHist = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
+      const hist = Array.isArray(cloudResultsOverride) && cloudResultsOverride.length > 0 ? cloudResultsOverride : localHist;
+      document.getElementById("adminResultsTable").innerHTML = hist.length
+        ? hist.map((h) => `<div class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) • ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">Skor: ${h.score} • Pindah Tab: ${h.tabSwitches || 0}x</span></div>`).join("")
+        : `<p class="text-slate-400">Belum ada hasil ujian tercatat.</p>`;
     }
 
     window.addCustomReferralCode = function () {
       const code = document.getElementById("newReferralCodeInput").value.trim().toUpperCase();
-      if (!code || code.length < 4) { showToast("Kode minimal 4 karakter.", "error"); return; }
+      if (code.length < 4) { showToast("Kode referral minimal 4 karakter.", "error"); return; }
       const extra = JSON.parse(localStorage.getItem("cbt_extra_referrals") || "[]");
       extra.push(code);
       localStorage.setItem("cbt_extra_referrals", JSON.stringify([...new Set(extra)]));
       document.getElementById("newReferralCodeInput").value = "";
-      logAdminAudit(`Menambahkan kode referral "${code}"`);
+      logAdminAudit(`Menambahkan kode referral baru "${code}"`);
       renderAdminUsersAndReferrals();
-      showToast(`Kode referral ${code} ditambahkan!`, "success");
+      showToast(`Kode referral "${code}" ditambahkan!`, "success");
     };
 
     window.saveAnnouncementText = function () {
       const txt = document.getElementById("adminAnnouncementInput").value.trim();
       localStorage.setItem("cbt_announcement", txt);
-      document.getElementById("announcementText").textContent = txt || "Selamat belajar!";
-      logAdminAudit("Memperbarui pengumuman beranda");
-      showToast("Pengumuman diperbarui!", "success");
+      document.getElementById("announcementText").textContent = txt;
+      logAdminAudit("Memperbarui teks pengumuman beranda");
+      showToast("Pengumuman beranda diperbarui!", "success");
     };
 
-    window.toggleMaintenanceMode = function (checked) {
-      localStorage.setItem("cbt_maintenance", checked ? "true" : "false");
-      logAdminAudit(`Mengubah Mode Pemeliharaan menjadi ${checked ? "AKTIF" : "NONAKTIF"}`);
-      showToast(checked ? "Mode Pemeliharaan diaktifkan." : "Mode Pemeliharaan dimatikan.", "info");
+    window.toggleMaintenanceMode = function (enabled) {
+      localStorage.setItem("cbt_maintenance", String(enabled));
+      logAdminAudit(`Mengubah Mode Pemeliharaan menjadi ${enabled ? "AKTIF" : "NONAKTIF"}`);
+      showToast(enabled ? "Mode Pemeliharaan diaktifkan." : "Mode Pemeliharaan dimatikan.", "warning");
     };
 
     window.exportAllBackup = function () {
-      const dump = {
+      const backup = {
         packages: JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]"),
         history: JSON.parse(localStorage.getItem("cbt_exam_history") || "[]"),
         bookmarks: JSON.parse(localStorage.getItem("cbt_bookmarked_questions") || "[]"),
         referrals: JSON.parse(localStorage.getItem("cbt_extra_referrals") || "[]"),
         announcement: localStorage.getItem("cbt_announcement") || ""
       };
-      triggerDownload(`cbt-full-backup-${Date.now()}.json`, JSON.stringify(dump, null, 2), "application/json");
+      triggerDownload(`cbt-backup-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(backup, null, 2), "application/json");
+      logAdminAudit("Mengekspor full backup database lokal");
     };
 
-    window.importAllBackup = function (e) {
-      const file = e.target.files[0];
+    window.importAllBackup = async function (event) {
+      const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = async function (evt) {
+      reader.onload = async (e) => {
         try {
-          const d = JSON.parse(evt.target.result);
-          if (d.packages) localStorage.setItem("cbt_custom_packages", JSON.stringify(d.packages));
-          if (d.history) localStorage.setItem("cbt_exam_history", JSON.stringify(d.history));
-          if (d.bookmarks) localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(d.bookmarks));
-          if (d.referrals) localStorage.setItem("cbt_extra_referrals", JSON.stringify(d.referrals));
-          if (d.announcement) localStorage.setItem("cbt_announcement", d.announcement);
+          const b = JSON.parse(e.target.result);
+          if (Array.isArray(b.packages)) localStorage.setItem("cbt_custom_packages", JSON.stringify(b.packages));
+          if (Array.isArray(b.history)) localStorage.setItem("cbt_exam_history", JSON.stringify(b.history));
+          if (Array.isArray(b.bookmarks)) localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(b.bookmarks));
+          if (Array.isArray(b.referrals)) localStorage.setItem("cbt_extra_referrals", JSON.stringify(b.referrals));
+          if (b.announcement) localStorage.setItem("cbt_announcement", b.announcement);
+          logAdminAudit("Merestore data dari file backup JSON");
           await loadExamPackages();
           updateDashboardStats();
           showToast("Backup berhasil dipulihkan!", "success");
-        } catch (err) { showToast("File backup tidak valid: " + err.message, "error"); }
+        } catch (err) { showToast("Gagal restore backup: " + err.message, "error"); }
       };
       reader.readAsText(file);
     };
 
     window.resetAllLocalData = function () {
-      if (!confirm("Hapus semua riwayat, soal custom, dan data lokal?")) return;
-      ["cbt_custom_packages", "cbt_exam_history", "cbt_bookmarked_questions", "cbt_autosave_exam", "cbt_user_xp", "cbt_daily_progress"].forEach((k) => localStorage.removeItem(k));
+      if (!confirm("Hapus semua paket kustom, riwayat, dan data lokal di browser ini?")) return;
+      ["cbt_custom_packages", "cbt_exam_history", "cbt_bookmarked_questions", "cbt_user_xp", "cbt_daily_progress", "cbt_question_reports", "cbt_admin_audit"].forEach((k) => localStorage.removeItem(k));
       location.reload();
     };
 
     window.toggleDarkMode = function () {
-      const isDark = document.documentElement.classList.toggle("dark");
+      const html = document.documentElement;
+      const isDark = html.classList.toggle("dark");
       localStorage.setItem("cbt_theme", isDark ? "dark" : "light");
       document.getElementById("darkIcon").className = isDark ? "fa-solid fa-moon text-xs" : "fa-solid fa-sun text-xs";
     };
+    document.getElementById("darkIcon").className = document.documentElement.classList.contains("dark") ? "fa-solid fa-moon text-xs" : "fa-solid fa-sun text-xs";
 
-    if (localStorage.getItem("cbt_theme") === "light") {
-      document.getElementById("darkIcon").className = "fa-solid fa-sun text-xs";
+    async function bootSession() {
+      const savedSession = localStorage.getItem("cbt_session_user");
+      if (savedSession) {
+        try { await applyUserSession(JSON.parse(savedSession)); return; } catch (_) {}
+      }
+      if (auth) {
+        onAuthStateChanged(auth, async (user) => {
+          if (user && !currentUserProfile) {
+            let rawProfile = null;
+            if (db) {
+              try {
+                const snap = await getDoc(doc(db, "users", user.uid));
+                if (snap.exists()) rawProfile = snap.data();
+              } catch (_) {}
+            }
+            await applyUserSession(normalizeUserProfile(rawProfile, user));
+          }
+        });
+      }
     }
 
-    const savedSession = localStorage.getItem("cbt_session_user");
-    if (savedSession) {
-      try { applyUserSession(JSON.parse(savedSession)); } catch (_) {}
-    } else if (auth) {
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          let raw = null;
-          if (db) { try { const s = await getDoc(doc(db, "users", user.uid)); if (s.exists()) raw = s.data(); } catch (_) {} }
-          await applyUserSession(normalizeUserProfile(raw, user));
-        }
-      });
-    }
+    bootSession();
   </script>
 </body>
 </html>
