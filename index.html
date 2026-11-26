@@ -34,6 +34,25 @@
               600: '#d97706',
               700: '#b45309',
             }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.35s ease-out forwards',
+            'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
           }
         }
       }
@@ -47,7 +66,10 @@
       background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #047857 100%);
       padding: 3px;
     }
-    /* Custom scrollbar */
+    .glass-card {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -61,7 +83,7 @@
     }
   </style>
 </head>
-<body class="bg-[#f4f8f6] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-200">
+<body class="bg-[#f4f8f6] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
 
   <!-- TOAST NOTIFICATION -->
   <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full"></div>
@@ -70,14 +92,14 @@
        VIEW 1: AUTHENTICATION (MASUK / DAFTAR / LUPA SANDI)
   ========================================================== -->
   <section id="authSection" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-emeraldbrand-950 via-emeraldbrand-900 to-emeraldbrand-800 relative overflow-hidden">
-    <!-- Decorative accents -->
-    <div class="absolute -top-24 -left-24 w-72 h-72 bg-goldbrand-500/15 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-emeraldbrand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Animated Decorative Blobs -->
+    <div class="animate-float absolute -top-24 -left-24 w-72 h-72 bg-goldbrand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="animate-float absolute -bottom-24 -right-24 w-80 h-80 bg-emeraldbrand-500/25 rounded-full blur-3xl pointer-events-none" style="animation-delay: 2s;"></div>
 
-    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-goldbrand-500/30 overflow-hidden relative z-10">
+    <div class="animate-slide-up w-full max-w-md bg-white/95 dark:bg-slate-900/95 glass-card rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden relative z-10">
       <!-- Header Brand -->
       <div class="bg-gradient-to-r from-emeraldbrand-900 to-emeraldbrand-800 p-6 text-center text-white border-b-4 border-goldbrand-500">
-        <div class="w-20 h-20 mx-auto rounded-full gold-ring shadow-lg mb-3">
+        <div class="w-20 h-20 mx-auto rounded-full gold-ring shadow-lg mb-3 transform hover:scale-105 transition duration-300">
           <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
             <img
               src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
@@ -106,8 +128,7 @@
 
       <div class="p-6">
         <!-- FORM MASUK (LOGIN) -->
-        <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off" class="space-y-4">
-          <!-- Dummy hidden inputs to prevent browser autofill -->
+        <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off" class="space-y-4 animate-fade-in">
           <input type="text" style="display:none" aria-hidden="true" />
           <input type="password" style="display:none" aria-hidden="true" />
 
@@ -124,7 +145,7 @@
                 autocomplete="off"
                 required
                 placeholder="Masukkan username atau email"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none transition"
               />
             </div>
           </div>
@@ -147,7 +168,7 @@
                 autocomplete="new-password"
                 required
                 placeholder="Masukkan kata sandi"
-                class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none"
+                class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none transition"
               />
               <button type="button" onclick="togglePassword('loginPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-eye"></i>
@@ -155,14 +176,14 @@
             </div>
           </div>
 
-          <button type="submit" id="btnLoginSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg shadow-emeraldbrand-900/20 border border-goldbrand-500/40 transition flex items-center justify-center gap-2">
+          <button type="submit" id="btnLoginSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg shadow-emeraldbrand-900/20 border border-goldbrand-500/40 transform active:scale-[0.99] transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-right-to-bracket text-goldbrand-400"></i>
             <span>Masuk ke CBT</span>
           </button>
         </form>
 
         <!-- FORM DAFTAR (REGISTER) -->
-        <form id="registerForm" onsubmit="handleRegister(event)" autocomplete="off" class="space-y-3.5 hidden">
+        <form id="registerForm" onsubmit="handleRegister(event)" autocomplete="off" class="space-y-3.5 hidden animate-fade-in">
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Nama Lengkap</label>
             <input
@@ -171,7 +192,7 @@
               autocomplete="off"
               required
               placeholder="Contoh: Ahmad Fauzan"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
             />
           </div>
 
@@ -184,7 +205,7 @@
                 autocomplete="off"
                 required
                 placeholder="username_anda"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
               />
             </div>
             <div>
@@ -195,7 +216,7 @@
                 autocomplete="off"
                 required
                 placeholder="nama@gmail.com"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
               />
             </div>
           </div>
@@ -210,7 +231,7 @@
                 required
                 minlength="6"
                 placeholder="Min. 6 karakter"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
               />
             </div>
             <div>
@@ -222,7 +243,7 @@
                 required
                 minlength="6"
                 placeholder="Konfirmasi sandi"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
               />
             </div>
           </div>
@@ -237,21 +258,21 @@
               id="regReferral"
               autocomplete="off"
               placeholder="Masukkan kode referral jika ada"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
             />
             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
               Kosongkan untuk mendaftar sebagai peserta ujian biasa.
             </p>
           </div>
 
-          <button type="submit" id="btnRegisterSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg border border-goldbrand-500/40 transition flex items-center justify-center gap-2">
+          <button type="submit" id="btnRegisterSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg border border-goldbrand-500/40 transform active:scale-[0.99] transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-user-plus text-goldbrand-400"></i>
             <span>Daftar Akun Baru</span>
           </button>
         </form>
 
         <!-- FORM LUPA SANDI -->
-        <form id="forgotForm" onsubmit="handleForgotPassword(event)" autocomplete="off" class="space-y-4 hidden">
+        <form id="forgotForm" onsubmit="handleForgotPassword(event)" autocomplete="off" class="space-y-4 hidden animate-fade-in">
           <div class="text-center mb-2">
             <div class="w-12 h-12 rounded-full bg-goldbrand-500/15 text-goldbrand-600 flex items-center justify-center mx-auto mb-2 text-lg">
               <i class="fa-solid fa-envelope-open-text"></i>
@@ -281,7 +302,7 @@
           </button>
         </form>
 
-        <!-- DIVIDER -->
+        <!-- DIVIDER & OPSI LOGIN CEPAT -->
         <div id="socialAuthBlock" class="mt-5">
           <div class="relative flex py-2 items-center">
             <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
@@ -290,7 +311,7 @@
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2">
-            <button type="button" onclick="handleGoogleSignIn()" class="py-2.5 px-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 transition shadow-sm">
+            <button type="button" id="btnGoogleSignIn" onclick="handleGoogleSignIn()" class="py-2.5 px-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 transition shadow-sm">
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-4 h-4" />
               <span>Masuk Gmail</span>
             </button>
@@ -310,7 +331,7 @@
   ========================================================== -->
   <div id="appShell" class="hidden min-h-screen flex flex-col">
     <!-- TOP NAVBAR -->
-    <header class="sticky top-0 z-30 bg-emeraldbrand-900 text-white border-b-2 border-goldbrand-500 shadow-md">
+    <header class="sticky top-0 z-30 bg-emeraldbrand-900/95 glass-card text-white border-b-2 border-goldbrand-500 shadow-md">
       <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
         <!-- Brand -->
         <div class="flex items-center gap-3">
@@ -368,7 +389,7 @@
       <!-- =====================================
            SUB-VIEW A: DASHBOARD PAKET UJIAN
       ====================================== -->
-      <div id="dashboardView" class="space-y-6">
+      <div id="dashboardView" class="space-y-6 animate-fade-in">
         <!-- Hero Banner -->
         <div class="rounded-3xl bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-900 text-white p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 relative overflow-hidden">
           <div class="relative z-10 max-w-2xl">
@@ -382,7 +403,7 @@
               Pilih paket latihan di bawah ini untuk menguji pemahaman Anda dengan sistem penilaian otomatis, timer ujian, serta kunci jawaban dan pembahasan lengkap.
             </p>
             <div class="flex flex-wrap gap-3">
-              <button type="button" onclick="startExam('sas-sejarah-xi')" class="px-5 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-sm shadow-lg transition flex items-center gap-2">
+              <button type="button" onclick="startExam('sas-sejarah-xi')" class="px-5 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-sm shadow-lg transform hover:-translate-y-0.5 transition flex items-center gap-2">
                 <i class="fa-solid fa-play"></i> Mulai SAS Sejarah XI (35 Soal)
               </button>
               <button type="button" id="heroImportBtn" onclick="openAdminModal()" class="hidden px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 transition flex items-center gap-2">
@@ -413,7 +434,7 @@
       <!-- =====================================
            SUB-VIEW B: HALAMAN PENGERJAAN UJIAN
       ====================================== -->
-      <div id="examView" class="hidden">
+      <div id="examView" class="hidden animate-fade-in">
         <!-- Exam Top Info Bar -->
         <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -464,7 +485,7 @@
                 <!-- Diisi JS -->
               </div>
 
-              <!-- Area Pilihan Jawaban (Dinamis sesuai tipe soal) -->
+              <!-- Area Pilihan Jawaban -->
               <div id="questionOptionsArea" class="space-y-3">
                 <!-- Diisi JS -->
               </div>
@@ -522,7 +543,7 @@
       <!-- =====================================
            SUB-VIEW C: HASIL & PEMBAHASAN UJIAN
       ====================================== -->
-      <div id="resultView" class="hidden space-y-6">
+      <div id="resultView" class="hidden space-y-6 animate-slide-up">
         <div class="bg-gradient-to-br from-emeraldbrand-900 to-emeraldbrand-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <span class="px-3 py-1 rounded-full bg-goldbrand-500 text-emeraldbrand-950 text-xs font-extrabold uppercase">
@@ -568,7 +589,7 @@
        MODAL 1: ADMIN IMPORT & BUAT PAKET SOAL
   ========================================================== -->
   <div id="adminModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[90vh] flex flex-col">
+    <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-3xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[90vh] flex flex-col">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
         <div class="flex items-center gap-2.5">
           <i class="fa-solid fa-toolbox text-goldbrand-400 text-lg"></i>
@@ -696,7 +717,7 @@
        MODAL 2: PROFIL PENGGUNA & UPGRADE REFERRAL
   ========================================================== -->
   <div id="profileModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
+    <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
         <h3 class="font-extrabold text-base">Profil Akun</h3>
         <button type="button" onclick="closeModal('profileModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center">
@@ -736,10 +757,10 @@
   </div>
 
   <!-- =========================================================
-       MODAL 3: GMAIL FALLBACK DIALOG (JIKA POPUP / DOMAIN DIBLOKIR)
+       MODAL 3: GMAIL FALLBACK DIALOG (SAAT IFRAME/POPUP DIBLOKIR)
   ========================================================== -->
   <div id="gmailFallbackModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
+    <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
         <div class="flex items-center gap-2">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-5 h-5 bg-white rounded-full p-0.5" />
@@ -750,9 +771,9 @@
         </button>
       </div>
       <form onsubmit="submitGmailFallback(event)" autocomplete="off" class="p-6 space-y-3.5">
-        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          Pop-up Google OAuth diblokir oleh lingkungan pratinjau/browser Anda. Silakan masukkan detail Gmail Anda di bawah ini untuk tetap masuk dan menyinkronkan data:
-        </p>
+        <div id="gmailBlockReason" class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-800 dark:text-amber-200 leading-relaxed">
+          Pop-up Google OAuth diblokir oleh jendela pratinjau/browser Anda. Silakan lengkapi detail Gmail di bawah ini untuk langsung masuk.
+        </div>
         <div>
           <label class="block text-xs font-bold mb-1">Nama Lengkap</label>
           <input type="text" id="fbGmailName" required placeholder="Nama Anda" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
@@ -800,7 +821,6 @@
       deleteDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Konfigurasi Firebase Anda
     const firebaseConfig = {
       apiKey: "AIzaSyA4D-ChK7m1UiQejvWRkk-9sSZcmKO9SjM",
       authDomain: "aplikasi-open-learning-daa29.firebaseapp.com",
@@ -817,10 +837,8 @@
     const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-    // Kode Referral Admin (disimpan di logika, tidak ditampilkan di UI)
     const VALID_REFERRAL_CODES = ["ADMIN2026", "SEJARAHXI14"];
 
-    // State Aplikasi
     let currentUserProfile = null;
     let examPackages = [];
     let currentExam = null;
@@ -974,7 +992,7 @@
             "Perpecahan internal antarelemen bangsa justru membuka celah bagi kekuatan kolonial Belanda untuk masuk dan mengintervensi",
             "Bantuan militer Belanda selalu efektif menyelesaikan konflik sipil",
             "Kaum Adat memiliki persenjataan lebih unggul dari Belanda",
-            "Perjuangan daerah selalu gagal jika dipimpin pemuka agama"
+            "Perjuangan daerah selalu gagal jika tidak dipimpin oleh pemuka agama"
           ],
           answer: 1,
           explanation: "Belanda memanfaatkan permintaan bantuan Kaum Adat untuk menancapkan kekuasaannya di Sumatra Barat."
@@ -1257,13 +1275,13 @@
         warning: "fa-triangle-exclamation text-amber-200",
         info: "fa-circle-info text-goldbrand-400"
       };
-      toast.className = `pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-2xl shadow-xl border ${colors[type] || colors.info} text-xs font-semibold transition-all duration-300`;
+      toast.className = `animate-slide-up pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-2xl shadow-xl border ${colors[type] || colors.info} text-xs font-semibold transition-all duration-300`;
       toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-base mt-0.5"></i><span class="leading-relaxed">${message}</span>`;
       container.appendChild(toast);
       setTimeout(() => {
         toast.style.opacity = "0";
         setTimeout(() => toast.remove(), 300);
-      }, 4200);
+      }, 4500);
     };
 
     window.openModal = function (id) {
@@ -1357,7 +1375,6 @@
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...`;
 
       try {
-        // Cek keunikan username di Firestore
         const q = query(collection(db, "users"), where("username", "==", username));
         const snap = await getDocs(q);
         if (!snap.empty) {
@@ -1397,6 +1414,9 @@
         let msg = "Gagal mendaftar: " + err.message;
         if (err.code === "auth/email-already-in-use") msg = "Email sudah terdaftar. Silakan masuk.";
         if (err.code === "auth/weak-password") msg = "Kata sandi terlalu lemah (minimal 6 karakter).";
+        if (err.code === "auth/operation-not-allowed") {
+          msg = "Metode Email/Password belum diaktifkan di Firebase Console > Authentication > Sign-in method.";
+        }
         showToast(msg, "error");
       } finally {
         btn.disabled = false;
@@ -1415,7 +1435,6 @@
 
       try {
         let emailToUse = identifier;
-        // Jika bukan format email, cari email berdasarkan username di Firestore
         if (!identifier.includes("@")) {
           const q = query(collection(db, "users"), where("username", "==", identifier));
           const snap = await getDocs(q);
@@ -1470,6 +1489,11 @@
     };
 
     window.handleGoogleSignIn = async function () {
+      const btn = document.getElementById("btnGoogleSignIn");
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Menghubungkan...</span>`;
+
       try {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
@@ -1494,13 +1518,19 @@
         showToast(`Berhasil masuk dengan Gmail (${profileData.email})`, "success");
         await applyUserSession(profileData);
       } catch (err) {
-        console.warn("Google Sign-In fallback triggered:", err.code, err.message);
+        console.warn("Google Sign-In fallback:", err.code, err.message);
+        const reasonEl = document.getElementById("gmailBlockReason");
         if (err.code === "auth/operation-not-allowed") {
-          showToast("Provider Google belum diaktifkan di Firebase Console > Authentication > Sign-in method.", "error");
-          return;
+          reasonEl.innerHTML = `<strong>Info Firebase:</strong> Provider <b>Google</b> belum diaktifkan (Enabled) di Firebase Console &gt; Authentication &gt; Sign-in method. Anda tetap dapat masuk menggunakan form Gmail di bawah ini:`;
+        } else if (err.code === "auth/unauthorized-domain") {
+          reasonEl.innerHTML = `<strong>Domain belum diotorisasi (${window.location.hostname || "file lokal"}):</strong> Jendela OAuth Google diblokir. Silakan lanjutkan menggunakan form Gmail di bawah ini:`;
+        } else {
+          reasonEl.innerHTML = `Pop-up Google OAuth ditutup atau diblokir oleh browser/iframe (${err.code || "popup-blocked"}). Silakan lengkapi detail Gmail di bawah ini untuk langsung masuk:`;
         }
-        // Jika popup diblokir browser/WebView atau domain pratinjau, buka modal Gmail Fallback
         openModal("gmailFallbackModal");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
       }
     };
 
@@ -1601,7 +1631,6 @@
         ? "px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-400 text-emeraldbrand-950"
         : "px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-emeraldbrand-700 text-white border border-emeraldbrand-500";
 
-      // Tampilkan tombol Admin hanya untuk role admin
       const navAdminBtn = document.getElementById("navAdminBtn");
       const heroImportBtn = document.getElementById("heroImportBtn");
       if (isAdmin) {
@@ -1612,7 +1641,6 @@
         heroImportBtn.classList.add("hidden");
       }
 
-      // Update modal profil
       document.getElementById("modalAvatar").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
       document.getElementById("modalUserName").textContent = currentUserProfile.name;
       document.getElementById("modalUserEmail").textContent = currentUserProfile.email;
@@ -1638,10 +1666,9 @@
           cloudPackages.push({ id: docSnap.id, ...docSnap.data() });
         });
       } catch (err) {
-        console.warn("Menggunakan paket lokal karena offline/aturan Firestore:", err.message);
+        console.warn("Menggunakan paket lokal:", err.message);
       }
 
-      // Gabungkan tanpa duplikasi
       const map = new Map();
       map.set(DEFAULT_SEJARAH_PACKAGE.id, DEFAULT_SEJARAH_PACKAGE);
       localCustom.forEach((p) => map.set(p.id, p));
@@ -1659,7 +1686,7 @@
         .map((pkg) => {
           const totalQ = pkg.questions ? pkg.questions.length : 0;
           return `
-            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm hover:shadow-lg border border-slate-200 dark:border-slate-800 hover:border-goldbrand-500 transition flex flex-col justify-between">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 border border-slate-200 dark:border-slate-800 hover:border-goldbrand-500 transition-all duration-300 flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between gap-2 mb-3">
                   <span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-goldbrand-300 text-[11px] font-extrabold">
@@ -2300,7 +2327,6 @@
       document.getElementById("darkIcon").className = "fa-solid fa-sun";
     }
 
-    // Restore session jika sebelumnya sudah login
     const savedSession = localStorage.getItem("cbt_session_user");
     if (savedSession) {
       try {
