@@ -116,7 +116,7 @@
                 autocapitalize="none"
                 spellcheck="false"
                 required
-                placeholder="Ketik email atau username Anda"
+                placeholder="Masukkan username atau email"
                 class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none transition"
               />
             </div>
@@ -289,7 +289,7 @@
 
           <button type="button" onclick="openProfileModal()" class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-emeraldbrand-950/60 hover:bg-emeraldbrand-950 border border-goldbrand-500/40 transition">
             <div id="userAvatarInitial" class="w-7 h-7 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xs flex items-center justify-center">U</div>
-            <span id="headerUserName" class="text-xs font-bold max-w-[90px] truncate hidden md:inline">Pengguna</span>
+            <span id="headerUserName" class="text-xs font-bold max-w-[110px] truncate hidden md:inline">Pengguna</span>
           </button>
         </div>
       </div>
@@ -300,9 +300,14 @@
       <div id="dashboardView" class="space-y-6 animate-fade-in">
         <div class="rounded-3xl bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-900 text-white p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 relative overflow-hidden">
           <div class="relative z-10 max-w-2xl">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-goldbrand-500/20 border border-goldbrand-400/40 text-goldbrand-300 text-xs font-bold mb-3">
-              <i class="fa-solid fa-graduation-cap"></i> Semester Ganjil 2026/2027
-            </span>
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-goldbrand-500/20 border border-goldbrand-400/40 text-goldbrand-300 text-xs font-bold">
+                <i class="fa-solid fa-graduation-cap"></i> Semester Ganjil 2026/2027
+              </span>
+              <span id="welcomeUserPill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold">
+                <i class="fa-solid fa-hand-sparkles text-goldbrand-400"></i> Selamat datang, Peserta!
+              </span>
+            </div>
             <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">Siap Menghadapi Sumatif Akhir Semester?</h2>
             <p class="text-sm text-emeraldbrand-100 leading-relaxed mb-5">
               Pilih paket latihan di bawah ini untuk menguji pemahaman Anda dengan sistem penilaian otomatis, timer ujian, serta kunci jawaban dan pembahasan lengkap.
@@ -536,7 +541,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: PROFIL PENGGUNA -->
+  <!-- MODAL 2: PROFIL PENGGUNA (DENGAN EDIT NAMA & USERNAME) -->
   <div id="profileModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -555,11 +560,27 @@
           </div>
         </div>
 
+        <!-- Edit Nama & Username agar Sinkron ke Firestore -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2.5">
+          <p class="text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400">Perbarui Identitas & Username Login</p>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 mb-1">Nama Tampilan</label>
+            <input type="text" id="editProfileName" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 mb-1">Username (untuk Login)</label>
+            <input type="text" id="editProfileUsername" autocapitalize="none" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+          </div>
+          <button type="button" onclick="saveProfileIdentity()" class="w-full py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold transition">
+            Simpan Perubahan Profil
+          </button>
+        </div>
+
         <div id="upgradeReferralBox" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Aktivasi Kode Referral Admin</label>
           <div class="flex gap-2">
             <input type="text" id="profileReferralInput" autocomplete="off" placeholder="Masukkan kode referral" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
-            <button type="button" onclick="applyReferralFromProfile()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold">Aktivasi</button>
+            <button type="button" onclick="applyReferralFromProfile()" class="px-4 py-2 rounded-xl bg-goldbrand-600 hover:bg-goldbrand-500 text-white text-xs font-bold">Aktivasi</button>
           </div>
         </div>
 
@@ -583,7 +604,7 @@
         </button>
       </div>
       <form onsubmit="submitGmailFallback(event)" autocomplete="off" class="p-6 space-y-3.5">
-        <div id="gmailBlockReason" class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-800 dark:text-amber-200 leading-relaxed">
+        <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-800 dark:text-amber-200 leading-relaxed">
           Pop-up Google OAuth diblokir oleh browser/pratinjau Anda. Silakan lengkapi detail Gmail di bawah ini untuk langsung masuk.
         </div>
         <div>
@@ -659,7 +680,23 @@
     let timeRemainingSeconds = 3600;
     let manualDraftQuestions = [];
 
-    // Helper lokal pemetaan username -> email agar tetap bisa login meski Firestore Rules memblokir unauthenticated read
+    // Normalisasi profil pengguna agar nama & username tidak pernah "undefined"
+    function normalizeUserProfile(raw, fallbackAuthUser = null) {
+      const email = (raw?.email || fallbackAuthUser?.email || "peserta@cbt.id").trim().toLowerCase();
+      const emailPrefix = email.split("@")[0] || "peserta";
+      const cleanName = (raw?.name || raw?.displayName || fallbackAuthUser?.displayName || raw?.username || emailPrefix).trim();
+      const cleanUsername = (raw?.username || emailPrefix).trim().toLowerCase().replace(/\s+/g, "_");
+      return {
+        uid: raw?.uid || fallbackAuthUser?.uid || "local_user",
+        name: cleanName || "Peserta CBT",
+        username: cleanUsername || emailPrefix,
+        email,
+        role: raw?.role === "admin" ? "admin" : "user",
+        isGuest: !!raw?.isGuest,
+        isLocalFallback: !!raw?.isLocalFallback
+      };
+    }
+
     function saveLocalUsernameMap(username, email) {
       if (!username || !email) return;
       const map = JSON.parse(localStorage.getItem("cbt_username_map") || "{}");
@@ -796,12 +833,12 @@
     }
 
     // =========================================================
-    // AUTHENTICATION HANDLERS (DENGAN PEMETAAN USERNAME TANGGUH)
+    // AUTHENTICATION HANDLERS (SINKRONISASI USERNAME & NAMA)
     // =========================================================
     window.handleRegister = async function (e) {
       e.preventDefault();
       const name = document.getElementById("regName").value.trim();
-      const username = document.getElementById("regUsername").value.trim().toLowerCase();
+      const username = document.getElementById("regUsername").value.trim().toLowerCase().replace(/\s+/g, "_");
       const email = document.getElementById("regEmail").value.trim().toLowerCase();
       const password = document.getElementById("regPassword").value;
       const confirmPass = document.getElementById("regConfirmPassword").value;
@@ -811,8 +848,8 @@
         showToast("Konfirmasi kata sandi tidak cocok!", "error");
         return;
       }
-      if (username.length < 3 || /\s/.test(username)) {
-        showToast("Username minimal 3 karakter dan tanpa spasi.", "error");
+      if (username.length < 3) {
+        showToast("Username minimal 3 karakter.", "error");
         return;
       }
 
@@ -821,18 +858,13 @@
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...`;
 
       try {
-        // Cek keunikan username (dibungkus try-catch agar tidak macet jika Firestore Rules ketat)
-        try {
-          const q = query(collection(db, "users"), where("username", "==", username));
-          const snap = await getDocs(q);
-          if (!snap.empty) {
-            showToast("Username sudah digunakan. Silakan pilih username lain.", "error");
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i> <span>Daftar Akun Baru</span>`;
-            return;
-          }
-        } catch (readErr) {
-          console.warn("Lewati cek username cloud:", readErr.message);
+        // Cek ketersediaan username di Firestore
+        const unameSnap = await getDoc(doc(db, "usernames", username));
+        if (unameSnap.exists()) {
+          showToast("Username sudah digunakan. Silakan pilih username lain.", "error");
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i> <span>Daftar Akun Baru</span>`;
+          return;
         }
 
         const isAdmin = checkReferralCode(referral);
@@ -843,35 +875,27 @@
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(cred.user, { displayName: name });
 
-        // Simpan pemetaan username -> email di lokal & Firestore
-        saveLocalUsernameMap(username, email);
-
-        const profileData = {
+        const profileData = normalizeUserProfile({
           uid: cred.user.uid,
           name,
           username,
           email,
-          role: isAdmin ? "admin" : "user",
-          createdAt: new Date().toISOString()
-        };
+          role: isAdmin ? "admin" : "user"
+        });
 
-        try {
-          await setDoc(doc(db, "users", cred.user.uid), profileData);
-          // Simpan juga dokumen lookup publik berdasarkan username
-          await setDoc(doc(db, "usernames", username), { email, uid: cred.user.uid });
-        } catch (writeErr) {
-          console.warn("Gagal menulis ke Firestore (cek Firestore Rules):", writeErr.message);
-        }
+        saveLocalUsernameMap(username, email);
+        await setDoc(doc(db, "users", cred.user.uid), { ...profileData, createdAt: new Date().toISOString() });
+        await setDoc(doc(db, "usernames", username), { email, uid: cred.user.uid, name });
 
         showToast(
-          isAdmin ? "Pendaftaran berhasil! Anda terdaftar sebagai ADMIN." : "Pendaftaran berhasil! Selamat datang di CBT SAS.",
+          isAdmin ? `Pendaftaran berhasil! Selamat datang, ${profileData.name} (ADMIN).` : `Pendaftaran berhasil! Selamat datang, ${profileData.name}.`,
           "success"
         );
         await applyUserSession(profileData);
       } catch (err) {
         console.error(err);
         let msg = "Gagal mendaftar: " + err.message;
-        if (err.code === "auth/email-already-in-use") msg = "Email sudah terdaftar. Silakan langsung masuk.";
+        if (err.code === "auth/email-already-in-use") msg = "Email sudah terdaftar. Silakan masuk menggunakan email tersebut.";
         if (err.code === "auth/weak-password") msg = "Kata sandi terlalu lemah (minimal 6 karakter).";
         showToast(msg, "error");
       } finally {
@@ -891,70 +915,69 @@
 
       try {
         let emailToUse = rawIdentifier;
+        let searchedUsername = null;
 
-        // Jika input bukan email (tidak mengandung '@'), cari email terkait username
+        // Jika input bukan email (tidak ada '@'), cari di koleksi 'usernames' & 'users'
         if (!rawIdentifier.includes("@")) {
-          let resolvedEmail = getLocalEmailByUsername(rawIdentifier);
+          searchedUsername = rawIdentifier.replace(/\s+/g, "_");
+          let resolvedEmail = getLocalEmailByUsername(searchedUsername);
 
           if (!resolvedEmail) {
-            try {
-              const unameDoc = await getDoc(doc(db, "usernames", rawIdentifier));
-              if (unameDoc.exists()) {
-                resolvedEmail = unameDoc.data().email;
-              } else {
-                const q = query(collection(db, "users"), where("username", "==", rawIdentifier));
-                const snap = await getDocs(q);
-                if (!snap.empty) {
-                  resolvedEmail = snap.docs[0].data().email;
-                }
+            const unameDoc = await getDoc(doc(db, "usernames", searchedUsername));
+            if (unameDoc.exists() && unameDoc.data().email) {
+              resolvedEmail = unameDoc.data().email;
+            } else {
+              const q = query(collection(db, "users"), where("username", "==", searchedUsername));
+              const snap = await getDocs(q);
+              if (!snap.empty && snap.docs[0].data().email) {
+                resolvedEmail = snap.docs[0].data().email;
               }
-            } catch (fsErr) {
-              console.warn("Firestore lookup diblokir rules:", fsErr.message);
-              throw {
-                code: "auth/username-lookup-blocked",
-                message: "Login dengan username terblokir aturan Firestore. Silakan masuk menggunakan alamat EMAIL Anda!"
-              };
             }
           }
 
           if (!resolvedEmail) {
             throw {
               code: "auth/user-not-found",
-              message: `Username "${rawIdentifier}" tidak ditemukan. Coba masuk menggunakan alamat EMAIL yang didaftarkan.`
+              message: `Username "${searchedUsername}" belum tercatat di database. Silakan login sekali menggunakan EMAIL Anda agar username otomatis ditautkan.`
             };
           }
 
-          emailToUse = resolvedEmail;
+          emailToUse = resolvedEmail.trim().toLowerCase();
         }
 
         const cred = await signInWithEmailAndPassword(auth, emailToUse, password);
-        let profileData = null;
+        let rawProfile = null;
 
         try {
           const userDoc = await getDoc(doc(db, "users", cred.user.uid));
           if (userDoc.exists()) {
-            profileData = userDoc.data();
+            rawProfile = userDoc.data();
           }
         } catch (_) {}
 
-        if (!profileData) {
-          profileData = {
-            uid: cred.user.uid,
-            name: cred.user.displayName || emailToUse.split("@")[0],
-            username: rawIdentifier.includes("@") ? emailToUse.split("@")[0] : rawIdentifier,
-            email: emailToUse,
-            role: "user"
-          };
-        }
+        // Normalisasi agar nama tidak pernah undefined, dan otomatis simpan ke Firestore jika belum ada
+        const profileData = normalizeUserProfile(
+          rawProfile || { username: searchedUsername || emailToUse.split("@")[0] },
+          cred.user
+        );
 
         saveLocalUsernameMap(profileData.username, profileData.email);
+        try {
+          await setDoc(doc(db, "users", cred.user.uid), profileData, { merge: true });
+          await setDoc(doc(db, "usernames", profileData.username), {
+            email: profileData.email,
+            uid: cred.user.uid,
+            name: profileData.name
+          }, { merge: true });
+        } catch (_) {}
+
         showToast(`Selamat datang kembali, ${profileData.name}!`, "success");
         await applyUserSession(profileData);
       } catch (err) {
         console.error("Login Error:", err);
         let msg = err.message || "Gagal masuk. Periksa kembali username/email dan kata sandi.";
         if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
-          msg = "Kata sandi atau email salah. Pastikan huruf besar/kecil kata sandi sudah sesuai.";
+          msg = "Kata sandi atau akun salah. Periksa kembali penulisan Anda.";
         } else if (err.code === "auth/user-not-found" && rawIdentifier.includes("@")) {
           msg = "Email belum terdaftar. Silakan klik tab Daftar terlebih dahulu.";
         }
@@ -970,7 +993,7 @@
       const email = document.getElementById("forgotEmail").value.trim();
       try {
         await sendPasswordResetEmail(auth, email);
-        showToast("Tautan reset kata sandi telah dikirim ke email Anda. Cek kotak masuk atau folder spam.", "success");
+        showToast("Tautan reset kata sandi telah dikirim ke email Anda.", "success");
         switchAuthTab("login");
       } catch (err) {
         showToast("Gagal mengirim email reset: " + err.message, "error");
@@ -987,30 +1010,24 @@
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
         const userRef = doc(db, "users", user.uid);
-        let profileData = null;
+        let rawProfile = null;
 
         try {
           const snap = await getDoc(userRef);
-          if (snap.exists()) profileData = snap.data();
+          if (snap.exists()) rawProfile = snap.data();
         } catch (_) {}
 
-        if (!profileData) {
-          profileData = {
-            uid: user.uid,
-            name: user.displayName || "Pengguna Google",
-            username: (user.email || "user").split("@")[0],
-            email: user.email,
-            role: "user",
-            createdAt: new Date().toISOString()
-          };
-          try { await setDoc(userRef, profileData); } catch (_) {}
-        }
-
+        const profileData = normalizeUserProfile(rawProfile, user);
         saveLocalUsernameMap(profileData.username, profileData.email);
-        showToast(`Berhasil masuk dengan Gmail (${profileData.email})`, "success");
+        try {
+          await setDoc(userRef, profileData, { merge: true });
+          await setDoc(doc(db, "usernames", profileData.username), { email: profileData.email, uid: user.uid, name: profileData.name }, { merge: true });
+        } catch (_) {}
+
+        showToast(`Selamat datang, ${profileData.name}!`, "success");
         await applyUserSession(profileData);
       } catch (err) {
-        console.warn("Google Sign-In fallback:", err.code, err.message);
+        console.warn("Google Sign-In fallback:", err.code);
         openModal("gmailFallbackModal");
       } finally {
         btn.disabled = false;
@@ -1026,28 +1043,64 @@
 
       const isAdmin = checkReferralCode(refCode);
       const pseudoUid = "gmail_" + btoa(email).replace(/[^a-zA-Z0-9]/g, "").slice(0, 20);
-      const profileData = {
+      const profileData = normalizeUserProfile({
         uid: pseudoUid,
         name,
         username: email.split("@")[0],
         email,
         role: isAdmin ? "admin" : "user",
         isLocalFallback: true
-      };
+      });
 
-      try { await setDoc(doc(db, "users", pseudoUid), profileData, { merge: true }); } catch (_) {}
+      try {
+        await setDoc(doc(db, "users", pseudoUid), profileData, { merge: true });
+        await setDoc(doc(db, "usernames", profileData.username), { email: profileData.email, uid: pseudoUid, name: profileData.name }, { merge: true });
+      } catch (_) {}
       saveLocalUsernameMap(profileData.username, email);
       localStorage.setItem("cbt_session_user", JSON.stringify(profileData));
       closeModal("gmailFallbackModal");
-      showToast(`Masuk sebagai ${name} (${isAdmin ? "Admin" : "Peserta"})`, "success");
+      showToast(`Selamat datang, ${profileData.name}!`, "success");
       await applyUserSession(profileData);
     };
 
     window.enterGuestMode = async function () {
-      const guestProfile = { uid: "guest_local", name: "Peserta Tamu", username: "tamu", email: "tamu@cbt-lokal.id", role: "user", isGuest: true };
+      const guestProfile = normalizeUserProfile({
+        uid: "guest_local",
+        name: "Peserta Tamu",
+        username: "tamu",
+        email: "tamu@cbt-lokal.id",
+        role: "user",
+        isGuest: true
+      });
       localStorage.setItem("cbt_session_user", JSON.stringify(guestProfile));
-      showToast("Masuk dalam Mode Tamu.", "info");
+      showToast("Selamat datang, Peserta Tamu!", "info");
       await applyUserSession(guestProfile);
+    };
+
+    window.saveProfileIdentity = async function () {
+      if (!currentUserProfile) return;
+      const newName = document.getElementById("editProfileName").value.trim();
+      const newUsername = document.getElementById("editProfileUsername").value.trim().toLowerCase().replace(/\s+/g, "_");
+
+      if (!newName || newUsername.length < 3) {
+        showToast("Nama wajib diisi dan username minimal 3 karakter.", "error");
+        return;
+      }
+
+      currentUserProfile.name = newName;
+      currentUserProfile.username = newUsername;
+      localStorage.setItem("cbt_session_user", JSON.stringify(currentUserProfile));
+      saveLocalUsernameMap(newUsername, currentUserProfile.email);
+
+      if (currentUserProfile.uid && !currentUserProfile.isGuest) {
+        try {
+          await setDoc(doc(db, "users", currentUserProfile.uid), { name: newName, username: newUsername }, { merge: true });
+          await setDoc(doc(db, "usernames", newUsername), { email: currentUserProfile.email, uid: currentUserProfile.uid, name: newName }, { merge: true });
+        } catch (_) {}
+      }
+
+      updateUIForUser();
+      showToast("Profil dan username berhasil diperbarui!", "success");
     };
 
     window.applyReferralFromProfile = async function () {
@@ -1063,7 +1116,7 @@
       }
       updateUIForUser();
       closeModal("profileModal");
-      showToast("Selamat! Akun Anda kini berstatus ADMIN dan dapat mengimpor soal.", "success");
+      showToast("Selamat! Akun Anda kini berstatus ADMIN.", "success");
     };
 
     window.handleLogout = async function () {
@@ -1076,9 +1129,9 @@
       showToast("Anda telah keluar dari akun.", "info");
     };
 
-    async function applyUserSession(profileData) {
-      currentUserProfile = profileData;
-      localStorage.setItem("cbt_session_user", JSON.stringify(profileData));
+    async function applyUserSession(rawProfile) {
+      currentUserProfile = normalizeUserProfile(rawProfile);
+      localStorage.setItem("cbt_session_user", JSON.stringify(currentUserProfile));
       document.getElementById("authSection").classList.add("hidden");
       document.getElementById("appShell").classList.remove("hidden");
       updateUIForUser();
@@ -1088,9 +1141,13 @@
 
     function updateUIForUser() {
       if (!currentUserProfile) return;
+      currentUserProfile = normalizeUserProfile(currentUserProfile);
       const isAdmin = currentUserProfile.role === "admin";
-      document.getElementById("headerUserName").textContent = currentUserProfile.name;
-      document.getElementById("userAvatarInitial").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
+      const displayName = currentUserProfile.name;
+
+      document.getElementById("headerUserName").textContent = displayName;
+      document.getElementById("userAvatarInitial").textContent = displayName.charAt(0).toUpperCase();
+      document.getElementById("welcomeUserPill").innerHTML = `<i class="fa-solid fa-hand-sparkles text-goldbrand-400"></i> Selamat datang, ${displayName}!`;
 
       const badge = document.getElementById("roleBadgeHeader");
       badge.textContent = isAdmin ? "ADMIN" : "SISWA";
@@ -1101,10 +1158,12 @@
       document.getElementById("navAdminBtn").classList.toggle("hidden", !isAdmin);
       document.getElementById("heroImportBtn").classList.toggle("hidden", !isAdmin);
 
-      document.getElementById("modalAvatar").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
-      document.getElementById("modalUserName").textContent = currentUserProfile.name;
-      document.getElementById("modalUserEmail").textContent = currentUserProfile.email;
+      document.getElementById("modalAvatar").textContent = displayName.charAt(0).toUpperCase();
+      document.getElementById("modalUserName").textContent = displayName;
+      document.getElementById("modalUserEmail").textContent = `${currentUserProfile.email} (@${currentUserProfile.username})`;
       document.getElementById("modalUserRole").textContent = isAdmin ? "Administrator (Akses Penuh)" : "Peserta Ujian (Siswa)";
+      document.getElementById("editProfileName").value = displayName;
+      document.getElementById("editProfileUsername").value = currentUserProfile.username;
       document.getElementById("upgradeReferralBox").style.display = isAdmin ? "none" : "block";
     }
 
@@ -1542,7 +1601,7 @@
       if (user && !currentUserProfile) {
         try {
           const snap = await getDoc(doc(db, "users", user.uid));
-          if (snap.exists()) await applyUserSession(snap.data());
+          await applyUserSession(normalizeUserProfile(snap.exists() ? snap.data() : {}, user));
         } catch (_) {}
       }
     });
