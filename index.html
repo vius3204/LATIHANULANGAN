@@ -2362,9 +2362,7 @@ Skor: ${score}/100 (${detail})`;
 
     window.exportUserHistoryCsv = function () {
       const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
-      const csv = "Nama,Kelas,Paket,Skor,Tanggal
-" + history.map((h) => `"${h.user}","${h.userClass || "XI"}","${h.title}",${h.score},"${h.date}"`).join("
-");
+      const csv = "Nama,Kelas,Paket,Skor,Tanggal\n" + history.map((h) => `"${h.user}","${h.userClass || "XI"}","${h.title}",${h.score},"${h.date}"`).join("\n");
       triggerDownload("riwayat-nilai-cbt.csv", csv, "text/csv");
     };
 
@@ -2435,9 +2433,7 @@ pg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
     window.parseQuickTextFormat = function () {
       const raw = document.getElementById("importJsonTextarea").value.trim();
       if (!raw) { showToast("Tempel teks soal berformat Q: ... | A: ... | B: ... | K: A", "warning"); return; }
-      const lines = raw.split(/
-?
-/).filter((l) => l.trim());
+      const lines = raw.split(/\r?\n/).filter((l) => l.trim());
       const letterMap = { A: 0, B: 1, C: 2, D: 3, E: 4 };
       const parsed = lines.map((line) => {
         const parts = line.split("|").map((p) => p.trim());
@@ -2457,9 +2453,7 @@ pg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
       reader.onload = function (evt) {
         const raw = evt.target.result;
         if (file.name.endsWith(".csv")) {
-          const lines = raw.split(/
-?
-/).filter((l) => l.trim());
+          const lines = raw.split(/\r?\n/).filter((l) => l.trim());
           const qs = lines.slice(1).map((line) => {
             const c = line.split(",").map((x) => x.replace(/^"|"$/g, "").trim());
             return { type: c[0] || "pg", question: c[1] || "", options: [c[2], c[3], c[4], c[5]].filter(Boolean), answer: Number(c[6]) || 0, explanation: c[7] || "" };
