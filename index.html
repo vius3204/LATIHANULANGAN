@@ -20,7 +20,6 @@
             },
             goldbrand: {
               300: '#67e8f9', 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490',
-            }
           },
           animation: {
             'fade-in': 'fadeIn 0.25s ease-out forwards',
@@ -50,9 +49,175 @@
       .no-print { display: none !important; }
       body { background: #fff !important; color: #000 !important; }
     }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.94); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 0.35; }
+      100% { transform: scale(0.94); opacity: 0.9; }
+    }
+    @keyframes spinSlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spinReverseSlow {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-14px) scale(1.04); }
+    }
+    @keyframes shimmerSweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(200%); }
+    }
+    @keyframes eqBar {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
+    }
+    .animate-pulse-ring { animation: pulseRing 2.6s ease-in-out infinite; }
+    .animate-spin-slow { animation: spinSlow 16s linear infinite; }
+    .animate-spin-reverse-slow { animation: spinReverseSlow 22s linear infinite; }
+    .animate-float-slow { animation: floatSlow 6s ease-in-out infinite; }
+    .shimmer-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.28) 50%, transparent 75%);
+      animation: shimmerSweep 2.8s infinite;
+    }
+    .intro-grid-bg {
+      background-image: radial-gradient(rgba(103, 232, 249, 0.16) 1px, transparent 1px),
+                        linear-gradient(to right, rgba(99, 102, 241, 0.08) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px, 56px 56px, 56px 56px;
+    }
+    .eq-bar-1 { animation: eqBar 0.7s ease-in-out infinite; }
+    .eq-bar-2 { animation: eqBar 0.5s ease-in-out infinite 0.15s; }
+    .eq-bar-3 { animation: eqBar 0.8s ease-in-out infinite 0.3s; }
   </style>
 </head>
 <body class="bg-[#f1f5f9] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
+  <!-- =========================================================
+       INTRO SCREEN SPLASH (PREMIUM HOLOGRAPHIC & AUDIO-READY)
+  ========================================================== -->
+  <div id="introSplashScreen" class="fixed inset-0 z-[60] bg-[#040712] intro-grid-bg text-white flex items-center justify-center p-4 sm:p-6 overflow-hidden transition-all duration-700">
+    <!-- Ambient Glowing Orbs -->
+    <div class="pointer-events-none absolute -top-24 -left-24 w-80 h-80 sm:w-[28rem] sm:h-[28rem] rounded-full bg-emeraldbrand-600/25 blur-[110px] animate-float-slow"></div>
+    <div class="pointer-events-none absolute -bottom-28 -right-20 w-80 h-80 sm:w-[30rem] sm:h-[30rem] rounded-full bg-goldbrand-500/20 blur-[120px] animate-float-slow" style="animation-delay: -3s;"></div>
+    <div class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[34rem] h-[34rem] rounded-full bg-indigo-500/10 blur-[130px]"></div>
+
+    <!-- Main Glassmorphic Card -->
+    <div class="max-w-xl w-full relative z-10 animate-slide-up">
+      <div class="rounded-[2rem] bg-slate-900/70 glass-card border border-white/15 shadow-[0_25px_70px_-15px_rgba(6,182,212,0.28)] p-6 sm:p-9 text-center space-y-6 relative overflow-hidden">
+        <!-- Top Accent Line -->
+        <div class="absolute top-0 inset-x-12 h-[2px] bg-gradient-to-r from-transparent via-goldbrand-400 to-transparent"></div>
+
+        <!-- Orbital Emblem & Logo -->
+        <div class="relative w-32 h-32 sm:w-36 sm:h-36 mx-auto flex items-center justify-center">
+          <!-- Outer Dashed Orbit -->
+          <div class="absolute inset-0 rounded-full border border-dashed border-goldbrand-400/45 animate-spin-slow"></div>
+          <!-- Inner Counter-Orbit -->
+          <div class="absolute inset-2.5 rounded-full border border-emeraldbrand-500/40 animate-spin-reverse-slow"></div>
+          <!-- Pulse Halo -->
+          <div class="absolute inset-3 rounded-full bg-goldbrand-400/15 blur-md animate-pulse-ring"></div>
+
+          <!-- Core Logo -->
+          <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full gold-ring shadow-[0_0_30px_rgba(34,211,238,0.4)]">
+            <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
+              <img
+                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                alt="Logo CBT" class="w-full h-full object-cover"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              />
+              <div class="hidden w-full h-full items-center justify-center bg-emeraldbrand-900 text-goldbrand-400 font-extrabold text-2xl">CBT</div>
+            </div>
+          </div>
+
+          <!-- Live Ready Badge -->
+          <span class="absolute -bottom-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 border border-emerald-400/50 text-emerald-300 text-[10px] font-extrabold tracking-wider uppercase flex items-center gap-1.5 shadow-lg">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>Pro v3.5 Ready</span>
+          </span>
+        </div>
+
+        <!-- Title & Subtitle -->
+        <div class="space-y-2.5">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-emeraldbrand-500/20 to-goldbrand-500/20 border border-goldbrand-400/35 text-goldbrand-300 text-[11px] font-extrabold tracking-widest uppercase">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Sumatif Akhir Semester • TA 2026/2027</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-goldbrand-300 to-emeraldbrand-200 bg-clip-text text-transparent">
+            CBT SAS Kelas XI Pro
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+            Platform evaluasi berbasis komputer lengkap dengan analisis kisi-kisi otomatis, kartu hafalan cepat, dan <span class="text-goldbrand-300 font-semibold">Backsound Fokus HD</span>.
+          </p>
+        </div>
+
+        <!-- Feature Highlights Pill Row -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-3 pt-1">
+          <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-2.5 text-center">
+            <i class="fa-solid fa-laptop-code text-goldbrand-400 text-sm mb-1"></i>
+            <p class="text-[11px] font-bold text-white">5 Tipe Soal</p>
+            <p class="text-[10px] text-slate-400">PG, PGK, BS, Match</p>
+          </div>
+          <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-2.5 text-center">
+            <i class="fa-solid fa-bolt text-emeraldbrand-200 text-sm mb-1"></i>
+            <p class="text-[11px] font-bold text-white">Flashcard</p>
+            <p class="text-[10px] text-slate-400">Mode Hafalan Kilat</p>
+          </div>
+          <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-2.5 text-center">
+            <i class="fa-solid fa-headphones-simple text-cyan-300 text-sm mb-1"></i>
+            <p class="text-[11px] font-bold text-white">Audio Fokus</p>
+            <p class="text-[10px] text-slate-400">Warm Synth & Piano</p>
+          </div>
+        </div>
+
+        <!-- Status & Progress Bar -->
+        <div class="max-w-sm mx-auto space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] font-semibold px-0.5">
+            <span class="text-slate-400">Status Mesin Audio & Bank Soal</span>
+            <span id="introStatusText" class="text-goldbrand-300 font-bold">100% Siap</span>
+          </div>
+          <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10">
+            <div id="introLoadBar" class="h-full rounded-full bg-gradient-to-r from-emeraldbrand-500 via-indigo-400 to-goldbrand-400 transition-all duration-300" style="width: 100%"></div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
+          <button type="button" onclick="dismissIntroScreen(true)" class="shimmer-btn relative overflow-hidden w-full sm:w-auto flex-1 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emeraldbrand-600 via-indigo-500 to-goldbrand-500 hover:brightness-110 text-white font-extrabold text-sm shadow-[0_10px_28px_-4px_rgba(34,211,238,0.45)] border border-goldbrand-300/60 flex items-center justify-center gap-2.5 transition transform hover:-translate-y-0.5">
+            <i class="fa-solid fa-volume-high text-white text-base"></i>
+            <span>Masuk + Backsound Fokus</span>
+          </button>
+          <button type="button" onclick="dismissIntroScreen(false)" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/[0.07] hover:bg-white/[0.14] text-slate-200 font-bold text-xs sm:text-sm border border-white/15 flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-volume-xmark text-slate-400"></i>
+            <span>Tanpa Musik</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING BACKSOUND AUDIO WIDGET -->
+  <div id="bgmFloatingWidget" class="fixed bottom-3 right-3 z-40 no-print flex items-center gap-1.5 bg-emeraldbrand-950/90 glass-card text-white px-3 py-2 rounded-2xl border border-goldbrand-500/40 shadow-xl">
+    <button type="button" id="bgmToggleBtn" onclick="toggleBacksound()" title="Putar / Hentikan Backsound" class="w-8 h-8 rounded-xl bg-goldbrand-500 text-emeraldbrand-950 flex items-center justify-center font-extrabold text-xs hover:bg-goldbrand-400 transition">
+      <i id="bgmPlayIcon" class="fa-solid fa-play"></i>
+    </button>
+    <div id="bgmEqBars" class="hidden items-end gap-0.5 h-4 px-1">
+      <span class="w-1 bg-goldbrand-400 rounded-full eq-bar-1"></span>
+      <span class="w-1 bg-emeraldbrand-400 rounded-full eq-bar-2"></span>
+      <span class="w-1 bg-goldbrand-300 rounded-full eq-bar-3"></span>
+    </div>
+    <select id="bgmPresetSelect" onchange="changeBacksoundPreset(this.value)" title="Pilih Nuansa Backsound" class="bg-transparent text-[11px] font-bold text-goldbrand-300 outline-none cursor-pointer pr-1">
+      <option value="lofi" class="bg-slate-900 text-white">Lo-Fi Fokus</option>
+      <option value="ambient" class="bg-slate-900 text-white">Ambient Tenang</option>
+      <option value="piano" class="bg-slate-900 text-white">Piano Lembut</option>
+    </select>
+    <input type="range" id="bgmVolumeSlider" min="0" max="100" value="75" oninput="setBacksoundVolume(this.value)" title="Volume Backsound" class="w-14 sm:w-16 accent-cyan-400 cursor-pointer" />
+  </div>
+
 
   <!-- TOAST CONTAINER -->
   <div id="toastContainer" class="fixed top-3 right-3 left-3 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none sm:max-w-sm"></div>
@@ -1104,6 +1269,204 @@
       return [...new Set([...BASE_REFERRALS, ...extra])];
     }
 
+
+    // =========================================================
+    // INTRO SCREEN & GENERATIVE WEB AUDIO BACKSOUND ENGINE
+    // =========================================================
+    let audioCtx = null;
+    let bgmGainNode = null;
+    let bgmCompressor = null;
+    let isBgmPlaying = false;
+    let bgmLoopTimer = null;
+    let bgmStep = 0;
+    let currentBgmPreset = "lofi";
+    let bgmVolumeLevel = 0.75;
+
+    function initAudioEngine() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        audioCtx = new AudioContextClass();
+        bgmGainNode = audioCtx.createGain();
+        bgmCompressor = audioCtx.createDynamicsCompressor();
+        bgmCompressor.threshold.setValueAtTime(-16, audioCtx.currentTime);
+        bgmCompressor.knee.setValueAtTime(18, audioCtx.currentTime);
+        bgmCompressor.ratio.setValueAtTime(4, audioCtx.currentTime);
+        bgmCompressor.attack.setValueAtTime(0.01, audioCtx.currentTime);
+        bgmCompressor.release.setValueAtTime(0.25, audioCtx.currentTime);
+
+        bgmGainNode.gain.value = bgmVolumeLevel * 0.85;
+        bgmGainNode.connect(bgmCompressor);
+        bgmCompressor.connect(audioCtx.destination);
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function playSynthChord(freqs, duration = 2.4, waveType = "sine") {
+      if (!audioCtx || !bgmGainNode || !isBgmPlaying) return;
+      const now = audioCtx.currentTime;
+      freqs.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const noteGain = audioCtx.createGain();
+        osc.type = waveType;
+        osc.frequency.setValueAtTime(freq, now);
+
+        const peakGain = 0.42 / Math.sqrt(freqs.length);
+        noteGain.gain.setValueAtTime(0.0001, now);
+        noteGain.gain.exponentialRampToValueAtTime(peakGain, now + 0.25);
+        noteGain.gain.setValueAtTime(peakGain * 0.85, now + duration * 0.65);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(noteGain);
+        noteGain.connect(bgmGainNode);
+        osc.start(now);
+        osc.stop(now + duration + 0.05);
+
+        // Warm sub-bass root reinforcement on first note
+        if (idx === 0) {
+          const bassOsc = audioCtx.createOscillator();
+          const bassGain = audioCtx.createGain();
+          bassOsc.type = "triangle";
+          bassOsc.frequency.setValueAtTime(freq / 2, now);
+          bassGain.gain.setValueAtTime(0.0001, now);
+          bassGain.gain.exponentialRampToValueAtTime(0.24, now + 0.2);
+          bassGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+          bassOsc.connect(bassGain);
+          bassGain.connect(bgmGainNode);
+          bassOsc.start(now);
+          bassOsc.stop(now + duration + 0.05);
+        }
+      });
+    }
+
+    window.playUiClickSfx = function (type = "tap") {
+      try {
+        initAudioEngine();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = "triangle";
+        if (type === "success") {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.09);
+          osc.frequency.setValueAtTime(783.99, now + 0.18);
+          g.gain.setValueAtTime(0.08, now);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(now); osc.stop(now + 0.36);
+        } else {
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(620, now + 0.07);
+          g.gain.setValueAtTime(0.04, now);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(now); osc.stop(now + 0.09);
+        }
+      } catch (_) {}
+    };
+
+    function runBacksoundScheduler() {
+      clearInterval(bgmLoopTimer);
+      const progressions = {
+        lofi: [
+          [261.63, 329.63, 392.00, 493.88], // Cmaj7
+          [220.00, 261.63, 329.63, 392.00], // Am7
+          [174.61, 220.00, 261.63, 329.63], // Fmaj7
+          [196.00, 246.94, 293.66, 349.23]  // G7
+        ],
+        ambient: [
+          [196.00, 293.66, 392.00],
+          [220.00, 329.63, 440.00],
+          [174.61, 261.63, 349.23],
+          [164.81, 246.94, 329.63]
+        ],
+        piano: [
+          [261.63, 392.00, 523.25],
+          [246.94, 392.00, 493.88],
+          [220.00, 329.63, 440.00],
+          [196.00, 293.66, 392.00]
+        ]
+      };
+      const waveMap = { lofi: "triangle", ambient: "sine", piano: "sine" };
+
+      const triggerStep = () => {
+        if (!isBgmPlaying) return;
+        const chords = progressions[currentBgmPreset] || progressions.lofi;
+        const chord = chords[bgmStep % chords.length];
+        playSynthChord(chord, 2.5, waveMap[currentBgmPreset] || "sine");
+        bgmStep++;
+      };
+
+      triggerStep();
+      bgmLoopTimer = setInterval(triggerStep, 2600);
+    }
+
+    function updateBgmWidgetUi() {
+      const icon = document.getElementById("bgmPlayIcon");
+      const eq = document.getElementById("bgmEqBars");
+      if (!icon || !eq) return;
+      if (isBgmPlaying) {
+        icon.className = "fa-solid fa-pause";
+        eq.classList.remove("hidden");
+        eq.classList.add("flex");
+      } else {
+        icon.className = "fa-solid fa-play";
+        eq.classList.add("hidden");
+        eq.classList.remove("flex");
+      }
+    }
+
+    window.startBacksound = function () {
+      initAudioEngine();
+      isBgmPlaying = true;
+      updateBgmWidgetUi();
+      runBacksoundScheduler();
+    };
+
+    window.stopBacksound = function () {
+      isBgmPlaying = false;
+      clearInterval(bgmLoopTimer);
+      updateBgmWidgetUi();
+    };
+
+    window.toggleBacksound = function () {
+      if (isBgmPlaying) {
+        window.stopBacksound();
+        showToast("Backsound dijeda.", "info");
+      } else {
+        window.startBacksound();
+        showToast("Backsound fokus belajar diputar.", "success");
+      }
+    };
+
+    window.changeBacksoundPreset = function (preset) {
+      currentBgmPreset = preset;
+      if (isBgmPlaying) runBacksoundScheduler();
+    };
+
+    window.setBacksoundVolume = function (val) {
+      bgmVolumeLevel = Math.max(0, Math.min(1, Number(val) / 100));
+      if (bgmGainNode && audioCtx) {
+        bgmGainNode.gain.setTargetAtTime(bgmVolumeLevel * 0.85, audioCtx.currentTime, 0.05);
+      }
+    };
+
+    window.dismissIntroScreen = function (withMusic = true) {
+      const intro = document.getElementById("introSplashScreen");
+      if (withMusic) {
+        window.startBacksound();
+        window.playUiClickSfx("success");
+      }
+      if (intro) {
+        intro.style.opacity = "0";
+        intro.style.transform = "scale(1.03)";
+        setTimeout(() => intro.classList.add("hidden"), 650);
+      }
+    };
+
     let currentUserProfile = null;
     let examPackages = [];
     let selectedSubjectFilter = "Semua";
@@ -2107,7 +2470,7 @@
       box.innerHTML = `<p class="font-extrabold mb-1">${correct ? "✓ Jawaban Anda Tepat!" : "✗ Kurang Tepat"}</p><p>${q.explanation || q.sampleAnswer || ""}</p>`;
     }
 
-    window.selectSingleAnswer = function (val) { userAnswers[currentQuestionIndex] = val; renderCurrentQuestion(); renderQuestionNavGrid(); saveExamAutoProgress(); };
+    window.selectSingleAnswer = function (val) { window.playUiClickSfx("tap"); userAnswers[currentQuestionIndex] = val; renderCurrentQuestion(); renderQuestionNavGrid(); saveExamAutoProgress(); };
     window.toggleComplexAnswer = function (idx) {
       let arr = Array.isArray(userAnswers[currentQuestionIndex]) ? [...userAnswers[currentQuestionIndex]] : [];
       arr = arr.includes(idx) ? arr.filter((x) => x !== idx) : [...arr, idx];
@@ -2311,7 +2674,7 @@
       localStorage.setItem("cbt_exam_history", JSON.stringify(history.slice(0, 60)));
 
       document.getElementById("examView").classList.add("hidden");
-      document.getElementById("resultView").classList.remove("hidden");
+      document.getElementById("resultView").classList.remove("hidden"); window.playUiClickSfx("success");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
