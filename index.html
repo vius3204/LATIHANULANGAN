@@ -40,7 +40,7 @@
     };
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     html, body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -60,7 +60,7 @@
       background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #3730a3 100%) !important;
     }
     #bgmFloatingWidget {
-      background-color: rgba(7, 11, 25, 0.92) !important;
+      background-color: rgba(7, 11, 25, 0.94) !important;
     }
     .hidden { display: none !important; }
     #introSplashScreen {
@@ -141,7 +141,7 @@
 </head>
 <body class="bg-[#f1f5f9] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
   <!-- =========================================================
-       INTRO SCREEN SPLASH (PREMIUM HOLOGRAPHIC & AUDIO-READY)
+       INTRO SCREEN SPLASH (PREMIUM HOLOGRAPHIC & SPOTIFY-READY)
   ========================================================== -->
   <div id="introSplashScreen" class="fixed inset-0 z-[60] bg-[#040712] intro-grid-bg text-white flex items-center justify-center p-4 sm:p-6 overflow-hidden transition-all duration-700">
     <!-- Ambient Glowing Orbs -->
@@ -157,14 +157,10 @@
 
         <!-- Orbital Emblem & Logo -->
         <div class="relative w-32 h-32 sm:w-36 sm:h-36 mx-auto flex items-center justify-center">
-          <!-- Outer Dashed Orbit -->
           <div class="absolute inset-0 rounded-full border border-dashed border-goldbrand-400/45 animate-spin-slow"></div>
-          <!-- Inner Counter-Orbit -->
           <div class="absolute inset-2.5 rounded-full border border-emeraldbrand-500/40 animate-spin-reverse-slow"></div>
-          <!-- Pulse Halo -->
           <div class="absolute inset-3 rounded-full bg-goldbrand-400/15 blur-md animate-pulse-ring"></div>
 
-          <!-- Core Logo -->
           <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full gold-ring shadow-[0_0_30px_rgba(34,211,238,0.4)]">
             <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
               <img
@@ -176,7 +172,6 @@
             </div>
           </div>
 
-          <!-- Live Ready Badge -->
           <span class="absolute -bottom-1 px-2.5 py-0.5 rounded-full bg-slate-950/90 border border-emerald-400/50 text-emerald-300 text-[10px] font-extrabold tracking-wider uppercase flex items-center gap-1.5 shadow-lg">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
             <span>Pro v3.5 Ready</span>
@@ -193,7 +188,7 @@
             CBT SAS <span class="text-cyan-300">Kelas XI Pro</span>
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-            Platform evaluasi berbasis komputer lengkap dengan analisis kisi-kisi otomatis, kartu hafalan cepat, dan <span class="text-goldbrand-300 font-semibold">Backsound Fokus HD</span>.
+            Platform evaluasi berbasis komputer lengkap dengan analisis kisi-kisi otomatis, kartu hafalan cepat, dan <span class="text-goldbrand-300 font-semibold">Spotify Focus Player</span>.
           </p>
         </div>
 
@@ -210,16 +205,16 @@
             <p class="text-[10px] text-slate-400">Mode Hafalan Kilat</p>
           </div>
           <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-2.5 text-center">
-            <i class="fa-solid fa-headphones-simple text-cyan-300 text-sm mb-1"></i>
-            <p class="text-[11px] font-bold text-white">Audio Fokus</p>
-            <p class="text-[10px] text-slate-400">Warm Synth & Piano</p>
+            <i class="fa-brands fa-spotify text-emerald-400 text-sm mb-1"></i>
+            <p class="text-[11px] font-bold text-white">Spotify Player</p>
+            <p class="text-[10px] text-slate-400">3 Track Pilihan</p>
           </div>
         </div>
 
         <!-- Status & Progress Bar -->
         <div class="max-w-sm mx-auto space-y-1.5">
           <div class="flex items-center justify-between text-[11px] font-semibold px-0.5">
-            <span class="text-slate-400">Status Mesin Audio & Bank Soal</span>
+            <span class="text-slate-400">Status Spotify Player & Bank Soal</span>
             <span id="introStatusText" class="text-goldbrand-300 font-bold">100% Siap</span>
           </div>
           <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10">
@@ -230,41 +225,88 @@
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
           <button type="button" onclick="dismissIntroScreen(true)" class="shimmer-btn relative overflow-hidden w-full sm:w-auto flex-1 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emeraldbrand-600 via-indigo-500 to-goldbrand-500 hover:brightness-110 text-white font-extrabold text-sm shadow-[0_10px_28px_-4px_rgba(34,211,238,0.45)] border border-goldbrand-300/60 flex items-center justify-center gap-2.5 transition transform hover:-translate-y-0.5">
-            <i class="fa-solid fa-volume-high text-white text-base"></i>
-            <span>Masuk + Backsound Fokus</span>
+            <i class="fa-brands fa-spotify text-emerald-300 text-base"></i>
+            <span>Masuk + Buka Spotify Player</span>
           </button>
           <button type="button" onclick="dismissIntroScreen(false)" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/[0.07] hover:bg-white/[0.14] text-slate-200 font-bold text-xs sm:text-sm border border-white/15 flex items-center justify-center gap-2 transition">
-            <i class="fa-solid fa-volume-xmark text-slate-400"></i>
-            <span>Tanpa Musik</span>
+            <i class="fa-solid fa-forward text-slate-400"></i>
+            <span>Masuk Langsung</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FLOATING BACKSOUND AUDIO WIDGET (COMPACT ON MOBILE + MINIMIZABLE) -->
-  <div id="bgmFloatingWidget" class="fixed bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 z-40 no-print flex items-center gap-1 sm:gap-1.5 bg-emeraldbrand-950/92 glass-card text-white px-2 py-1.5 sm:px-3 sm:py-2 rounded-2xl border border-goldbrand-500/40 shadow-xl max-w-[calc(100vw-20px)]">
-    <button type="button" id="bgmToggleBtn" onclick="toggleBacksound()" title="Putar / Hentikan Backsound" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-goldbrand-500 text-emeraldbrand-950 flex items-center justify-center font-extrabold text-xs hover:bg-goldbrand-400 transition shrink-0">
-      <i id="bgmPlayIcon" class="fa-solid fa-play"></i>
-    </button>
-    <div id="bgmEqBars" class="hidden items-end gap-0.5 h-3.5 px-0.5 shrink-0">
-      <span class="w-1 bg-goldbrand-400 rounded-full eq-bar-1"></span>
-      <span class="w-1 bg-emeraldbrand-400 rounded-full eq-bar-2"></span>
-      <span class="w-1 bg-goldbrand-300 rounded-full eq-bar-3"></span>
-    </div>
-    <div id="bgmExpandedControls" class="flex items-center gap-1 sm:gap-1.5 min-w-0">
-      <select id="bgmPresetSelect" onchange="changeBacksoundPreset(this.value)" title="Pilih Nuansa Backsound" class="bg-transparent text-[10px] sm:text-[11px] font-bold text-goldbrand-300 outline-none cursor-pointer max-w-[82px] sm:max-w-none truncate">
-        <option value="lofi" class="bg-slate-900 text-white">Synthwave</option>
-        <option value="piano" class="bg-slate-900 text-white">Piano Melodi</option>
-        <option value="ambient" class="bg-slate-900 text-white">Lofi Chill</option>
-      </select>
-      <input type="range" id="bgmVolumeSlider" min="0" max="100" value="75" oninput="setBacksoundVolume(this.value)" title="Volume Backsound" class="w-10 sm:w-16 accent-cyan-400 cursor-pointer shrink-0" />
-    </div>
-    <button type="button" id="bgmCollapseBtn" onclick="toggleBgmCompact()" title="Kecilkan / Perlebar Player" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-[10px] shrink-0">
-      <i id="bgmCollapseIcon" class="fa-solid fa-chevron-right"></i>
-    </button>
-  </div>
+  <!-- =========================================================
+       OPTIMIZED FLOATING SPOTIFY PLAYER WIDGET (SINGLE TRACK EMBED)
+       - 1 Spotify iframe aktif saja (hemat CPU, memori & kuota iframe)
+       - Ganti track instan antara Overnight, Coboy Junior, Keyshia Cole
+       - Bisa dilipat / dibuka (dock/drawer) & lazy-loaded
+  ========================================================== -->
+  <div id="bgmFloatingWidget" class="fixed bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-40 no-print rounded-2xl border border-goldbrand-500/45 shadow-2xl glass-card text-white transition-all duration-300 max-w-[calc(100vw-20px)] w-[330px] sm:w-[360px]">
+    <!-- Header Bar -->
+    <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-white/10">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center shrink-0">
+          <i class="fa-brands fa-spotify text-sm"></i>
+        </span>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[11px] font-extrabold text-white truncate">Spotify Player</span>
+            <span id="spotifyEqBars" class="hidden items-end gap-0.5 h-3 shrink-0">
+              <span class="w-0.5 bg-emerald-400 rounded-full eq-bar-1"></span>
+              <span class="w-0.5 bg-cyan-300 rounded-full eq-bar-2"></span>
+              <span class="w-0.5 bg-emerald-300 rounded-full eq-bar-3"></span>
+            </span>
+          </div>
+          <p id="spotifyActiveTrackLabel" class="text-[10px] text-goldbrand-300 font-semibold truncate">1. Overnight</p>
+        </div>
+      </div>
 
+      <div class="flex items-center gap-1 shrink-0">
+        <button type="button" onclick="stepSpotifyTrack(-1)" title="Track Sebelumnya" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-[10px] transition">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button type="button" onclick="stepSpotifyTrack(1)" title="Track Berikutnya" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-[10px] transition">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+        <button type="button" id="bgmCollapseBtn" onclick="toggleBgmCompact()" title="Sembunyikan / Tampilkan Player" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-[10px] transition">
+          <i id="bgmCollapseIcon" class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Body -->
+    <div id="bgmExpandedControls" class="p-2.5 space-y-2">
+      <!-- Quick Track Switcher Pills -->
+      <div class="grid grid-cols-3 gap-1" id="spotifyTrackSwitcher">
+        <button type="button" data-track-idx="0" onclick="selectSpotifyTrack(0)" class="spotify-track-btn px-2 py-1.5 rounded-xl text-[10px] font-extrabold truncate transition bg-goldbrand-500 text-slate-950 shadow">
+          1. Overnight
+        </button>
+        <button type="button" data-track-idx="1" onclick="selectSpotifyTrack(1)" class="spotify-track-btn px-2 py-1.5 rounded-xl text-[10px] font-bold truncate transition bg-white/10 hover:bg-white/20 text-slate-200">
+          2. Coboy Junior
+        </button>
+        <button type="button" data-track-idx="2" onclick="selectSpotifyTrack(2)" class="spotify-track-btn px-2 py-1.5 rounded-xl text-[10px] font-bold truncate transition bg-white/10 hover:bg-white/20 text-slate-200">
+          3. Keyshia Cole
+        </button>
+      </div>
+
+      <!-- Single Active Spotify Embed Container -->
+      <div id="spotifyEmbedMount" class="rounded-xl overflow-hidden bg-slate-950/80 border border-white/10 min-h-[152px]">
+        <iframe
+          id="spotifyActiveIframe"
+          data-testid="embed-iframe"
+          style="border-radius:12px; display:block;"
+          src="https://open.spotify.com/embed/track/704I5f8yKt0ekmwl0Od8vc?utm_source=generator&si=81d2ca0c8aea410d"
+          width="100%"
+          height="152"
+          frameBorder="0"
+          allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
 
   <!-- TOAST CONTAINER -->
   <div id="toastContainer" class="fixed top-3 right-3 left-3 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none sm:max-w-sm"></div>
@@ -460,7 +502,7 @@
       </div>
     </header>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 pt-4 pb-24 sm:py-6">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 pt-4 pb-28 sm:py-6">
       <!-- =====================================================
            SUB-VIEW A: DASHBOARD BERANDA
       ====================================================== -->
@@ -559,7 +601,6 @@
            SUB-VIEW B: HALAMAN UJIAN AKTIF
       ====================================================== -->
       <div id="examView" class="hidden animate-fade-in">
-        <!-- Exam Top Bar -->
         <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 shadow-sm border border-slate-200 dark:border-slate-800 mb-4 space-y-2.5">
           <div class="flex items-center justify-between gap-2">
             <div class="min-w-0">
@@ -585,7 +626,6 @@
             </div>
           </div>
 
-          <!-- Progress Bar & Utility Tools -->
           <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-2 flex-1 min-w-[130px]">
               <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
@@ -612,7 +652,6 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-          <!-- Question Card -->
           <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-6 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between min-h-[420px]">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-slate-100 dark:border-slate-800">
@@ -639,14 +678,12 @@
                 </div>
               </div>
 
-              <!-- Optional Stimulus / Gambar Soal -->
               <div id="questionStimulusArea" class="hidden mb-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-xs leading-relaxed"></div>
               <img id="questionImageArea" src="" alt="Ilustrasi Soal" class="hidden max-h-60 rounded-2xl mb-4 border border-slate-200 dark:border-slate-700 object-contain" />
 
               <div id="questionPromptArea" class="text-base leading-relaxed font-medium text-slate-800 dark:text-slate-100 mb-5"></div>
               <div id="questionOptionsArea" class="space-y-2.5"></div>
 
-              <!-- Catatan Pribadi per Soal -->
               <div class="mt-4 pt-3 border-t border-dashed border-slate-200 dark:border-slate-800">
                 <input type="text" id="personalQuestionNoteInput" oninput="savePersonalQuestionNote(this.value)" placeholder="Tulis catatan pribadi untuk soal nomor ini (tersimpan otomatis)..." class="w-full px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs outline-none focus:border-goldbrand-500" />
               </div>
@@ -675,7 +712,6 @@
             </div>
           </div>
 
-          <!-- Question Grid Navigation (Selalu Tampil di Semua Ukuran Layar) -->
           <div class="lg:col-span-4 bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-800 h-fit">
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-2"><i class="fa-solid fa-grip text-goldbrand-600"></i> Nomor Soal</h3>
@@ -726,7 +762,6 @@
           </div>
         </div>
 
-        <!-- Analisis Penguasaan Per-Topik / KD -->
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-6 shadow-sm border border-slate-200 dark:border-slate-800">
           <h3 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
             <i class="fa-solid fa-chart-pie text-goldbrand-600"></i> Analisis Penguasaan per Topik / Kisi-Kisi
@@ -751,10 +786,7 @@
     </main>
   </div>
 
-  <!-- =========================================================
-       MODALS (SETUP, FLASHCARD, RUMUS, KALKULATOR, REPORT, ADMIN)
-  ========================================================== -->
-  <!-- MODAL: SETUP SEBELUM UJIAN -->
+  <!-- MODALS -->
   <div id="examSetupModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -807,7 +839,6 @@
     </div>
   </div>
 
-  <!-- MODAL: MODE FLASHCARD HAFALAN -->
   <div id="flashcardModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -834,7 +865,6 @@
     </div>
   </div>
 
-  <!-- MODAL: RINGKASAN RUMUS & ZONA WAKTU -->
   <div id="formulaModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-5 shadow-2xl border border-goldbrand-500/40 space-y-3">
       <div class="flex items-center justify-between">
@@ -849,7 +879,6 @@
     </div>
   </div>
 
-  <!-- MODAL: LAPORKAN KESALAHAN SOAL -->
   <div id="reportQuestionModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-5 shadow-2xl border border-goldbrand-500/40 space-y-3">
       <div class="flex items-center justify-between">
@@ -861,7 +890,6 @@
     </div>
   </div>
 
-  <!-- MODAL: MOBILE QUESTION GRID DRAWER -->
   <div id="mobileNavModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end justify-center">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full rounded-t-3xl p-5 border-t-2 border-goldbrand-500 max-h-[75vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-3">
@@ -872,7 +900,6 @@
     </div>
   </div>
 
-  <!-- MODAL: KALKULATOR MINI -->
   <div id="calcModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 w-72 rounded-3xl p-4 shadow-2xl border border-goldbrand-500/40">
       <div class="flex items-center justify-between mb-2">
@@ -904,7 +931,6 @@
     </div>
   </div>
 
-  <!-- MODAL: KERTAS BURAM -->
   <div id="scratchpadModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-5 shadow-2xl border border-goldbrand-500/40">
       <div class="flex items-center justify-between mb-2">
@@ -915,7 +941,6 @@
     </div>
   </div>
 
-  <!-- MODAL: RIWAYAT, GRAFIK PERKEMBANGAN & LEADERBOARD -->
   <div id="historyModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[88vh] flex flex-col">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -942,7 +967,6 @@
     </div>
   </div>
 
-  <!-- MODAL: SOAL TERSIMPAN & CATATAN -->
   <div id="bookmarksModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[85vh] flex flex-col">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -953,7 +977,6 @@
     </div>
   </div>
 
-  <!-- MODAL: SERTIFIKAT KELULUSAN DIGITAL -->
   <div id="certificateModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white w-full max-w-xl rounded-3xl p-3 shadow-2xl border-4 border-goldbrand-500 text-slate-900">
       <div class="border-2 border-emeraldbrand-800 rounded-2xl p-6 text-center bg-gradient-to-b from-emeraldbrand-50 to-white relative">
@@ -977,9 +1000,7 @@
     </div>
   </div>
 
-  <!-- =========================================================
-       MODAL: PANEL ADMIN SUPER LENGKAP (35 FITUR ADMIN)
-  ========================================================== -->
+  <!-- ADMIN MODAL -->
   <div id="adminModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-4xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[92vh] flex flex-col">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -990,7 +1011,6 @@
         <button type="button" onclick="closeModal('adminModal')" class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- 6 Tab Navigasi Admin -->
       <div class="flex overflow-x-auto border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 no-scrollbar">
         <button type="button" onclick="switchAdminTab('import')" id="admTabImport" class="px-3 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500 shrink-0">1. Import Soal</button>
         <button type="button" onclick="switchAdminTab('manual')" id="admTabManual" class="px-3 py-3 text-xs font-bold text-slate-500 shrink-0">2. Pembuat Soal</button>
@@ -1001,7 +1021,6 @@
       </div>
 
       <div class="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1 text-xs">
-        <!-- TAB 1: IMPORT JSON/CSV/TXT + VALIDATOR + PREVIEW -->
         <div id="admPaneImport" class="space-y-3.5">
           <div class="p-3 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950/60 border border-emeraldbrand-200 dark:border-emeraldbrand-800 flex flex-wrap items-center justify-between gap-2">
             <span class="font-bold text-emeraldbrand-900 dark:text-goldbrand-300">Template & Generator Cepat:</span>
@@ -1041,14 +1060,13 @@
           </div>
 
           <input type="file" id="importFileInput" accept=".json,.csv,.txt" onchange="handleFileUpload(event)" class="block w-full text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:font-bold file:bg-emeraldbrand-700 file:text-white" />
-          <textarea id="importJsonTextarea" rows="5" placeholder='Tempel JSON array soal atau format teks cepat (Q: ... | A: ... | B: ... | K: A)...' class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"></textarea>
+          <textarea id="importJsonTextarea" rows="5" placeholder="Tempel JSON array soal atau format teks cepat (Q: ... | A: ... | B: ... | K: A)..." class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"></textarea>
           <div class="flex gap-2">
             <button type="button" onclick="parseQuickTextFormat()" class="px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 font-bold">Konversi Teks Cepat → JSON</button>
             <button type="button" onclick="processImportPackage()" class="flex-1 py-2.5 rounded-xl bg-emeraldbrand-700 text-white font-extrabold">Simpan & Publikasikan Paket</button>
           </div>
         </div>
 
-        <!-- TAB 2: PEMBUAT SOAL MANUAL MULTI-TIPE -->
         <div id="admPaneManual" class="hidden space-y-3">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <input type="text" id="manPkgTitle" placeholder="Judul Paket Baru *" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
@@ -1104,7 +1122,6 @@
           <button type="button" onclick="saveManualPackage()" class="w-full py-2.5 rounded-xl bg-goldbrand-400 text-emeraldbrand-950 font-extrabold">Simpan & Terbitkan Paket Manual</button>
         </div>
 
-        <!-- TAB 3: KELOLA, EDIT SOAL INLINE, MERGE PAKET, PUBLISH/UNPUBLISH -->
         <div id="admPaneManage" class="hidden space-y-3">
           <div class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70">
             <span class="font-bold">Gabungkan 2 Paket Menjadi Paket Tryout Baru:</span>
@@ -1117,7 +1134,6 @@
 
           <div id="adminManageList" class="space-y-2"></div>
 
-          <!-- Inline Question Editor Drawer inside Admin -->
           <div id="inlinePackageEditorBox" class="hidden p-4 rounded-2xl border-2 border-goldbrand-500 bg-slate-50 dark:bg-slate-950 space-y-2.5">
             <div class="flex items-center justify-between">
               <h4 id="inlineEditorTitle" class="font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400">Edit Paket</h4>
@@ -1133,7 +1149,6 @@
           </div>
         </div>
 
-        <!-- TAB 4: ANALITIK NILAI, LAPORAN SOAL BERMASALAH & LOG AKTIVITAS -->
         <div id="admPaneAnalytics" class="hidden space-y-4">
           <div class="grid grid-cols-3 gap-2.5 text-center">
             <div class="p-3 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950 border border-emeraldbrand-200 dark:border-emeraldbrand-800">
@@ -1164,7 +1179,6 @@
           </div>
         </div>
 
-        <!-- TAB 5: KELOLA PESERTA & GENERATOR KODE REFERRAL DINAMIS -->
         <div id="admPaneUsers" class="hidden space-y-4">
           <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 space-y-2">
             <h4 class="font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400">Buat Kode Referral Admin Baru</h4>
@@ -1181,7 +1195,6 @@
           </div>
         </div>
 
-        <!-- TAB 6: PENGUMUMAN, MAINTENANCE MODE & BACKUP -->
         <div id="admPaneSettings" class="hidden space-y-4">
           <div class="space-y-2">
             <label class="block font-bold">Teks Pengumuman Beranda</label>
@@ -1215,7 +1228,6 @@
     </div>
   </div>
 
-  <!-- MODAL: PROFIL PENGGUNA & TARGET HARIAN -->
   <div id="profileModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -1260,7 +1272,6 @@
     </div>
   </div>
 
-  <!-- MODAL: GMAIL FALLBACK -->
   <div id="gmailFallbackModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -1278,7 +1289,7 @@
   </div>
 
   <!-- =========================================================
-       FIREBASE & APPLICATION LOGIC
+       FIREBASE & APPLICATION LOGIC (OPTIMIZED SPOTIFY PLAYER)
   ========================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -1319,217 +1330,87 @@
       return [...new Set([...BASE_REFERRALS, ...extra])];
     }
 
-
     // =========================================================
-    // INTRO SCREEN & GENERATIVE WEB AUDIO BACKSOUND ENGINE
+    // OPTIMIZED SPOTIFY EMBED PLAYER CONTROLLER (SINGLE IFRAME)
     // =========================================================
-    let audioCtx = null;
-    let bgmGainNode = null;
-    let bgmCompressor = null;
-    let isBgmPlaying = false;
-    let bgmLoopTimer = null;
-    let bgmStep = 0;
-    let currentBgmPreset = "lofi";
-    let bgmVolumeLevel = 0.75;
-
-    function initAudioEngine() {
-      if (!audioCtx) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-        audioCtx = new AudioContextClass();
-        bgmGainNode = audioCtx.createGain();
-        bgmCompressor = audioCtx.createDynamicsCompressor();
-        bgmCompressor.threshold.setValueAtTime(-16, audioCtx.currentTime);
-        bgmCompressor.knee.setValueAtTime(18, audioCtx.currentTime);
-        bgmCompressor.ratio.setValueAtTime(4, audioCtx.currentTime);
-        bgmCompressor.attack.setValueAtTime(0.01, audioCtx.currentTime);
-        bgmCompressor.release.setValueAtTime(0.25, audioCtx.currentTime);
-
-        bgmGainNode.gain.value = bgmVolumeLevel * 0.85;
-        bgmGainNode.connect(bgmCompressor);
-        bgmCompressor.connect(audioCtx.destination);
+    const SPOTIFY_TRACKS = [
+      {
+        id: "overnight",
+        label: "1. Overnight",
+        src: "https://open.spotify.com/embed/track/704I5f8yKt0ekmwl0Od8vc?utm_source=generator&si=81d2ca0c8aea410d"
+      },
+      {
+        id: "coboy-junior",
+        label: "2. Coboy Junior",
+        src: "https://open.spotify.com/embed/track/4kMQVpke2L9tlWOINuAo07?utm_source=generator&si=9b7d7c7dcada4eee"
+      },
+      {
+        id: "keyshia-cole",
+        label: "3. Keyshia Cole",
+        src: "https://open.spotify.com/embed/track/0W4NhJhcqKCqEP2GIpDCDq?utm_source=generator&si=ba0d0ff372164c1b"
       }
-      if (audioCtx && audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+    ];
+
+    let activeSpotifyIndex = Number(localStorage.getItem("cbt_spotify_track_idx") || "0");
+    if (isNaN(activeSpotifyIndex) || activeSpotifyIndex < 0 || activeSpotifyIndex >= SPOTIFY_TRACKS.length) {
+      activeSpotifyIndex = 0;
     }
+    let isSpotifyCollapsed = localStorage.getItem("cbt_spotify_collapsed") === "true";
 
-    function playNote(freq, startTime, duration, waveType = "triangle", gainAmt = 0.25) {
-      if (!audioCtx || !bgmGainNode || !isBgmPlaying || !freq) return;
-      const osc = audioCtx.createOscillator();
-      const noteGain = audioCtx.createGain();
-      osc.type = waveType;
-      osc.frequency.setValueAtTime(freq, startTime);
+    function renderSpotifyPlayerState(forceReloadSrc = false) {
+      const track = SPOTIFY_TRACKS[activeSpotifyIndex] || SPOTIFY_TRACKS[0];
+      const labelEl = document.getElementById("spotifyActiveTrackLabel");
+      if (labelEl) labelEl.textContent = track.label;
 
-      noteGain.gain.setValueAtTime(0.0001, startTime);
-      noteGain.gain.exponentialRampToValueAtTime(gainAmt, startTime + 0.04);
-      noteGain.gain.setValueAtTime(gainAmt * 0.78, startTime + duration * 0.6);
-      noteGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-
-      osc.connect(noteGain);
-      noteGain.connect(bgmGainNode);
-      osc.start(startTime);
-      osc.stop(startTime + duration + 0.04);
-    }
-
-    function playMelodicBar(barData, preset = "lofi") {
-      if (!audioCtx || !bgmGainNode || !isBgmPlaying) return;
-      const now = audioCtx.currentTime;
-      const beatLen = 0.42; // ~142 BPM eighth-note groove (bar = 8 steps = 3.36s)
-      const barDur = beatLen * 8;
-
-      // 1. Warm Chord Pad
-      const padWave = preset === "lofi" ? "triangle" : "sine";
-      barData.chords.forEach((freq) => {
-        playNote(freq, now, barDur * 0.96, padWave, 0.22 / Math.sqrt(barData.chords.length));
-      });
-
-      // 2. Deep Groovy Bassline (2 hits per bar)
-      playNote(barData.bass[0], now, beatLen * 3.8, "triangle", 0.30);
-      playNote(barData.bass[1], now + beatLen * 4, beatLen * 3.8, "triangle", 0.28);
-
-      // 3. Catchy Lead Arpeggio Melody (8-step pattern)
-      const leadWave = preset === "piano" ? "sine" : (preset === "lofi" ? "triangle" : "sine");
-      barData.melody.forEach((mFreq, stepIdx) => {
-        if (mFreq > 0) {
-          playNote(mFreq, now + stepIdx * beatLen, beatLen * 1.45, leadWave, 0.24);
-        }
-      });
-    }
-
-    window.playUiClickSfx = function (type = "tap") {
-      try {
-        initAudioEngine();
-        if (!audioCtx) return;
-        const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        osc.type = "triangle";
-        if (type === "success") {
-          osc.frequency.setValueAtTime(523.25, now);
-          osc.frequency.setValueAtTime(659.25, now + 0.09);
-          osc.frequency.setValueAtTime(783.99, now + 0.18);
-          g.gain.setValueAtTime(0.08, now);
-          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
-          osc.connect(g); g.connect(audioCtx.destination);
-          osc.start(now); osc.stop(now + 0.36);
+      document.querySelectorAll(".spotify-track-btn").forEach((btn, idx) => {
+        if (idx === activeSpotifyIndex) {
+          btn.className = "spotify-track-btn px-2 py-1.5 rounded-xl text-[10px] font-extrabold truncate transition bg-goldbrand-500 text-slate-950 shadow";
         } else {
-          osc.frequency.setValueAtTime(440, now);
-          osc.frequency.exponentialRampToValueAtTime(620, now + 0.07);
-          g.gain.setValueAtTime(0.04, now);
-          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
-          osc.connect(g); g.connect(audioCtx.destination);
-          osc.start(now); osc.stop(now + 0.09);
+          btn.className = "spotify-track-btn px-2 py-1.5 rounded-xl text-[10px] font-bold truncate transition bg-white/10 hover:bg-white/20 text-slate-200";
         }
-      } catch (_) {}
-    };
+      });
 
-    function runBacksoundScheduler() {
-      clearInterval(bgmLoopTimer);
-      // Brand new uplifting & catchy 4-bar compositions in D Major / B Minor & F Major
-      const songs = {
-        lofi: [
-          // Bar 1: Dmaj9 -> uplifting synthwave arpeggio
-          { chords: [293.66, 369.99, 440.00, 554.37], bass: [146.83, 146.83], melody: [587.33, 0, 659.25, 739.99, 880.00, 0, 739.99, 659.25] },
-          // Bar 2: Bm7
-          { chords: [246.94, 293.66, 369.99, 440.00], bass: [123.47, 123.47], melody: [587.33, 0, 493.88, 587.33, 659.25, 0, 587.33, 493.88] },
-          // Bar 3: Gmaj7
-          { chords: [196.00, 246.94, 293.66, 369.99], bass: [98.00, 110.00], melody: [493.88, 0, 587.33, 659.25, 739.99, 659.25, 587.33, 493.88] },
-          // Bar 4: A6 / Asus4
-          { chords: [220.00, 277.18, 329.63, 369.99], bass: [110.00, 130.81], melody: [554.37, 0, 659.25, 739.99, 659.25, 0, 554.37, 440.00] }
-        ],
-        piano: [
-          // Emotional anime/study piano progression in F Major
-          { chords: [349.23, 440.00, 523.25], bass: [174.61, 174.61], melody: [698.46, 659.25, 587.33, 523.25, 587.33, 659.25, 523.25, 0] },
-          { chords: [293.66, 349.23, 440.00], bass: [146.83, 146.83], melody: [587.33, 523.25, 440.00, 392.00, 440.00, 523.25, 440.00, 0] },
-          { chords: [233.08, 293.66, 349.23], bass: [116.54, 116.54], melody: [466.16, 523.25, 587.33, 698.46, 659.25, 587.33, 523.25, 0] },
-          { chords: [261.63, 329.63, 392.00], bass: [130.81, 146.83], melody: [523.25, 587.33, 659.25, 783.99, 659.25, 587.33, 523.25, 0] }
-        ],
-        ambient: [
-          // Dreamy chill beat in A Minor / C Major
-          { chords: [220.00, 261.63, 329.63, 392.00], bass: [110.00, 110.00], melody: [659.25, 0, 587.33, 0, 523.25, 493.88, 523.25, 0] },
-          { chords: [174.61, 220.00, 261.63, 329.63], bass: [87.31, 87.31], melody: [523.25, 0, 493.88, 0, 440.00, 392.00, 440.00, 0] },
-          { chords: [261.63, 329.63, 392.00, 493.88], bass: [130.81, 130.81], melody: [783.99, 0, 659.25, 0, 587.33, 523.25, 587.33, 0] },
-          { chords: [196.00, 246.94, 293.66, 392.00], bass: [98.00, 110.00], melody: [587.33, 0, 493.88, 0, 440.00, 392.00, 493.88, 0] }
-        ]
-      };
-
-      const triggerStep = () => {
-        if (!isBgmPlaying) return;
-        const songBars = songs[currentBgmPreset] || songs.lofi;
-        const bar = songBars[bgmStep % songBars.length];
-        playMelodicBar(bar, currentBgmPreset);
-        bgmStep++;
-      };
-
-      triggerStep();
-      bgmLoopTimer = setInterval(triggerStep, 3360);
-    }
-
-    function updateBgmWidgetUi() {
-      const icon = document.getElementById("bgmPlayIcon");
-      const eq = document.getElementById("bgmEqBars");
-      if (!icon || !eq) return;
-      if (isBgmPlaying) {
-        icon.className = "fa-solid fa-pause";
-        eq.classList.remove("hidden");
-        eq.classList.add("flex");
-      } else {
-        icon.className = "fa-solid fa-play";
-        eq.classList.add("hidden");
-        eq.classList.remove("flex");
+      const iframe = document.getElementById("spotifyActiveIframe");
+      if (iframe && (forceReloadSrc || iframe.getAttribute("src") !== track.src)) {
+        iframe.setAttribute("src", track.src);
       }
-    }
 
-    window.startBacksound = function () {
-      initAudioEngine();
-      isBgmPlaying = true;
-      updateBgmWidgetUi();
-      runBacksoundScheduler();
-    };
-
-    window.stopBacksound = function () {
-      isBgmPlaying = false;
-      clearInterval(bgmLoopTimer);
-      updateBgmWidgetUi();
-    };
-
-    window.toggleBacksound = function () {
-      if (isBgmPlaying) {
-        window.stopBacksound();
-        showToast("Backsound dijeda.", "info");
-      } else {
-        window.startBacksound();
-        showToast("Backsound fokus belajar diputar.", "success");
-      }
-    };
-
-    window.changeBacksoundPreset = function (preset) {
-      currentBgmPreset = preset;
-      if (isBgmPlaying) runBacksoundScheduler();
-    };
-
-        let isBgmCompact = false;
-    window.toggleBgmCompact = function () {
-      isBgmCompact = !isBgmCompact;
       const exp = document.getElementById("bgmExpandedControls");
       const icon = document.getElementById("bgmCollapseIcon");
-      if (exp) exp.classList.toggle("hidden", isBgmCompact);
-      if (icon) icon.className = isBgmCompact ? "fa-solid fa-chevron-left" : "fa-solid fa-chevron-right";
-    };
+      if (exp) exp.classList.toggle("hidden", isSpotifyCollapsed);
+      if (icon) icon.className = isSpotifyCollapsed ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down";
+    }
 
-    window.setBacksoundVolume = function (val) {
-      bgmVolumeLevel = Math.max(0, Math.min(1, Number(val) / 100));
-      if (bgmGainNode && audioCtx) {
-        bgmGainNode.gain.setTargetAtTime(bgmVolumeLevel * 0.85, audioCtx.currentTime, 0.05);
+    window.selectSpotifyTrack = function (idx) {
+      if (idx < 0 || idx >= SPOTIFY_TRACKS.length) return;
+      activeSpotifyIndex = idx;
+      localStorage.setItem("cbt_spotify_track_idx", String(idx));
+      if (isSpotifyCollapsed) {
+        isSpotifyCollapsed = false;
+        localStorage.setItem("cbt_spotify_collapsed", "false");
       }
+      renderSpotifyPlayerState(true);
     };
 
-    window.dismissIntroScreen = function (withMusic = true) {
+    window.stepSpotifyTrack = function (delta) {
+      const next = (activeSpotifyIndex + delta + SPOTIFY_TRACKS.length) % SPOTIFY_TRACKS.length;
+      window.selectSpotifyTrack(next);
+    };
+
+    window.toggleBgmCompact = function () {
+      isSpotifyCollapsed = !isSpotifyCollapsed;
+      localStorage.setItem("cbt_spotify_collapsed", String(isSpotifyCollapsed));
+      renderSpotifyPlayerState(false);
+    };
+
+    window.playUiClickSfx = function () {};
+
+    window.dismissIntroScreen = function (expandPlayer = true) {
       const intro = document.getElementById("introSplashScreen");
-      if (withMusic) {
-        window.startBacksound();
-        window.playUiClickSfx("success");
+      if (expandPlayer) {
+        isSpotifyCollapsed = false;
+        localStorage.setItem("cbt_spotify_collapsed", "false");
+        renderSpotifyPlayerState(false);
       }
       if (intro) {
         intro.style.opacity = "0";
@@ -1537,6 +1418,8 @@
         setTimeout(() => intro.classList.add("hidden"), 650);
       }
     };
+
+    renderSpotifyPlayerState(false);
 
     let currentUserProfile = null;
     let examPackages = [];
@@ -2780,7 +2663,7 @@
       localStorage.setItem("cbt_exam_history", JSON.stringify(history.slice(0, 60)));
 
       document.getElementById("examView").classList.add("hidden");
-      document.getElementById("resultView").classList.remove("hidden"); window.playUiClickSfx("success");
+      document.getElementById("resultView").classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -2788,10 +2671,7 @@
       const title = document.getElementById("resultExamTitle").textContent;
       const score = document.getElementById("finalScoreDisplay").textContent;
       const detail = document.getElementById("scoreDetailCounts").textContent;
-      const text = `Hasil Latihan CBT SAS
-Nama: ${currentUserProfile?.name || "Peserta"}
-Paket: ${title}
-Skor: ${score}/100 (${detail})`;
+      const text = `Hasil Latihan CBT SAS\nNama: ${currentUserProfile?.name || "Peserta"}\nPaket: ${title}\nSkor: ${score}/100 (${detail})`;
       navigator.clipboard?.writeText(text);
       showToast("Ringkasan rapor berhasil disalin ke clipboard!", "success");
     };
@@ -2881,8 +2761,7 @@ Skor: ${score}/100 (${detail})`;
         ];
         triggerDownload("template-5-tipe-soal.json", JSON.stringify(sample, null, 2), "application/json");
       } else {
-        triggerDownload("template-soal.csv", `type,question,optA,optB,optC,optD,answer,explanation
-pg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
+        triggerDownload("template-soal.csv", `type,question,optA,optB,optC,optD,answer,explanation\npg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
       }
     };
 
@@ -3060,10 +2939,10 @@ pg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
           </div>
           <div class="flex flex-wrap gap-1 shrink-0">
             <button type="button" onclick="openInlinePackageEditor('${p.id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-goldbrand-300 text-[11px] font-bold">Edit</button>
-            <button type="button" onclick="togglePackageDraftStatus('${p.id}')" class="px-2 py-1 rounded-lg bg-amber-600 text-white text-[11px] font-bold">${p.status === "draft" ? "Terbitkan" : "Draft"}</button>
-            <button type="button" onclick="exportSinglePackage('${p.id}')" class="px-2 py-1 rounded-lg bg-emeraldbrand-700 text-white text-[11px] font-bold">Ekspor</button>
-            <button type="button" onclick="clonePackage('${p.id}')" class="px-2 py-1 rounded-lg bg-goldbrand-600 text-white text-[11px] font-bold">Duplikat</button>
-            ${p.isDefault ? "" : `<button type="button" onclick="deleteCustomPackage('${p.id}')" class="px-2 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold">Hapus</button>`}
+            <button type="button" onclick="togglePackageDraftStatus('${p.id}')" class="px-2 py-1 rounded-lg bg-amber-100 text-amber-800 text-[11px] font-bold">${p.status === "draft" ? "Terbitkan" : "Draft"}</button>
+            <button type="button" onclick="duplicateExamPackage('${p.id}')" class="px-2 py-1 rounded-lg bg-emeraldbrand-100 text-emeraldbrand-800 text-[11px] font-bold">Duplikat</button>
+            <button type="button" onclick="exportSinglePackageJson('${p.id}')" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-[11px] font-bold">JSON</button>
+            ${!p.isDefault ? `<button type="button" onclick="deleteExamPackage('${p.id}')" class="px-2 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold">Hapus</button>` : ""}
           </div>
         </div>`).join("");
     }
@@ -3072,214 +2951,203 @@ pg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
       const pkg = examPackages.find((p) => p.id === pkgId);
       if (!pkg) return;
       editingPackageId = pkgId;
-      document.getElementById("inlineEditorTitle").textContent = `Edit: ${pkg.title}`;
+      document.getElementById("inlinePackageEditorBox").classList.remove("hidden");
+      document.getElementById("inlineEditorTitle").textContent = `Edit Paket: ${pkg.title}`;
       document.getElementById("editPkgTitleInput").value = pkg.title;
       document.getElementById("editPkgDurationInput").value = pkg.duration || 60;
       document.getElementById("editPkgTokenInput").value = pkg.token || "";
       document.getElementById("editPkgQuestionsJson").value = JSON.stringify(pkg.questions, null, 2);
-      document.getElementById("inlinePackageEditorBox").classList.remove("hidden");
     };
 
     window.saveInlineEditedPackage = async function () {
       const pkg = examPackages.find((p) => p.id === editingPackageId);
       if (!pkg) return;
       try {
-        const updatedQs = JSON.parse(document.getElementById("editPkgQuestionsJson").value);
+        const qs = JSON.parse(document.getElementById("editPkgQuestionsJson").value);
+        if (!Array.isArray(qs) || qs.length === 0) throw new Error("Soal harus berupa array non-kosong.");
         const updated = {
           ...pkg,
-          id: pkg.isDefault ? "pkg_edit_" + Date.now() : pkg.id,
-          isDefault: false,
           title: document.getElementById("editPkgTitleInput").value.trim() || pkg.title,
           duration: parseInt(document.getElementById("editPkgDurationInput").value, 10) || 60,
           token: document.getElementById("editPkgTokenInput").value.trim().toUpperCase(),
-          questions: updatedQs
+          questions: qs
         };
         await savePackageToStorageAndCloud(updated);
         logAdminAudit(`Mengedit paket "${updated.title}"`);
         document.getElementById("inlinePackageEditorBox").classList.add("hidden");
         renderAdminManageList();
-        showToast("Perubahan paket disimpan!", "success");
-      } catch (e) { showToast("JSON tidak valid: " + e.message, "error"); }
+        showToast("Perubahan paket berhasil disimpan!", "success");
+      } catch (e) { showToast("Error JSON: " + e.message, "error"); }
     };
 
     window.togglePackageDraftStatus = async function (pkgId) {
       const pkg = examPackages.find((p) => p.id === pkgId);
       if (!pkg) return;
-      const updated = { ...pkg, id: pkg.isDefault ? "pkg_copy_" + Date.now() : pkg.id, isDefault: false, status: pkg.status === "draft" ? "published" : "draft" };
-      await savePackageToStorageAndCloud(updated);
+      pkg.status = pkg.status === "draft" ? "published" : "draft";
+      await savePackageToStorageAndCloud(pkg);
+      logAdminAudit(`Mengubah status paket "${pkg.title}" menjadi ${pkg.status}`);
       renderAdminManageList();
-      showToast(`Status paket diubah menjadi ${updated.status.toUpperCase()}.`, "info");
     };
 
-    window.mergeSelectedPackages = async function () {
-      const idA = document.getElementById("mergePkgA").value;
-      const idB = document.getElementById("mergePkgB").value;
-      const pA = examPackages.find((p) => p.id === idA);
-      const pB = examPackages.find((p) => p.id === idB);
-      if (!pA || !pB) return;
-      const mergedQs = [...pA.questions, ...pB.questions];
-      const mergedPkg = {
-        id: "pkg_merge_" + Date.now(),
-        title: `Tryout Gabungan: ${pA.subject} & ${pB.subject}`,
-        subject: "Tryout Gabungan",
-        duration: (pA.duration || 45) + (pB.duration || 45),
-        kkm: 75,
-        status: "published",
-        questions: mergedQs
-      };
-      await savePackageToStorageAndCloud(mergedPkg);
-      logAdminAudit(`Menggabungkan paket "${pA.title}" + "${pB.title}"`);
-      renderAdminManageList();
-      showToast(`Berhasil digabung (${mergedQs.length} soal)!`, "success");
-    };
-
-    window.exportSinglePackage = function (id) {
-      const pkg = examPackages.find((p) => p.id === id);
-      if (pkg) triggerDownload(`${pkg.id}.json`, JSON.stringify(pkg.questions, null, 2), "application/json");
-    };
-
-    window.clonePackage = async function (id) {
-      const pkg = examPackages.find((p) => p.id === id);
+    window.duplicateExamPackage = async function (pkgId) {
+      const pkg = examPackages.find((p) => p.id === pkgId);
       if (!pkg) return;
-      await savePackageToStorageAndCloud({ ...pkg, id: "pkg_" + Date.now(), title: pkg.title + " (Salinan)", isDefault: false });
+      const copy = { ...JSON.parse(JSON.stringify(pkg)), id: "pkg_" + Date.now(), title: pkg.title + " (Salinan)", isDefault: false };
+      await savePackageToStorageAndCloud(copy);
       logAdminAudit(`Menduplikasi paket "${pkg.title}"`);
       renderAdminManageList();
       showToast("Paket berhasil diduplikasi!", "success");
     };
 
-    window.deleteCustomPackage = async function (pkgId) {
-      if (!confirm("Hapus paket ini?")) return;
+    window.exportSinglePackageJson = function (pkgId) {
+      const pkg = examPackages.find((p) => p.id === pkgId);
+      if (!pkg) return;
+      triggerDownload(`${pkg.id}.json`, JSON.stringify(pkg.questions, null, 2), "application/json");
+    };
+
+    window.mergeSelectedPackages = async function () {
+      const a = examPackages.find((p) => p.id === document.getElementById("mergePkgA").value);
+      const b = examPackages.find((p) => p.id === document.getElementById("mergePkgB").value);
+      if (!a || !b) return;
+      const merged = {
+        id: "pkg_merge_" + Date.now(),
+        title: `Tryout Gabungan: ${a.subject} & ${b.subject}`,
+        subject: "Tryout Terpadu",
+        duration: (a.duration || 45) + (b.duration || 45),
+        kkm: 75,
+        status: "published",
+        questions: [...(a.questions || []), ...(b.questions || [])]
+      };
+      await savePackageToStorageAndCloud(merged);
+      logAdminAudit(`Menggabungkan "${a.title}" dan "${b.title}"`);
+      renderAdminManageList();
+      showToast(`Paket gabungan (${merged.questions.length} soal) dibuat!`, "success");
+    };
+
+    window.deleteExamPackage = async function (pkgId) {
+      if (!confirm("Hapus paket soal ini?")) return;
+      const pkg = examPackages.find((p) => p.id === pkgId);
       const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]").filter((p) => p.id !== pkgId);
       localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
       if (db) { try { await deleteDoc(doc(db, "exam_packages", pkgId)); } catch (_) {} }
-      logAdminAudit(`Menghapus paket ID ${pkgId}`);
+      logAdminAudit(`Menghapus paket "${pkg?.title || pkgId}"`);
       await loadExamPackages();
       renderAdminManageList();
+      showToast("Paket dihapus.", "info");
     };
 
     function renderAdminAnalytics() {
-      const totalQ = examPackages.reduce((sum, p) => sum + (p.questions?.length || 0), 0);
+      const totalQ = examPackages.reduce((s, p) => s + (p.questions ? p.questions.length : 0), 0);
       const reports = JSON.parse(localStorage.getItem("cbt_question_reports") || "[]");
-      const logs = JSON.parse(localStorage.getItem("cbt_admin_audit") || "[]");
+      const auditLogs = JSON.parse(localStorage.getItem("cbt_admin_audit") || "[]");
 
       document.getElementById("admStatPkg").textContent = examPackages.length;
       document.getElementById("admStatQ").textContent = totalQ;
       document.getElementById("admStatReports").textContent = reports.length;
 
       document.getElementById("adminReportsList").innerHTML = reports.length
-        ? reports.map((r) => `<div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800"><p class="font-bold text-rose-700 dark:text-rose-300">${r.packageTitle} • oleh ${r.reporter}</p><p class="truncate text-slate-600 dark:text-slate-300">Soal: ${r.question}</p><p class="font-semibold mt-0.5">Alasan: ${r.reason}</p></div>`).join("")
-        : `<p class="text-slate-400">Tidak ada laporan kesalahan soal.</p>`;
+        ? reports.map((r) => `<div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800"><p class="font-bold">${r.packageTitle} • <span class="text-slate-400 font-normal">${r.reporter} (${r.date})</span></p><p class="text-slate-600 dark:text-slate-300 mt-0.5">${r.question}</p><p class="text-rose-700 dark:text-rose-300 font-semibold mt-1">Alasan: ${r.reason}</p></div>`).join("")
+        : `<p class="text-slate-400">Belum ada laporan kesalahan soal.</p>`;
 
-      document.getElementById("adminAuditLogList").innerHTML = logs.length
-        ? logs.map((l) => `<div>${l}</div>`).join("")
-        : `<div class="text-slate-400">Belum ada catatan aktivitas.</div>`;
+      document.getElementById("adminAuditLogList").innerHTML = auditLogs.length
+        ? auditLogs.map((l) => `<div>${l}</div>`).join("")
+        : `<div class="text-slate-400">Belum ada log aktivitas.</div>`;
     }
 
-    window.clearAllReports = function () {
-      localStorage.removeItem("cbt_question_reports");
-      renderAdminAnalytics();
-      showToast("Laporan soal dibersihkan.", "info");
-    };
+    window.clearAllReports = function () { localStorage.removeItem("cbt_question_reports"); renderAdminAnalytics(); };
 
     function renderAdminUsersAndReferrals() {
       const codes = getValidReferralCodes();
-      document.getElementById("activeReferralCodesList").innerHTML = codes.map((c) => `<span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-900 dark:text-goldbrand-300 font-mono font-bold">${c}</span>`).join("");
+      document.getElementById("activeReferralCodesList").innerHTML = codes.map((c) => `<span class="px-2.5 py-1 rounded-lg bg-goldbrand-500/20 border border-goldbrand-500/40 font-mono font-bold text-[11px]">${c}</span>`).join("");
 
       const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
       document.getElementById("adminResultsTable").innerHTML = history.length
-        ? history.slice(0, 15).map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) — ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">${h.score}</span></div>`).join("")
-        : `<p class="text-slate-400">Belum ada rekaman hasil peserta.</p>`;
+        ? history.map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) • ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">Skor: ${h.score}</span></div>`).join("")
+        : `<p class="text-slate-400">Belum ada data hasil ujian.</p>`;
     }
 
     window.addCustomReferralCode = function () {
       const code = document.getElementById("newReferralCodeInput").value.trim().toUpperCase();
-      if (code.length < 4) { showToast("Kode minimal 4 karakter.", "error"); return; }
+      if (!code || code.length < 4) { showToast("Kode minimal 4 karakter.", "error"); return; }
       const extra = JSON.parse(localStorage.getItem("cbt_extra_referrals") || "[]");
-      if (!extra.includes(code)) extra.push(code);
-      localStorage.setItem("cbt_extra_referrals", JSON.stringify(extra));
+      extra.push(code);
+      localStorage.setItem("cbt_extra_referrals", JSON.stringify([...new Set(extra)]));
       document.getElementById("newReferralCodeInput").value = "";
-      logAdminAudit(`Menambahkan kode referral baru: ${code}`);
+      logAdminAudit(`Menambahkan kode referral "${code}"`);
       renderAdminUsersAndReferrals();
-      showToast(`Kode referral ${code} aktif!`, "success");
+      showToast(`Kode referral ${code} ditambahkan!`, "success");
     };
 
     window.saveAnnouncementText = function () {
       const txt = document.getElementById("adminAnnouncementInput").value.trim();
       localStorage.setItem("cbt_announcement", txt);
-      document.getElementById("announcementText").textContent = txt;
+      document.getElementById("announcementText").textContent = txt || "Selamat belajar!";
       logAdminAudit("Memperbarui pengumuman beranda");
       showToast("Pengumuman diperbarui!", "success");
     };
 
-    window.toggleMaintenanceMode = function (enabled) {
-      localStorage.setItem("cbt_maintenance", enabled ? "true" : "false");
-      logAdminAudit(`Mengubah Mode Pemeliharaan menjadi ${enabled ? "AKTIF" : "NONAKTIF"}`);
-      showToast(`Mode Pemeliharaan ${enabled ? "diaktifkan" : "dinonaktifkan"}.`, "warning");
+    window.toggleMaintenanceMode = function (checked) {
+      localStorage.setItem("cbt_maintenance", checked ? "true" : "false");
+      logAdminAudit(`Mengubah Mode Pemeliharaan menjadi ${checked ? "AKTIF" : "NONAKTIF"}`);
+      showToast(checked ? "Mode Pemeliharaan diaktifkan." : "Mode Pemeliharaan dimatikan.", "info");
     };
 
     window.exportAllBackup = function () {
-      const backup = {
+      const dump = {
         packages: JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]"),
         history: JSON.parse(localStorage.getItem("cbt_exam_history") || "[]"),
         bookmarks: JSON.parse(localStorage.getItem("cbt_bookmarked_questions") || "[]"),
-        referrals: JSON.parse(localStorage.getItem("cbt_extra_referrals") || "[]")
+        referrals: JSON.parse(localStorage.getItem("cbt_extra_referrals") || "[]"),
+        announcement: localStorage.getItem("cbt_announcement") || ""
       };
-      triggerDownload("cbt-full-backup.json", JSON.stringify(backup, null, 2), "application/json");
+      triggerDownload(`cbt-full-backup-${Date.now()}.json`, JSON.stringify(dump, null, 2), "application/json");
     };
 
     window.importAllBackup = function (e) {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = async (evt) => {
+      reader.onload = async function (evt) {
         try {
-          const data = JSON.parse(evt.target.result);
-          if (data.packages) localStorage.setItem("cbt_custom_packages", JSON.stringify(data.packages));
-          if (data.history) localStorage.setItem("cbt_exam_history", JSON.stringify(data.history));
-          if (data.bookmarks) localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(data.bookmarks));
-          if (data.referrals) localStorage.setItem("cbt_extra_referrals", JSON.stringify(data.referrals));
+          const d = JSON.parse(evt.target.result);
+          if (d.packages) localStorage.setItem("cbt_custom_packages", JSON.stringify(d.packages));
+          if (d.history) localStorage.setItem("cbt_exam_history", JSON.stringify(d.history));
+          if (d.bookmarks) localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(d.bookmarks));
+          if (d.referrals) localStorage.setItem("cbt_extra_referrals", JSON.stringify(d.referrals));
+          if (d.announcement) localStorage.setItem("cbt_announcement", d.announcement);
           await loadExamPackages();
           updateDashboardStats();
           showToast("Backup berhasil dipulihkan!", "success");
-        } catch (_) { showToast("File backup tidak valid.", "error"); }
+        } catch (err) { showToast("File backup tidak valid: " + err.message, "error"); }
       };
       reader.readAsText(file);
     };
 
     window.resetAllLocalData = function () {
-      if (!confirm("Hapus seluruh paket kustom, riwayat nilai, dan simpanan lokal?")) return;
+      if (!confirm("Hapus semua riwayat, soal custom, dan data lokal?")) return;
       ["cbt_custom_packages", "cbt_exam_history", "cbt_bookmarked_questions", "cbt_autosave_exam", "cbt_user_xp", "cbt_daily_progress"].forEach((k) => localStorage.removeItem(k));
-      loadExamPackages();
-      updateDashboardStats();
-      showToast("Data lokal telah direset.", "info");
+      location.reload();
     };
 
     window.toggleDarkMode = function () {
-      const html = document.documentElement;
-      html.classList.toggle("dark");
-      const isDark = html.classList.contains("dark");
+      const isDark = document.documentElement.classList.toggle("dark");
       localStorage.setItem("cbt_theme", isDark ? "dark" : "light");
-      document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun text-xs" : "fa-solid fa-moon text-xs";
+      document.getElementById("darkIcon").className = isDark ? "fa-solid fa-moon text-xs" : "fa-solid fa-sun text-xs";
     };
 
-    if (localStorage.getItem("cbt_theme") !== "light") {
-      document.documentElement.classList.add("dark");
-      const di = document.getElementById("darkIcon");
-      if (di) di.className = "fa-solid fa-sun text-xs";
+    if (localStorage.getItem("cbt_theme") === "light") {
+      document.getElementById("darkIcon").className = "fa-solid fa-sun text-xs";
     }
 
     const savedSession = localStorage.getItem("cbt_session_user");
     if (savedSession) {
       try { applyUserSession(JSON.parse(savedSession)); } catch (_) {}
-    }
-
-    if (auth) {
+    } else if (auth) {
       onAuthStateChanged(auth, async (user) => {
-        if (user && !currentUserProfile) {
-          try {
-            const snap = db ? await getDoc(doc(db, "users", user.uid)) : null;
-            await applyUserSession(normalizeUserProfile(snap?.exists() ? snap.data() : {}, user));
-          } catch (_) {}
+        if (user) {
+          let raw = null;
+          if (db) { try { const s = await getDoc(doc(db, "users", user.uid)); if (s.exists()) raw = s.data(); } catch (_) {} }
+          await applyUserSession(normalizeUserProfile(raw, user));
         }
       });
     }
