@@ -15,11 +15,11 @@
           fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
           colors: {
             emeraldbrand: {
-              50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 500: '#10b981',
-              600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b', 950: '#022c22',
+              50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 500: '#6366f1',
+              600: '#4f46e5', 700: '#3730a3', 800: '#1e1b4b', 900: '#0f172a', 950: '#070b19',
             },
             goldbrand: {
-              300: '#fcd34d', 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309',
+              300: '#67e8f9', 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490',
             }
           },
           animation: {
@@ -36,22 +36,23 @@
   </script>
   <style>
     html, body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; max-width: 100vw; }
-    .gold-ring { background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #047857 100%); padding: 2.5px; }
-    .glass-card { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .gold-ring { background: linear-gradient(135deg, #22d3ee 0%, #818cf8 50%, #4f46e5 100%); padding: 2.5px; }
+    .glass-card { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .cyber-glow { box-shadow: 0 12px 35px -6px rgba(6, 182, 212, 0.16), 0 8px 20px -6px rgba(79, 70, 229, 0.22); }
     .sepia-mode { filter: sepia(0.28) contrast(0.96); }
     .high-contrast-mode { filter: contrast(1.22); }
     .dyslexia-font { letter-spacing: 0.04em; word-spacing: 0.12em; line-height: 1.85 !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-thumb { background: #059669; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 9999px; }
     @media print {
       .no-print { display: none !important; }
       body { background: #fff !important; color: #000 !important; }
     }
   </style>
 </head>
-<body class="bg-[#f4f8f6] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
+<body class="bg-[#f1f5f9] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
 
   <!-- TOAST CONTAINER -->
   <div id="toastContainer" class="fixed top-3 right-3 left-3 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none sm:max-w-sm"></div>
@@ -70,8 +71,8 @@
        VIEW 1: AUTHENTICATION (MASUK / DAFTAR / LUPA SANDI)
   ========================================================== -->
   <section id="authSection" class="min-h-screen flex items-center justify-center p-3.5 sm:p-6 bg-gradient-to-br from-emeraldbrand-950 via-emeraldbrand-900 to-emeraldbrand-800 relative overflow-hidden">
-    <div class="w-full max-w-md bg-white/95 dark:bg-slate-900/95 glass-card rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden relative z-10">
-      <div class="bg-gradient-to-r from-emeraldbrand-900 to-emeraldbrand-800 p-5 text-center text-white border-b-4 border-goldbrand-500">
+    <div class="w-full max-w-md bg-white/95 dark:bg-slate-900/95 glass-card cyber-glow rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden relative z-10">
+      <div class="bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-900 p-5 text-center text-white border-b-4 border-goldbrand-500">
         <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full gold-ring shadow-lg mb-2.5">
           <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
             <img
@@ -115,8 +116,8 @@
             </div>
           </div>
 
-          <button type="submit" id="btnLoginSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 text-white font-bold text-sm shadow-lg border border-goldbrand-500/40 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-right-to-bracket text-goldbrand-400"></i><span>Masuk ke CBT</span>
+          <button type="submit" id="btnLoginSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-700 via-emeraldbrand-600 to-goldbrand-600 hover:opacity-95 text-white font-bold text-sm shadow-lg border border-goldbrand-400/40 flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-right-to-bracket text-goldbrand-300"></i><span>Masuk ke CBT</span>
           </button>
         </form>
 
@@ -153,8 +154,8 @@
             <label class="block text-xs font-bold text-emeraldbrand-900 dark:text-goldbrand-300 mb-1"><i class="fa-solid fa-key mr-1 text-goldbrand-600"></i> Kode Referral (Opsional)</label>
             <input type="text" id="regReferral" placeholder="Kosongkan jika peserta biasa" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs outline-none" />
           </div>
-          <button type="submit" id="btnRegisterSubmit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 text-white font-bold text-sm shadow-lg border border-goldbrand-500/40 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-user-plus text-goldbrand-400"></i><span>Daftar Akun Baru</span>
+          <button type="submit" id="btnRegisterSubmit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emeraldbrand-700 via-emeraldbrand-600 to-goldbrand-600 text-white font-bold text-sm shadow-lg border border-goldbrand-400/40 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-plus text-goldbrand-300"></i><span>Daftar Akun Baru</span>
           </button>
         </form>
 
@@ -172,12 +173,12 @@
             <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
           </div>
           <div class="grid grid-cols-2 gap-2 mt-1.5">
-            <button type="button" id="btnGoogleSignIn" onclick="handleGoogleSignIn()" class="py-2 px-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold flex items-center justify-center gap-1.5">
+            <button type="button" id="btnGoogleSignIn" onclick="handleGoogleSignIn()" class="py-2 px-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold flex items-center justify-center gap-1.5 hover:border-goldbrand-500 transition">
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-4 h-4" />
               <span>Masuk Gmail</span>
             </button>
-            <button type="button" onclick="enterGuestMode()" class="py-2 px-2.5 rounded-xl border border-emeraldbrand-200 dark:border-emeraldbrand-800 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-xs font-bold text-emeraldbrand-800 dark:text-emeraldbrand-300 flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-bolt text-goldbrand-600"></i>
+            <button type="button" onclick="enterGuestMode()" class="py-2 px-2.5 rounded-xl border border-emeraldbrand-200 dark:border-emeraldbrand-800 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-xs font-bold text-emeraldbrand-800 dark:text-emeraldbrand-200 flex items-center justify-center gap-1.5 hover:border-goldbrand-500 transition">
+              <i class="fa-solid fa-bolt text-goldbrand-500"></i>
               <span>Mode Tamu</span>
             </button>
           </div>
@@ -262,7 +263,7 @@
         </div>
 
         <!-- Hero Card -->
-        <div class="rounded-3xl bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-900 text-white p-5 sm:p-7 shadow-xl border border-goldbrand-500/40 relative overflow-hidden">
+        <div class="rounded-3xl bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-700 text-white p-5 sm:p-7 shadow-xl cyber-glow border border-goldbrand-500/40 relative overflow-hidden">
           <div class="relative z-10 max-w-3xl">
             <div class="flex flex-wrap items-center gap-2 mb-3">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-goldbrand-500/20 border border-goldbrand-400/40 text-goldbrand-300 text-[11px] font-bold">
@@ -271,7 +272,7 @@
               <span id="welcomeUserPill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold">
                 <i class="fa-solid fa-hand-sparkles text-goldbrand-400"></i> Selamat datang, Peserta!
               </span>
-              <span id="streakPill" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold">
+              <span id="streakPill" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-cyan-200 text-[11px] font-bold">
                 <i class="fa-solid fa-fire"></i> Streak: 1 Hari
               </span>
             </div>
@@ -280,13 +281,13 @@
               Dilengkapi Kuis Kilat 10 Soal Acak, Flashcard Hafalan, Target Skor Harian, Analisis Per-Bab, dan Sertifikat Digital.
             </p>
             <div class="flex flex-wrap gap-2">
-              <button type="button" onclick="openExamSetup('sas-geografi-xi')" class="px-4 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs sm:text-sm shadow-lg flex items-center gap-2">
+              <button type="button" onclick="openExamSetup('sas-geografi-xi')" class="px-4 py-2.5 rounded-xl bg-goldbrand-400 hover:bg-goldbrand-300 text-emeraldbrand-950 font-extrabold text-xs sm:text-sm shadow-lg flex items-center gap-2 transition">
                 <i class="fa-solid fa-play"></i> Geografi XI (35 Soal)
               </button>
-              <button type="button" onclick="startQuickRandomQuiz()" class="px-4 py-2.5 rounded-xl bg-emeraldbrand-600 hover:bg-emeraldbrand-500 text-white font-bold text-xs sm:text-sm border border-emeraldbrand-400 flex items-center gap-2">
+              <button type="button" onclick="startQuickRandomQuiz()" class="px-4 py-2.5 rounded-xl bg-emeraldbrand-600 hover:bg-emeraldbrand-500 text-white font-bold text-xs sm:text-sm border border-emeraldbrand-200/40 flex items-center gap-2 transition">
                 <i class="fa-solid fa-bolt text-goldbrand-300"></i> Kuis Kilat (10 Soal)
               </button>
-              <button type="button" onclick="openFlashcardModal()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 flex items-center gap-2">
+              <button type="button" onclick="openFlashcardModal()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 flex items-center gap-2 transition">
                 <i class="fa-solid fa-clone text-goldbrand-400"></i> Flashcard
               </button>
               <button type="button" id="heroImportBtn" onclick="openAdminModal()" class="hidden px-4 py-2.5 rounded-xl bg-goldbrand-500/20 hover:bg-goldbrand-500/30 text-goldbrand-300 font-bold text-xs sm:text-sm border border-goldbrand-400/40 flex items-center gap-2">
@@ -301,19 +302,19 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
           <div class="bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
             <p class="text-[11px] font-bold text-slate-500">Ujian Selesai</p>
-            <p id="statCompleted" class="text-lg sm:text-2xl font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400 mt-0.5">0</p>
+            <p id="statCompleted" class="text-lg sm:text-2xl font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400 mt-0.5">0</p>
           </div>
           <div class="bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
             <p class="text-[11px] font-bold text-slate-500">Rata-Rata Skor</p>
-            <p id="statAvgScore" class="text-lg sm:text-2xl font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400 mt-0.5">0</p>
+            <p id="statAvgScore" class="text-lg sm:text-2xl font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400 mt-0.5">0</p>
           </div>
           <div class="bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
             <p class="text-[11px] font-bold text-slate-500">Total XP & Level</p>
-            <p id="statXpDisplay" class="text-lg sm:text-2xl font-extrabold text-goldbrand-600 mt-0.5">0 XP</p>
+            <p id="statXpDisplay" class="text-lg sm:text-2xl font-extrabold text-goldbrand-600 dark:text-goldbrand-300 mt-0.5">0 XP</p>
           </div>
           <div class="bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
             <p class="text-[11px] font-bold text-slate-500">Target Harian</p>
-            <p id="statDailyGoal" class="text-lg sm:text-2xl font-extrabold text-emeraldbrand-700 dark:text-emeraldbrand-400 mt-0.5">0/20 Soal</p>
+            <p id="statDailyGoal" class="text-lg sm:text-2xl font-extrabold text-emeraldbrand-600 dark:text-emeraldbrand-200 mt-0.5">0/20 Soal</p>
           </div>
         </div>
 
@@ -366,7 +367,7 @@
                 <i class="fa-regular fa-clock"></i>
                 <span id="timerDisplay">60:00</span>
               </div>
-              <button type="button" onclick="confirmSubmitExam()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs shadow flex items-center gap-1.5">
+              <button type="button" onclick="confirmSubmitExam()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-goldbrand-400 hover:bg-goldbrand-300 text-emeraldbrand-950 font-extrabold text-xs shadow flex items-center gap-1.5">
                 <i class="fa-solid fa-paper-plane"></i><span>Kumpulkan</span>
               </button>
             </div>
@@ -376,9 +377,9 @@
           <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
             <div class="flex items-center gap-2 flex-1 min-w-[130px]">
               <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="examProgressBar" class="bg-emeraldbrand-600 h-full transition-all duration-300" style="width: 0%"></div>
+                <div id="examProgressBar" class="bg-gradient-to-r from-emeraldbrand-600 to-goldbrand-500 h-full transition-all duration-300" style="width: 0%"></div>
               </div>
-              <span id="examProgressPct" class="text-[11px] font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400 shrink-0">0%</span>
+              <span id="examProgressPct" class="text-[11px] font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400 shrink-0">0%</span>
             </div>
 
             <div class="flex flex-wrap items-center gap-1">
@@ -391,7 +392,7 @@
               <button type="button" onclick="openModal('scratchpadModal')" title="Kertas Buram" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold"><i class="fa-solid fa-note-sticky"></i></button>
               <button type="button" onclick="openModal('formulaModal')" title="Rumus & Peta Ringkas" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold"><i class="fa-solid fa-compass"></i></button>
               <button type="button" onclick="toggleFullscreenExam()" title="Layar Penuh" class="hidden sm:inline-flex px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold"><i class="fa-solid fa-expand"></i></button>
-              <button type="button" onclick="openMobileNavDrawer()" class="lg:hidden px-2.5 py-1 rounded-lg bg-emeraldbrand-800 text-white text-[11px] font-bold flex items-center gap-1">
+              <button type="button" onclick="openMobileNavDrawer()" class="lg:hidden px-2.5 py-1 rounded-lg bg-emeraldbrand-700 text-white text-[11px] font-bold flex items-center gap-1">
                 <i class="fa-solid fa-grip"></i><span>Nomor</span>
               </button>
             </div>
@@ -404,10 +405,10 @@
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-slate-100 dark:border-slate-800">
                 <div class="flex flex-wrap items-center gap-1.5">
-                  <span id="currentQNumBadge" class="px-3 py-1 rounded-xl bg-emeraldbrand-800 text-white font-extrabold text-xs sm:text-sm">Soal 1</span>
+                  <span id="currentQNumBadge" class="px-3 py-1 rounded-xl bg-emeraldbrand-700 text-white font-extrabold text-xs sm:text-sm">Soal 1</span>
                   <span id="currentQTypeBadge" class="px-2.5 py-1 rounded-lg bg-goldbrand-500/15 text-goldbrand-700 dark:text-goldbrand-300 font-bold text-[11px]">PG</span>
                   <span id="currentQDiffBadge" class="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[10px]">Sedang</span>
-                  <span id="currentQTopicBadge" class="hidden sm:inline-block px-2 py-0.5 rounded-lg bg-emeraldbrand-50 dark:bg-emeraldbrand-950 text-emeraldbrand-700 dark:text-emeraldbrand-300 font-semibold text-[10px]">Umum</span>
+                  <span id="currentQTopicBadge" class="hidden sm:inline-block px-2 py-0.5 rounded-lg bg-emeraldbrand-50 dark:bg-emeraldbrand-950 text-emeraldbrand-700 dark:text-emeraldbrand-200 font-semibold text-[10px]">Umum</span>
                 </div>
                 <div class="flex items-center gap-1.5">
                   <button type="button" id="btnHintQ" onclick="showCurrentQuestionHint()" title="Lihat Petunjuk Soal" class="px-2.5 py-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-amber-600 hover:border-amber-500">
@@ -456,7 +457,7 @@
                 </button>
               </div>
 
-              <button type="button" id="btnNextQ" onclick="navigateQuestion(1)" class="px-4 py-2.5 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold flex items-center gap-1.5">
+              <button type="button" id="btnNextQ" onclick="navigateQuestion(1)" class="px-4 py-2.5 rounded-xl bg-emeraldbrand-700 hover:bg-emeraldbrand-600 text-white text-xs font-bold flex items-center gap-1.5">
                 <span>Selanjutnya</span><i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
@@ -475,7 +476,7 @@
             <div id="questionGridNav" class="grid grid-cols-5 gap-2 mb-4"></div>
             <p id="answeredCounterText" class="text-xs font-bold text-slate-500 mb-3">Terjawab: 0 / 35</p>
             <div class="space-y-1.5 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
-              <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-emeraldbrand-700 inline-block"></span><span>Sudah dijawab</span></div>
+              <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-emeraldbrand-600 inline-block"></span><span>Sudah dijawab</span></div>
               <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-amber-400 inline-block"></span><span>Ditandai ragu-ragu</span></div>
               <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 inline-block"></span><span>Belum dijawab</span></div>
             </div>
@@ -487,18 +488,18 @@
            SUB-VIEW C: HASIL UJIAN, ANALISIS TOPIK & SERTIFIKAT
       ====================================================== -->
       <div id="resultView" class="hidden space-y-6 animate-slide-up">
-        <div class="bg-gradient-to-br from-emeraldbrand-900 to-emeraldbrand-800 text-white rounded-3xl p-5 sm:p-8 shadow-xl border border-goldbrand-500/40 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="bg-gradient-to-br from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-700 text-white rounded-3xl p-5 sm:p-8 shadow-xl cyber-glow border border-goldbrand-500/40 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div class="flex flex-wrap items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-goldbrand-500 text-emeraldbrand-950 text-xs font-extrabold uppercase">Hasil Evaluasi Ujian</span>
+              <span class="px-3 py-1 rounded-full bg-goldbrand-400 text-emeraldbrand-950 text-xs font-extrabold uppercase">Hasil Evaluasi Ujian</span>
               <span id="resultPredikatBadge" class="px-3 py-1 rounded-full bg-white/15 text-goldbrand-300 text-xs font-extrabold">Predikat: Sangat Baik</span>
             </div>
             <h2 id="resultExamTitle" class="text-xl sm:text-2xl font-extrabold mt-2">SAS Kelas XI</h2>
             <p id="resultSummaryText" class="text-xs sm:text-sm text-emeraldbrand-100 mt-1">Periksa analisis penguasaan materi dan kunci pembahasan lengkap di bawah ini.</p>
             <div class="flex flex-wrap gap-2 mt-5 no-print">
-              <button type="button" onclick="retryCurrentExam()" class="px-3.5 py-2 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs transition"><i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Semua</button>
-              <button type="button" id="btnRetryWrong" onclick="retryWrongQuestionsOnly()" class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-goldbrand-300 font-bold text-xs border border-goldbrand-400/40 transition"><i class="fa-solid fa-bullseye mr-1"></i> Latih Soal Salah</button>
-              <button type="button" id="btnOpenCert" onclick="openCertificateModal()" class="px-3.5 py-2 rounded-xl bg-emeraldbrand-600 hover:bg-emeraldbrand-500 text-white font-bold text-xs border border-emeraldbrand-400 transition"><i class="fa-solid fa-award mr-1 text-goldbrand-300"></i> Sertifikat</button>
+              <button type="button" onclick="retryCurrentExam()" class="px-3.5 py-2 rounded-xl bg-goldbrand-400 hover:bg-goldbrand-300 text-emeraldbrand-950 font-extrabold text-xs transition"><i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Semua</button>
+              <button type="button" id="btnRetryWrong" onclick="retryWrongQuestionsOnly()" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-goldbrand-300 font-bold text-xs border border-goldbrand-400/40 transition"><i class="fa-solid fa-bullseye mr-1"></i> Latih Soal Salah</button>
+              <button type="button" id="btnOpenCert" onclick="openCertificateModal()" class="px-3.5 py-2 rounded-xl bg-emeraldbrand-600 hover:bg-emeraldbrand-500 text-white font-bold text-xs border border-emeraldbrand-200/40 transition"><i class="fa-solid fa-award mr-1 text-goldbrand-300"></i> Sertifikat</button>
               <button type="button" onclick="shareScoreSummary()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition"><i class="fa-solid fa-share-nodes mr-1"></i> Salin Rapor</button>
               <button type="button" onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition"><i class="fa-solid fa-print mr-1"></i> Cetak PDF</button>
               <button type="button" onclick="showDashboard()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition"><i class="fa-solid fa-house mr-1"></i> Beranda</button>
@@ -524,7 +525,7 @@
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-6 shadow-sm border border-slate-200 dark:border-slate-800">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <i class="fa-solid fa-clipboard-check text-emeraldbrand-700"></i> Kunci Jawaban & Pembahasan
+              <i class="fa-solid fa-clipboard-check text-emeraldbrand-600"></i> Kunci Jawaban & Pembahasan
             </h3>
             <div class="flex gap-1.5 no-print">
               <button type="button" onclick="filterReviewList('all')" class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold">Semua</button>
@@ -562,19 +563,19 @@
         <div class="space-y-2 text-xs">
           <label class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer">
             <span class="font-bold">Mode Belajar (Cek Kunci Langsung per Soal)</span>
-            <input type="checkbox" id="optInstantMode" class="rounded text-emeraldbrand-700" />
+            <input type="checkbox" id="optInstantMode" class="rounded text-emeraldbrand-600" />
           </label>
           <label class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer">
             <span class="font-bold">Acak Urutan Nomor Soal</span>
-            <input type="checkbox" id="optShuffleQ" class="rounded text-emeraldbrand-700" />
+            <input type="checkbox" id="optShuffleQ" class="rounded text-emeraldbrand-600" />
           </label>
           <label class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer">
             <span class="font-bold">Acak Posisi Pilihan Jawaban (A-E)</span>
-            <input type="checkbox" id="optShuffleOpt" class="rounded text-emeraldbrand-700" />
+            <input type="checkbox" id="optShuffleOpt" class="rounded text-emeraldbrand-600" />
           </label>
           <label class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer">
             <span class="font-bold">Mode Tanpa Batas Waktu (Santai)</span>
-            <input type="checkbox" id="optUntimedMode" class="rounded text-emeraldbrand-700" />
+            <input type="checkbox" id="optUntimedMode" class="rounded text-emeraldbrand-600" />
           </label>
           <div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
             <span class="font-bold">Filter Tingkat Kesulitan</span>
@@ -587,8 +588,8 @@
           </div>
         </div>
 
-        <button type="button" onclick="confirmStartConfiguredExam()" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 text-white font-extrabold text-sm shadow-lg border border-goldbrand-500/40">
-          <i class="fa-solid fa-play mr-1.5 text-goldbrand-400"></i> Mulai Kerjakan Sekarang
+        <button type="button" onclick="confirmStartConfiguredExam()" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-700 via-emeraldbrand-600 to-goldbrand-600 text-white font-extrabold text-sm shadow-lg border border-goldbrand-400/40">
+          <i class="fa-solid fa-play mr-1.5 text-goldbrand-300"></i> Mulai Kerjakan Sekarang
         </button>
       </div>
     </div>
@@ -604,7 +605,7 @@
       <div class="p-5 space-y-4">
         <div class="flex items-center justify-between gap-2">
           <select id="fcPackageSelect" onchange="initFlashcards()" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold"></select>
-          <span id="fcCounter" class="text-xs font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400 shrink-0">1 / 10</span>
+          <span id="fcCounter" class="text-xs font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400 shrink-0">1 / 10</span>
         </div>
 
         <div onclick="flipFlashcard()" class="cursor-pointer min-h-[210px] rounded-3xl p-6 bg-gradient-to-br from-emeraldbrand-50 to-white dark:from-slate-800 dark:to-slate-900 border-2 border-goldbrand-500/50 flex flex-col items-center justify-center text-center shadow-inner transition">
@@ -614,8 +615,8 @@
 
         <div class="flex items-center justify-between gap-2">
           <button type="button" onclick="navFlashcard(-1)" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold"><i class="fa-solid fa-chevron-left mr-1"></i> Sebelumnya</button>
-          <button type="button" onclick="flipFlashcard()" class="px-4 py-2 rounded-xl bg-goldbrand-500 text-emeraldbrand-950 text-xs font-extrabold"><i class="fa-solid fa-rotate mr-1"></i> Balik Kartu</button>
-          <button type="button" onclick="navFlashcard(1)" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white text-xs font-bold">Selanjutnya <i class="fa-solid fa-chevron-right ml-1"></i></button>
+          <button type="button" onclick="flipFlashcard()" class="px-4 py-2 rounded-xl bg-goldbrand-400 text-emeraldbrand-950 text-xs font-extrabold"><i class="fa-solid fa-rotate mr-1"></i> Balik Kartu</button>
+          <button type="button" onclick="navFlashcard(1)" class="px-4 py-2 rounded-xl bg-emeraldbrand-700 text-white text-xs font-bold">Selanjutnya <i class="fa-solid fa-chevron-right ml-1"></i></button>
         </div>
       </div>
     </div>
@@ -686,7 +687,7 @@
         <button type="button" onclick="calcPress('+')" class="p-2.5 rounded-xl bg-goldbrand-500/20 text-goldbrand-700">+</button>
         <button type="button" onclick="calcPress('0')" class="col-span-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">0</button>
         <button type="button" onclick="calcPress('.')" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">.</button>
-        <button type="button" onclick="calcPress('=')" class="p-2.5 rounded-xl bg-emeraldbrand-800 text-white">=</button>
+        <button type="button" onclick="calcPress('=')" class="p-2.5 rounded-xl bg-emeraldbrand-700 text-white">=</button>
       </div>
     </div>
   </div>
@@ -698,7 +699,7 @@
         <span class="text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400"><i class="fa-solid fa-note-sticky mr-1"></i> Kertas Buram / Coretan</span>
         <button type="button" onclick="closeModal('scratchpadModal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <textarea id="scratchpadArea" rows="6" placeholder="Catat hitungan zona waktu, rumus, atau poin penting di sini..." class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-amber-50/40 dark:bg-slate-800 text-xs outline-none"></textarea>
+      <textarea id="scratchpadArea" rows="6" placeholder="Catat hitungan zona waktu, rumus, atau poin penting di sini..." class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-cyan-50/40 dark:bg-slate-800 text-xs outline-none"></textarea>
     </div>
   </div>
 
@@ -711,7 +712,7 @@
       </div>
       <div class="p-5 overflow-y-auto space-y-5">
         <div>
-          <h4 class="text-xs font-extrabold uppercase text-emeraldbrand-700 dark:text-goldbrand-400 mb-2">Grafik Perkembangan Skor Terakhir</h4>
+          <h4 class="text-xs font-extrabold uppercase text-emeraldbrand-600 dark:text-goldbrand-400 mb-2">Grafik Perkembangan Skor Terakhir</h4>
           <div id="scoreTrendChart" class="h-28 flex items-end gap-2 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700"></div>
         </div>
         <div>
@@ -720,7 +721,7 @@
         </div>
         <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center justify-between mb-2">
-            <h4 class="text-xs font-extrabold uppercase text-emeraldbrand-700 dark:text-emeraldbrand-400">Riwayat Pengerjaan Anda</h4>
+            <h4 class="text-xs font-extrabold uppercase text-emeraldbrand-600 dark:text-emeraldbrand-200">Riwayat Pengerjaan Anda</h4>
             <button type="button" onclick="exportUserHistoryCsv()" class="text-[11px] font-bold text-goldbrand-600 hover:underline"><i class="fa-solid fa-file-csv mr-1"></i>Unduh CSV</button>
           </div>
           <div id="userHistoryList" class="space-y-2"></div>
@@ -747,7 +748,7 @@
         <span class="px-3 py-1 rounded-full bg-emeraldbrand-900 text-goldbrand-400 text-[10px] font-extrabold uppercase tracking-widest">Sertifikat Pencapaian CBT</span>
         <h3 class="text-xl sm:text-2xl font-extrabold text-emeraldbrand-950 mt-3">SERTIFIKAT KELULUSAN</h3>
         <p class="text-xs text-slate-500 mt-1">Diberikan kepada:</p>
-        <p id="certUserName" class="text-xl sm:text-2xl font-extrabold text-emeraldbrand-800 underline decoration-goldbrand-500 my-2">Nama Peserta</p>
+        <p id="certUserName" class="text-xl sm:text-2xl font-extrabold text-emeraldbrand-700 underline decoration-goldbrand-500 my-2">Nama Peserta</p>
         <p class="text-xs text-slate-600">Telah berhasil menyelesaikan evaluasi latihan:</p>
         <p id="certExamTitle" class="text-sm font-extrabold text-slate-900 mt-1">Paket Ujian</p>
         <div class="my-4 inline-block px-5 py-2 rounded-2xl bg-emeraldbrand-900 text-white border border-goldbrand-400">
@@ -757,7 +758,7 @@
         <p id="certSerialId" class="text-[10px] font-mono text-slate-400">ID: CBT-2026-XXXX</p>
         <p id="certDate" class="text-[11px] text-slate-500 mt-0.5">Tanggal</p>
         <div class="mt-4 flex justify-center gap-2 no-print">
-          <button type="button" onclick="window.print()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white text-xs font-bold">Cetak Sertifikat</button>
+          <button type="button" onclick="window.print()" class="px-4 py-2 rounded-xl bg-emeraldbrand-700 text-white text-xs font-bold">Cetak Sertifikat</button>
           <button type="button" onclick="closeModal('certificateModal')" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-800 text-xs font-bold">Tutup</button>
         </div>
       </div>
@@ -793,7 +794,7 @@
           <div class="p-3 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950/60 border border-emeraldbrand-200 dark:border-emeraldbrand-800 flex flex-wrap items-center justify-between gap-2">
             <span class="font-bold text-emeraldbrand-900 dark:text-goldbrand-300">Template & Generator Cepat:</span>
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" onclick="downloadTemplate('json')" class="px-2.5 py-1.5 rounded-lg bg-emeraldbrand-800 text-white font-bold">Template JSON</button>
+              <button type="button" onclick="downloadTemplate('json')" class="px-2.5 py-1.5 rounded-lg bg-emeraldbrand-700 text-white font-bold">Template JSON</button>
               <button type="button" onclick="downloadTemplate('csv')" class="px-2.5 py-1.5 rounded-lg bg-goldbrand-600 text-white font-bold">Template CSV</button>
               <button type="button" onclick="validateImportJsonOnly()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 text-goldbrand-300 font-bold">Validasi JSON</button>
             </div>
@@ -827,11 +828,11 @@
             </div>
           </div>
 
-          <input type="file" id="importFileInput" accept=".json,.csv,.txt" onchange="handleFileUpload(event)" class="block w-full text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:font-bold file:bg-emeraldbrand-800 file:text-white" />
+          <input type="file" id="importFileInput" accept=".json,.csv,.txt" onchange="handleFileUpload(event)" class="block w-full text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:font-bold file:bg-emeraldbrand-700 file:text-white" />
           <textarea id="importJsonTextarea" rows="5" placeholder='Tempel JSON array soal atau format teks cepat (Q: ... | A: ... | B: ... | K: A)...' class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono"></textarea>
           <div class="flex gap-2">
             <button type="button" onclick="parseQuickTextFormat()" class="px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 font-bold">Konversi Teks Cepat → JSON</button>
-            <button type="button" onclick="processImportPackage()" class="flex-1 py-2.5 rounded-xl bg-emeraldbrand-800 text-white font-extrabold">Simpan & Publikasikan Paket</button>
+            <button type="button" onclick="processImportPackage()" class="flex-1 py-2.5 rounded-xl bg-emeraldbrand-700 text-white font-extrabold">Simpan & Publikasikan Paket</button>
           </div>
         </div>
 
@@ -883,9 +884,9 @@
               <input type="text" id="manHint" placeholder="Petunjuk / Hint (opsional)" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
               <input type="text" id="manExplanation" placeholder="Pembahasan jawaban" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
             </div>
-            <button type="button" onclick="addManualQuestionToDraft()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white font-bold">+ Tambah ke Draft Paket</button>
+            <button type="button" onclick="addManualQuestionToDraft()" class="px-4 py-2 rounded-xl bg-emeraldbrand-700 text-white font-bold">+ Tambah ke Draft Paket</button>
           </div>
-          <button type="button" onclick="saveManualPackage()" class="w-full py-2.5 rounded-xl bg-goldbrand-500 text-emeraldbrand-950 font-extrabold">Simpan & Terbitkan Paket Manual</button>
+          <button type="button" onclick="saveManualPackage()" class="w-full py-2.5 rounded-xl bg-goldbrand-400 text-emeraldbrand-950 font-extrabold">Simpan & Terbitkan Paket Manual</button>
         </div>
 
         <!-- TAB 3: KELOLA, EDIT SOAL INLINE, MERGE PAKET, PUBLISH/UNPUBLISH -->
@@ -895,7 +896,7 @@
             <div class="flex flex-wrap gap-1.5">
               <select id="mergePkgA" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"></select>
               <select id="mergePkgB" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"></select>
-              <button type="button" onclick="mergeSelectedPackages()" class="px-3 py-1 rounded-lg bg-emeraldbrand-800 text-white font-bold">Gabungkan</button>
+              <button type="button" onclick="mergeSelectedPackages()" class="px-3 py-1 rounded-lg bg-emeraldbrand-700 text-white font-bold">Gabungkan</button>
             </div>
           </div>
 
@@ -913,7 +914,7 @@
               <input type="text" id="editPkgTokenInput" placeholder="Token" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 uppercase" />
             </div>
             <textarea id="editPkgQuestionsJson" rows="6" class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono text-[11px]"></textarea>
-            <button type="button" onclick="saveInlineEditedPackage()" class="w-full py-2 rounded-xl bg-emeraldbrand-800 text-white font-extrabold">Simpan Perubahan Paket</button>
+            <button type="button" onclick="saveInlineEditedPackage()" class="w-full py-2 rounded-xl bg-emeraldbrand-700 text-white font-extrabold">Simpan Perubahan Paket</button>
           </div>
         </div>
 
@@ -922,11 +923,11 @@
           <div class="grid grid-cols-3 gap-2.5 text-center">
             <div class="p-3 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950 border border-emeraldbrand-200 dark:border-emeraldbrand-800">
               <p class="text-[10px] font-bold text-slate-500">Total Paket Aktif</p>
-              <p id="admStatPkg" class="text-xl font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400">0</p>
+              <p id="admStatPkg" class="text-xl font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400">0</p>
             </div>
             <div class="p-3 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950 border border-emeraldbrand-200 dark:border-emeraldbrand-800">
               <p class="text-[10px] font-bold text-slate-500">Total Bank Soal</p>
-              <p id="admStatQ" class="text-xl font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400">0</p>
+              <p id="admStatQ" class="text-xl font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400">0</p>
             </div>
             <div class="p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800">
               <p class="text-[10px] font-bold text-slate-500">Laporan Soal Masuk</p>
@@ -971,7 +972,7 @@
             <label class="block font-bold">Teks Pengumuman Beranda</label>
             <div class="flex gap-2">
               <input type="text" id="adminAnnouncementInput" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
-              <button type="button" onclick="saveAnnouncementText()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white font-bold">Simpan</button>
+              <button type="button" onclick="saveAnnouncementText()" class="px-4 py-2 rounded-xl bg-emeraldbrand-700 text-white font-bold">Simpan</button>
             </div>
           </div>
 
@@ -980,7 +981,7 @@
               <p class="font-bold">Mode Pemeliharaan (Maintenance Lock)</p>
               <p class="text-[11px] text-slate-500">Kunci sementara akses siswa saat pembaruan bank soal berlangsung.</p>
             </div>
-            <input type="checkbox" id="adminMaintenanceToggle" onchange="toggleMaintenanceMode(this.checked)" class="rounded text-emeraldbrand-700 w-4 h-4" />
+            <input type="checkbox" id="adminMaintenanceToggle" onchange="toggleMaintenanceMode(this.checked)" class="rounded text-emeraldbrand-600 w-4 h-4" />
           </div>
 
           <div class="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
@@ -1026,7 +1027,7 @@
             <input type="text" id="editProfileUsername" autocapitalize="none" placeholder="Username" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
             <input type="number" id="editDailyGoalInput" value="20" min="5" max="200" placeholder="Target Soal/Hari" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
           </div>
-          <button type="button" onclick="saveProfileIdentity()" class="w-full py-2 rounded-xl bg-emeraldbrand-800 text-white font-bold">Simpan Profil</button>
+          <button type="button" onclick="saveProfileIdentity()" class="w-full py-2 rounded-xl bg-emeraldbrand-700 text-white font-bold">Simpan Profil</button>
         </div>
 
         <div id="upgradeReferralBox" class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
@@ -1056,7 +1057,7 @@
         <input type="text" id="fbGmailName" required placeholder="Nama Lengkap" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
         <input type="email" id="fbGmailEmail" required placeholder="nama@gmail.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
         <input type="text" id="fbGmailReferral" placeholder="Kode Referral (Opsional)" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" />
-        <button type="submit" class="w-full py-2.5 rounded-xl bg-emeraldbrand-800 text-white font-bold">Masuk Sekarang</button>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-emeraldbrand-700 text-white font-bold">Masuk Sekarang</button>
       </form>
     </div>
   </div>
@@ -1360,7 +1361,7 @@
         showToast(msg, "error");
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i><span>Daftar Akun Baru</span>`;
+        btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-300"></i><span>Daftar Akun Baru</span>`;
       }
     };
 
@@ -1426,7 +1427,7 @@
         showToast(msg, "error");
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-right-to-bracket text-goldbrand-400"></i><span>Masuk ke CBT</span>`;
+        btn.innerHTML = `<i class="fa-solid fa-right-to-bracket text-goldbrand-300"></i><span>Masuk ke CBT</span>`;
       }
     };
 
@@ -1545,7 +1546,7 @@
       badge.textContent = isAdmin ? "ADMIN" : "SISWA";
       badge.className = isAdmin
         ? "px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-400 text-emeraldbrand-950 shrink-0"
-        : "px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase rounded-full bg-emeraldbrand-700 text-white border border-emeraldbrand-500 shrink-0";
+        : "px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase rounded-full bg-emeraldbrand-600 text-white border border-emeraldbrand-500 shrink-0";
 
       document.getElementById("navAdminBtn").classList.toggle("hidden", !isAdmin);
       document.getElementById("heroImportBtn").classList.toggle("hidden", !isAdmin);
@@ -1618,7 +1619,7 @@
       const subjects = ["Semua", ...new Set(visible.map((p) => p.subject || "Umum"))];
       document.getElementById("subjectFilterChips").innerHTML = subjects.map((sub) => {
         const active = selectedSubjectFilter === sub;
-        return `<button type="button" onclick="setSubjectFilter('${sub}')" class="px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition ${active ? "bg-emeraldbrand-800 text-white" : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"}">${sub}</button>`;
+        return `<button type="button" onclick="setSubjectFilter('${sub}')" class="px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition ${active ? "bg-emeraldbrand-700 text-white" : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"}">${sub}</button>`;
       }).join("");
     }
 
@@ -1652,7 +1653,7 @@
             <div>
               <div class="flex items-center justify-between gap-2 mb-2.5">
                 <div class="flex items-center gap-1.5">
-                  <span class="px-2.5 py-0.5 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-goldbrand-300 text-[11px] font-extrabold">${pkg.subject || "Umum"}</span>
+                  <span class="px-2.5 py-0.5 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-700 dark:text-goldbrand-300 text-[11px] font-extrabold">${pkg.subject || "Umum"}</span>
                   ${isDraft ? `<span class="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800 text-[10px] font-extrabold">DRAFT</span>` : ""}
                 </div>
                 <span class="text-xs font-bold text-slate-500"><i class="fa-regular fa-clock text-goldbrand-600 mr-1"></i>${pkg.duration || 60}m ${pkg.token ? '<i class="fa-solid fa-lock text-amber-500 ml-1"></i>' : ''}</span>
@@ -1662,9 +1663,9 @@
               ${bestScore !== null ? `<div class="mb-3 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-goldbrand-500/15 text-goldbrand-700 dark:text-goldbrand-300 text-[11px] font-extrabold"><i class="fa-solid fa-star"></i> Skor Terbaik: ${bestScore}</div>` : ""}
             </div>
             <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <span class="text-xs font-extrabold text-emeraldbrand-800 dark:text-emeraldbrand-300"><i class="fa-solid fa-list-check mr-1 text-goldbrand-600"></i> ${totalQ} Soal</span>
-              <button type="button" onclick="openExamSetup('${pkg.id}')" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold shadow flex items-center gap-1.5">
-                <span>Mulai</span><i class="fa-solid fa-arrow-right text-goldbrand-400"></i>
+              <span class="text-xs font-extrabold text-emeraldbrand-700 dark:text-emeraldbrand-200"><i class="fa-solid fa-list-check mr-1 text-goldbrand-600"></i> ${totalQ} Soal</span>
+              <button type="button" onclick="openExamSetup('${pkg.id}')" class="px-4 py-2 rounded-xl bg-emeraldbrand-700 hover:bg-emeraldbrand-600 text-white text-xs font-bold shadow flex items-center gap-1.5 transition">
+                <span>Mulai</span><i class="fa-solid fa-arrow-right text-goldbrand-300"></i>
               </button>
             </div>
           </div>`;
@@ -1711,13 +1712,13 @@
         text.textContent = q.question;
       } else {
         badge.textContent = "Jawaban & Pembahasan";
-        badge.className = "px-2.5 py-0.5 rounded-full bg-goldbrand-500 text-emeraldbrand-950 text-[10px] font-extrabold uppercase mb-3";
+        badge.className = "px-2.5 py-0.5 rounded-full bg-goldbrand-400 text-emeraldbrand-950 text-[10px] font-extrabold uppercase mb-3";
         let ansStr = "";
         if (q.type === "bs") ansStr = q.answer ? "BENAR" : "SALAH";
         else if ((q.type === "pg" || q.type === "mj") && q.options) ansStr = q.options[q.answer] || "";
         else if (q.type === "pgk" && q.options) ansStr = (q.answer || []).map((i) => q.options[i]).join("; ");
         else ansStr = q.sampleAnswer || "";
-        text.innerHTML = `<span class="text-emeraldbrand-700 dark:text-goldbrand-400 block mb-2">Kunci: ${ansStr}</span><span class="text-xs font-normal text-slate-600 dark:text-slate-300">${q.explanation || ""}</span>`;
+        text.innerHTML = `<span class="text-emeraldbrand-600 dark:text-goldbrand-400 block mb-2">Kunci: ${ansStr}</span><span class="text-xs font-normal text-slate-600 dark:text-slate-300">${q.explanation || ""}</span>`;
       }
     }
 
@@ -1919,8 +1920,8 @@
         const isCurrent = idx === currentQuestionIndex;
         let cls = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700";
         if (flagged) cls = "bg-amber-400 text-slate-950 font-extrabold border border-amber-500";
-        else if (answered) cls = "bg-emeraldbrand-700 text-white font-extrabold border border-emeraldbrand-600";
-        if (isCurrent) cls += " ring-2 ring-goldbrand-500";
+        else if (answered) cls = "bg-emeraldbrand-600 text-white font-extrabold border border-emeraldbrand-500";
+        if (isCurrent) cls += " ring-2 ring-goldbrand-400";
         return `<button type="button" onclick="jumpToQuestion(${idx})" class="h-9 rounded-xl text-xs font-bold transition ${cls}">${idx + 1}</button>`;
       }).join("");
 
@@ -2053,7 +2054,7 @@
       if (q.type === "bs") {
         optContainer.innerHTML = [{ val: true, label: "BENAR", icon: "fa-circle-check" }, { val: false, label: "SALAH", icon: "fa-circle-xmark" }].map((item) => {
           const selected = currentAns === item.val;
-          return `<button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${selected ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-extrabold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><i class="fa-solid ${item.icon} text-base ${selected ? "text-emeraldbrand-700 dark:text-goldbrand-400" : "text-slate-400"}"></i><span class="text-sm">${item.label}</span></button>`;
+          return `<button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${selected ? "border-emeraldbrand-600 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-extrabold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><i class="fa-solid ${item.icon} text-base ${selected ? "text-emeraldbrand-600 dark:text-goldbrand-400" : "text-slate-400"}"></i><span class="text-sm">${item.label}</span></button>`;
         }).join("");
       } else if (q.type === "pg" || q.type === "mj") {
         const letters = ["A", "B", "C", "D", "E"];
@@ -2061,9 +2062,9 @@
           const selected = currentAns === i;
           const eliminated = !!eliminatedOptions[`${currentQuestionIndex}_${i}`];
           return `
-            <div onclick="selectSingleAnswer(${i})" class="w-full cursor-pointer p-3.5 rounded-2xl border-2 transition flex items-start justify-between gap-2.5 ${selected ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"} ${eliminated ? "opacity-45 line-through" : ""}">
+            <div onclick="selectSingleAnswer(${i})" class="w-full cursor-pointer p-3.5 rounded-2xl border-2 transition flex items-start justify-between gap-2.5 ${selected ? "border-emeraldbrand-600 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"} ${eliminated ? "opacity-45 line-through" : ""}">
               <div class="flex items-start gap-3">
-                <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold ${selected ? "bg-emeraldbrand-800 text-goldbrand-400" : "bg-slate-100 dark:bg-slate-800"}">${letters[i] || i + 1}</span>
+                <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold ${selected ? "bg-emeraldbrand-700 text-goldbrand-300" : "bg-slate-100 dark:bg-slate-800"}">${letters[i] || i + 1}</span>
                 <span class="text-sm pt-0.5 leading-relaxed">${optText}</span>
               </div>
               <button type="button" onclick="toggleEliminateOption(event, ${i})" title="Coret opsi ini" class="text-slate-400 hover:text-rose-500 px-1.5 py-1 text-xs shrink-0"><i class="fa-solid fa-strikethrough"></i></button>
@@ -2074,11 +2075,11 @@
         optContainer.innerHTML = `<p class="text-xs font-bold text-goldbrand-600 mb-1.5">Centang semua pernyataan yang benar:</p>` +
           q.options.map((optText, i) => {
             const checked = selectedArr.includes(i);
-            return `<button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-start gap-3 ${checked ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border ${checked ? "bg-emeraldbrand-800 border-emeraldbrand-800 text-goldbrand-400" : "border-slate-400 text-transparent"}"><i class="fa-solid fa-check"></i></span><span class="text-sm leading-relaxed">${optText}</span></button>`;
+            return `<button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-start gap-3 ${checked ? "border-emeraldbrand-600 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border ${checked ? "bg-emeraldbrand-700 border-emeraldbrand-700 text-goldbrand-300" : "border-slate-400 text-transparent"}"><i class="fa-solid fa-check"></i></span><span class="text-sm leading-relaxed">${optText}</span></button>`;
           }).join("");
       } else if (q.type === "ur") {
         const textVal = typeof currentAns === "string" ? currentAns : "";
-        optContainer.innerHTML = `<textarea rows="5" oninput="saveEssayAnswer(this.value)" placeholder="Ketik jawaban uraian Anda di sini..." class="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm outline-none focus:border-emeraldbrand-700">${textVal}</textarea>`;
+        optContainer.innerHTML = `<textarea rows="5" oninput="saveEssayAnswer(this.value)" placeholder="Ketik jawaban uraian Anda di sini..." class="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm outline-none focus:border-emeraldbrand-600">${textVal}</textarea>`;
       }
 
       renderInstantFeedbackIfEnabled();
@@ -2245,20 +2246,20 @@
         const noteStr = personalQuestionNotes[idx] ? `<p class="mt-1.5 text-amber-700 dark:text-amber-300"><strong>Catatan Anda:</strong> ${personalQuestionNotes[idx]}</p>` : "";
 
         return `
-          <div data-status="${isCorrect ? "correct" : "wrong"}" class="review-item p-4 rounded-2xl border ${isCorrect ? "border-emeraldbrand-300 bg-emeraldbrand-50/50 dark:bg-emeraldbrand-950/30" : "border-rose-300 bg-rose-50/40 dark:bg-rose-950/20"}">
+          <div data-status="${isCorrect ? "correct" : "wrong"}" class="review-item p-4 rounded-2xl border ${isCorrect ? "border-emeraldbrand-200 bg-emeraldbrand-50/50 dark:bg-emeraldbrand-950/30" : "border-rose-300 bg-rose-50/40 dark:bg-rose-950/20"}">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-md bg-slate-800 text-white">No. ${idx + 1} • ${getTypeLabel(q.type)}</span>
                 <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800">${topic}</span>
               </div>
-              <span class="text-xs font-extrabold ${isCorrect ? "text-emeraldbrand-700 dark:text-emeraldbrand-400" : "text-rose-600"}">
+              <span class="text-xs font-extrabold ${isCorrect ? "text-emeraldbrand-600 dark:text-goldbrand-400" : "text-rose-600"}">
                 <i class="fa-solid ${isCorrect ? "fa-circle-check" : "fa-circle-xmark"} mr-1"></i>${isCorrect ? "Tepat" : "Evaluasi"}
               </span>
             </div>
             <p class="text-sm font-bold text-slate-900 dark:text-white mb-2">${q.question}</p>
             <div class="text-xs space-y-1 text-slate-700 dark:text-slate-300">
               <p><strong>Jawaban Anda:</strong> ${userAnsText}</p>
-              <p class="text-emeraldbrand-800 dark:text-goldbrand-300"><strong>Kunci Jawaban:</strong> ${correctAnsText}</p>
+              <p class="text-emeraldbrand-700 dark:text-goldbrand-300"><strong>Kunci Jawaban:</strong> ${correctAnsText}</p>
               ${noteStr}
               ${q.explanation ? `<p class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400"><strong>Pembahasan:</strong> ${q.explanation}</p>` : ""}
             </div>
@@ -2283,7 +2284,7 @@
           <div class="p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40">
             <div class="flex justify-between text-xs font-bold mb-1">
               <span class="truncate pr-2">${tName}</span>
-              <span class="${pct >= 75 ? "text-emeraldbrand-700 dark:text-goldbrand-400" : "text-rose-600"}">${st.correct}/${st.total} (${pct}%)</span>
+              <span class="${pct >= 75 ? "text-emeraldbrand-600 dark:text-goldbrand-400" : "text-rose-600"}">${st.correct}/${st.total} (${pct}%)</span>
             </div>
             <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
               <div class="h-full ${pct >= 75 ? "bg-emeraldbrand-600" : "bg-rose-500"}" style="width:${pct}%"></div>
@@ -2318,7 +2319,10 @@
       const title = document.getElementById("resultExamTitle").textContent;
       const score = document.getElementById("finalScoreDisplay").textContent;
       const detail = document.getElementById("scoreDetailCounts").textContent;
-      const text = `Hasil Latihan CBT SAS\nNama: ${currentUserProfile?.name || "Peserta"}\nPaket: ${title}\nSkor: ${score}/100 (${detail})`;
+      const text = `Hasil Latihan CBT SAS
+Nama: ${currentUserProfile?.name || "Peserta"}
+Paket: ${title}
+Skor: ${score}/100 (${detail})`;
       navigator.clipboard?.writeText(text);
       showToast("Ringkasan rapor berhasil disalin ke clipboard!", "success");
     };
@@ -2342,12 +2346,12 @@
       const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
       const recent8 = history.slice(0, 8).reverse();
       document.getElementById("scoreTrendChart").innerHTML = recent8.length
-        ? recent8.map((h) => `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1"><span class="text-[10px] font-extrabold">${h.score}</span><div class="w-full rounded-t-lg bg-emeraldbrand-700" style="height:${Math.max(10, h.score)}%"></div><span class="text-[9px] text-slate-400 truncate w-full text-center">${h.title.slice(0, 6)}</span></div>`).join("")
+        ? recent8.map((h) => `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1"><span class="text-[10px] font-extrabold">${h.score}</span><div class="w-full rounded-t-lg bg-gradient-to-t from-emeraldbrand-700 to-goldbrand-500" style="height:${Math.max(10, h.score)}%"></div><span class="text-[9px] text-slate-400 truncate w-full text-center">${h.title.slice(0, 6)}</span></div>`).join("")
         : `<p class="text-xs text-slate-400 m-auto">Kerjakan minimal 1 paket untuk melihat grafik skor.</p>`;
 
       const sorted = [...history].sort((a, b) => b.score - a.score).slice(0, 5);
       document.getElementById("leaderboardList").innerHTML = sorted.length
-        ? sorted.map((h, i) => `<div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-between text-xs"><span class="font-bold">#${i + 1} ${h.user} <span class="text-slate-400 font-normal">(${h.title})</span></span><span class="font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400">${h.score}</span></div>`).join("")
+        ? sorted.map((h, i) => `<div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-between text-xs"><span class="font-bold">#${i + 1} ${h.user} <span class="text-slate-400 font-normal">(${h.title})</span></span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">${h.score}</span></div>`).join("")
         : `<p class="text-xs text-slate-400">Belum ada data peringkat.</p>`;
 
       document.getElementById("userHistoryList").innerHTML = history.length
@@ -2358,7 +2362,9 @@
 
     window.exportUserHistoryCsv = function () {
       const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
-      const csv = "Nama,Kelas,Paket,Skor,Tanggal\n" + history.map((h) => `"${h.user}","${h.userClass || "XI"}","${h.title}",${h.score},"${h.date}"`).join("\n");
+      const csv = "Nama,Kelas,Paket,Skor,Tanggal
+" + history.map((h) => `"${h.user}","${h.userClass || "XI"}","${h.title}",${h.score},"${h.date}"`).join("
+");
       triggerDownload("riwayat-nilai-cbt.csv", csv, "text/csv");
     };
 
@@ -2402,7 +2408,8 @@
         const sample = [{ type: "pg", topic: "Bab 1", difficulty: "Sedang", question: "Contoh soal?", options: ["A", "B", "C", "D"], answer: 0, hint: "Petunjuk singkat", explanation: "Pembahasan." }];
         triggerDownload("template-soal.json", JSON.stringify(sample, null, 2), "application/json");
       } else {
-        triggerDownload("template-soal.csv", `type,question,optA,optB,optC,optD,answer,explanation\npg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
+        triggerDownload("template-soal.csv", `type,question,optA,optB,optC,optD,answer,explanation
+pg,"Pertanyaan?","A","B","C","D",0,"Pembahasan"`, "text/csv");
       }
     };
 
@@ -2428,7 +2435,9 @@
     window.parseQuickTextFormat = function () {
       const raw = document.getElementById("importJsonTextarea").value.trim();
       if (!raw) { showToast("Tempel teks soal berformat Q: ... | A: ... | B: ... | K: A", "warning"); return; }
-      const lines = raw.split(/\r?\n/).filter((l) => l.trim());
+      const lines = raw.split(/
+?
+/).filter((l) => l.trim());
       const letterMap = { A: 0, B: 1, C: 2, D: 3, E: 4 };
       const parsed = lines.map((line) => {
         const parts = line.split("|").map((p) => p.trim());
@@ -2448,7 +2457,9 @@
       reader.onload = function (evt) {
         const raw = evt.target.result;
         if (file.name.endsWith(".csv")) {
-          const lines = raw.split(/\r?\n/).filter((l) => l.trim());
+          const lines = raw.split(/
+?
+/).filter((l) => l.trim());
           const qs = lines.slice(1).map((line) => {
             const c = line.split(",").map((x) => x.replace(/^"|"$/g, "").trim());
             return { type: c[0] || "pg", question: c[1] || "", options: [c[2], c[3], c[4], c[5]].filter(Boolean), answer: Number(c[6]) || 0, explanation: c[7] || "" };
@@ -2557,7 +2568,7 @@
           <div class="flex flex-wrap gap-1 shrink-0">
             <button type="button" onclick="openInlinePackageEditor('${p.id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-goldbrand-300 text-[11px] font-bold">Edit</button>
             <button type="button" onclick="togglePackageDraftStatus('${p.id}')" class="px-2 py-1 rounded-lg bg-amber-600 text-white text-[11px] font-bold">${p.status === "draft" ? "Terbitkan" : "Draft"}</button>
-            <button type="button" onclick="exportSinglePackage('${p.id}')" class="px-2 py-1 rounded-lg bg-emeraldbrand-800 text-white text-[11px] font-bold">Ekspor</button>
+            <button type="button" onclick="exportSinglePackage('${p.id}')" class="px-2 py-1 rounded-lg bg-emeraldbrand-700 text-white text-[11px] font-bold">Ekspor</button>
             <button type="button" onclick="clonePackage('${p.id}')" class="px-2 py-1 rounded-lg bg-goldbrand-600 text-white text-[11px] font-bold">Duplikat</button>
             ${p.isDefault ? "" : `<button type="button" onclick="deleteCustomPackage('${p.id}')" class="px-2 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold">Hapus</button>`}
           </div>
@@ -2683,7 +2694,7 @@
 
       const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
       document.getElementById("adminResultsTable").innerHTML = history.length
-        ? history.slice(0, 15).map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) — ${h.title}</span><span class="font-extrabold text-emeraldbrand-700 dark:text-goldbrand-400">${h.score}</span></div>`).join("")
+        ? history.slice(0, 15).map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) — ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">${h.score}</span></div>`).join("")
         : `<p class="text-slate-400">Belum ada rekaman hasil peserta.</p>`;
     }
 
