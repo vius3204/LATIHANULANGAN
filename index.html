@@ -1174,6 +1174,14 @@
           </div>
 
           <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <h4 class="font-extrabold text-amber-600 dark:text-amber-400"><i class="fa-solid fa-right-left mr-1"></i>Log Informasi Pindah Tab / Aplikasi Peserta</h4>
+              <button type="button" onclick="clearTabSwitchLogs()" class="text-[11px] font-bold text-slate-400 hover:text-rose-500">Bersihkan Log</button>
+            </div>
+            <div id="adminTabSwitchLogsList" class="space-y-1.5 max-h-48 overflow-y-auto p-2.5 rounded-xl bg-amber-50/40 dark:bg-slate-950 border border-amber-300/50 dark:border-slate-800 text-[11px]"></div>
+          </div>
+
+          <div>
             <h4 class="font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 mb-1.5">Log Audit Aktivitas Admin</h4>
             <div id="adminAuditLogList" class="space-y-1 max-h-36 overflow-y-auto p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 font-mono text-[11px]"></div>
           </div>
@@ -2521,10 +2529,55 @@
       }
     });
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden && !document.getElementById("examView").classList.contains("hidden") && !examOptionsConfig.instantMode) {
-        tabSwitchCount++;
+    let lastTabSwitchRecordedAt = 0;
+
+    function recordTabSwitchLog(eventType) {
+      if (document.getElementById("examView").classList.contains("hidden")) return;
+      if (!currentExam) return;
+      const now = Date.now();
+      if (now - lastTabSwitchRecordedAt < 1500) return;
+      lastTabSwitchRecordedAt = now;
+
+      tabSwitchCount++;
+      const qObj = currentExam.questions[currentQuestionIndex] || {};
+      const entry = {
+        id: "ts_" + now + "_" + Math.random().toString(36).slice(2, 6),
+        timestamp: new Date().toLocaleString("id-ID"),
+        participantName: currentUserProfile?.name || "Peserta",
+        username: currentUserProfile?.username || "-",
+        userClass: currentUserProfile?.userClass || "XI",
+        email: currentUserProfile?.email || "-",
+        examId: currentExam.id || "-",
+        examTitle: currentExam.title || "Ujian",
+        questionNumber: currentQuestionIndex + 1,
+        totalQuestions: currentExam.questions.length,
+        topic: qObj.topic || currentExam.subject || "Umum",
+        eventType: eventType || "TAB_HIDDEN",
+        violationCount: tabSwitchCount
+      };
+
+      const existingLogs = JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
+      existingLogs.unshift(entry);
+      localStorage.setItem("cbt_tab_switch_logs", JSON.stringify(existingLogs.slice(0, 300)));
+
+      if (db && currentUserProfile?.uid && !currentUserProfile.isGuest) {
+        setDoc(doc(db, "tab_switch_logs", entry.id), entry).catch(() => {});
+      }
+
+      if (!examOptionsConfig.instantMode) {
         showToast(`Peringatan: Anda berpindah tab/aplikasi (${tabSwitchCount}x) selama ujian!`, "warning");
+      }
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        recordTabSwitchLog("TAB_HIDDEN");
+      }
+    });
+
+    window.addEventListener("blur", () => {
+      if (document.hasFocus && !document.hasFocus()) {
+        recordTabSwitchLog("WINDOW_BLUR");
       }
     });
 
@@ -2658,6 +2711,7 @@
         userClass: currentUserProfile?.userClass || "XI",
         title: currentExam.title,
         score: finalScore,
+        tabSwitches: tabSwitchCount,
         date: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
       });
       localStorage.setItem("cbt_exam_history", JSON.stringify(history.slice(0, 60)));
@@ -3036,14 +3090,50 @@
       showToast("Paket dihapus.", "info");
     };
 
-    function renderAdminAnalytics() {
+    async function renderAdminAnalytics() {
       const totalQ = examPackages.reduce((s, p) => s + (p.questions ? p.questions.length : 0), 0);
       const reports = JSON.parse(localStorage.getItem("cbt_question_reports") || "[]");
       const auditLogs = JSON.parse(localStorage.getItem("cbt_admin_audit") || "[]");
+      let tabLogs = JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
+
+      if (db) {
+        try {
+          const snap = await getDocs(collection(db, "tab_switch_logs"));
+          const cloudMap = new Map();
+          tabLogs.forEach((item) => cloudMap.set(item.id, item));
+          snap.forEach((docSnap) => {
+            const d = docSnap.data();
+            cloudMap.set(d.id || docSnap.id, d);
+          });
+          tabLogs = Array.from(cloudMap.values()).sort((a, b) => {
+            const idA = String(a.id || "");
+            const idB = String(b.id || "");
+            return idB.localeCompare(idA);
+          });
+        } catch (_) {}
+      }
 
       document.getElementById("admStatPkg").textContent = examPackages.length;
       document.getElementById("admStatQ").textContent = totalQ;
       document.getElementById("admStatReports").textContent = reports.length;
+
+      const tabLogEl = document.getElementById("adminTabSwitchLogsList");
+      if (tabLogEl) {
+        tabLogEl.innerHTML = tabLogs.length
+          ? tabLogs.map((l) => `
+              <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                <div class="min-w-0">
+                  <p class="font-extrabold text-slate-900 dark:text-white truncate">
+                    ${l.participantName || "Peserta"} <span class="text-slate-400 font-normal">(${l.userClass || "XI"} • @${l.username || "-"})</span>
+                    <span class="ml-1 px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-mono text-[10px]">#${l.violationCount || 1}×</span>
+                  </p>
+                  <p class="text-[10px] text-slate-500 truncate">${l.examTitle || "Ujian"} • Soal No. ${l.questionNumber || "-"} (${l.eventType || "TAB_HIDDEN"})</p>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400 shrink-0">${l.timestamp || "-"}</span>
+              </div>
+            `).join("")
+          : `<p class="text-slate-400">Belum ada aktivitas pindah tab/aplikasi yang tercatat.</p>`;
+      }
 
       document.getElementById("adminReportsList").innerHTML = reports.length
         ? reports.map((r) => `<div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800"><p class="font-bold">${r.packageTitle} • <span class="text-slate-400 font-normal">${r.reporter} (${r.date})</span></p><p class="text-slate-600 dark:text-slate-300 mt-0.5">${r.question}</p><p class="text-rose-700 dark:text-rose-300 font-semibold mt-1">Alasan: ${r.reason}</p></div>`).join("")
@@ -3055,6 +3145,12 @@
     }
 
     window.clearAllReports = function () { localStorage.removeItem("cbt_question_reports"); renderAdminAnalytics(); };
+    window.clearTabSwitchLogs = function () {
+      localStorage.removeItem("cbt_tab_switch_logs");
+      logAdminAudit("Membersihkan log informasi pindah tab peserta");
+      renderAdminAnalytics();
+      showToast("Log pindah tab dibersihkan.", "info");
+    };
 
     function renderAdminUsersAndReferrals() {
       const codes = getValidReferralCodes();
