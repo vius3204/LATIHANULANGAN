@@ -599,7 +599,7 @@
               <button type="button" onclick="openModal('scratchpadModal')" title="Kertas Buram" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold"><i class="fa-solid fa-note-sticky"></i></button>
               <button type="button" onclick="openModal('formulaModal')" title="Rumus & Peta Ringkas" class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold"><i class="fa-solid fa-compass"></i></button>
               <button type="button" onclick="toggleFullscreenExam()" title="Layar Penuh" class="hidden sm:inline-flex px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-bold"><i class="fa-solid fa-expand"></i></button>
-              <button type="button" onclick="openMobileNavDrawer()" class="lg:hidden px-2.5 py-1 rounded-lg bg-emeraldbrand-700 text-white text-[11px] font-bold flex items-center gap-1">
+              <button type="button" onclick="openMobileNavDrawer()" class="px-2.5 py-1 rounded-lg bg-emeraldbrand-700 hover:bg-emeraldbrand-600 text-white text-[11px] font-bold flex items-center gap-1">
                 <i class="fa-solid fa-grip"></i><span>Nomor</span>
               </button>
             </div>
@@ -670,8 +670,8 @@
             </div>
           </div>
 
-          <!-- Desktop Question Grid Navigation -->
-          <div class="hidden lg:block lg:col-span-4 bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 h-fit">
+          <!-- Question Grid Navigation (Selalu Tampil di Semua Ukuran Layar) -->
+          <div class="lg:col-span-4 bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-800 h-fit">
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-2"><i class="fa-solid fa-grip text-goldbrand-600"></i> Nomor Soal</h3>
               <select id="navFilterSelect" onchange="renderQuestionNavGrid()" class="text-[11px] font-bold px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent">
@@ -680,7 +680,7 @@
                 <option value="flagged">Ragu-ragu</option>
               </select>
             </div>
-            <div id="questionGridNav" class="grid grid-cols-5 gap-2 mb-4"></div>
+            <div id="questionGridNav" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-2 mb-4"></div>
             <p id="answeredCounterText" class="text-xs font-bold text-slate-500 mb-3">Terjawab: 0 / 35</p>
             <div class="space-y-1.5 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
               <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-emeraldbrand-600 inline-block"></span><span>Sudah dijawab</span></div>
