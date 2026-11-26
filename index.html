@@ -1,0 +1,2831 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HistoriCBT SMAN 14 Surabaya — Platform Latihan SAS & Bank Soal Interaktif</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            forest: {
+              950: '#022c22',
+              900: '#04392c',
+              850: '#064e3b',
+              800: '#065f46',
+              700: '#047857',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar bernuansa Hijau Zamrud & Emas */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(6, 78, 59, 0.08);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(4, 120, 87, 0.45);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(217, 119, 6, 0.8);
+    }
+
+    /* Glassmorphism utilities */
+    .glass-card {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* Smooth fade animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.28s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-[#f8faf9] text-slate-800 dark:bg-forest-950 dark:text-emerald-50 min-h-screen font-sans transition-colors duration-300 selection:bg-amber-500 selection:text-forest-950">
+
+  <!-- TOAST / NOTIFICATION BANNER (Pengganti alert()) -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- MODAL KONFIRMASI CUSTOM (Pengganti confirm()) -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/75 backdrop-blur-sm p-4">
+    <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3 id="confirm-title" class="text-lg font-bold text-forest-900 dark:text-white">Konfirmasi Tindakan</h3>
+      </div>
+      <p id="confirm-message" class="text-sm text-slate-600 dark:text-emerald-100/80 mb-6 leading-relaxed"></p>
+      <div class="flex justify-end gap-3">
+        <button id="confirm-cancel-btn" class="px-4 py-2.5 rounded-xl text-sm font-medium bg-emerald-50 dark:bg-forest-800 text-forest-800 dark:text-emerald-100 hover:bg-emerald-100 dark:hover:bg-forest-700 transition">
+          Batal
+        </button>
+        <button id="confirm-ok-btn" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white border border-amber-400/40 shadow-lg shadow-emerald-900/20 transition">
+          Ya, Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 1: HALAMAN LOGIN, DAFTAR & LUPA SANDI (TEMA HIJAU ZAMRUD & EMAS) -->
+  <!-- ===================================================================== -->
+  <section id="auth-view" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-[#ecfdf5] via-[#f8faf9] to-amber-50/60 dark:from-forest-950 dark:via-forest-900 dark:to-forest-950">
+    <!-- Decorative Background Glows -->
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-md w-full bg-white/95 dark:bg-forest-900/95 glass-card border border-emerald-200/90 dark:border-forest-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-emerald-950/10 relative z-10 animate-fade-in">
+      <!-- Top Bar Theme Toggle & Institution Tag -->
+      <div class="flex justify-between items-center mb-3">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-forest-850 border border-emerald-200 dark:border-forest-700 text-[11px] font-bold text-forest-850 dark:text-amber-400">
+          <i class="fa-solid fa-shield-halved text-amber-500"></i> SMAN 14 SURABAYA
+        </span>
+        <button onclick="toggleTheme()" class="p-2 rounded-xl bg-emerald-50 dark:bg-forest-850 border border-emerald-200 dark:border-forest-700 text-forest-850 dark:text-amber-400 hover:scale-105 transition" title="Ganti Mode Terang / Gelap">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+
+      <!-- Logo Resmi Institusi di Tengah Atas Judul -->
+      <div class="flex flex-col items-center text-center mb-6">
+        <div class="relative mb-3">
+          <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-br from-amber-400 via-amber-500 to-forest-850 shadow-xl shadow-emerald-900/20">
+            <img 
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" 
+              alt="Logo Resmi SMAN 14 Surabaya" 
+              onerror="this.onerror=null; this.src='https://placehold.co/160x160/064e3b/fbbf24?text=SMAN+14';"
+              class="w-full h-full rounded-full object-cover bg-white"
+            />
+          </div>
+          <span class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-forest-850 border-2 border-amber-400 text-amber-400 flex items-center justify-center text-xs shadow-md" title="Terverifikasi">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </span>
+        </div>
+        <span class="font-extrabold text-xl tracking-tight text-forest-900 dark:text-white">
+          Histori<span class="text-amber-600 dark:text-amber-400">CBT</span>
+        </span>
+        <p class="text-xs text-slate-500 dark:text-emerald-200/75 mt-0.5">Portal Evaluasi & Bank Soal Open Learning</p>
+      </div>
+
+      <!-- Tab Switcher: Masuk / Daftar -->
+      <div id="auth-tabs-header" class="grid grid-cols-2 p-1 rounded-2xl bg-emerald-50/90 dark:bg-forest-950 border border-emerald-200/80 dark:border-forest-800 mb-6">
+        <button type="button" id="tab-btn-login" onclick="switchAuthMode('login')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-forest-850 text-white shadow-md shadow-emerald-900/20 transition">
+          Masuk
+        </button>
+        <button type="button" id="tab-btn-register" onclick="switchAuthMode('register')" class="py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-forest-850 dark:text-emerald-200/75 hover:text-forest-950 dark:hover:text-white transition">
+          Daftar Akun
+        </button>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- MODE 1: FORM MASUK (USERNAME / EMAIL & PASSWORD)                  -->
+      <!-- ================================================================= -->
+      <form id="form-login" onsubmit="handleStandardLogin(event)" class="space-y-4 animate-fade-in">
+        <div class="text-center sm:text-left">
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-forest-900 dark:text-white">Masuk ke Akun Anda</h1>
+          <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-0.5">Gunakan username atau alamat email yang telah terdaftar.</p>
+        </div>
+
+        <div>
+          <label for="login-identifier" class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Username atau Email</label>
+          <div class="relative">
+            <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+            <input 
+              type="text" 
+              id="login-identifier" 
+              required
+              placeholder="Contoh: budi_xi atau budi@gmail.com" 
+              class="w-full pl-10 pr-4 py-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="login-password" class="block text-xs font-bold text-forest-900 dark:text-emerald-100">Kata Sandi</label>
+            <button type="button" onclick="switchAuthMode('forgot')" class="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline">
+              Lupa sandi?
+            </button>
+          </div>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+            <input 
+              type="password" 
+              id="login-password" 
+              required
+              placeholder="Masukkan kata sandi..." 
+              class="w-full pl-10 pr-11 py-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+            />
+            <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-600 transition" title="Tampilkan/Sembunyikan Sandi">
+              <i class="fa-regular fa-eye text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-submit-login"
+          class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-forest-850 via-forest-800 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-extrabold text-sm border border-amber-400/40 shadow-xl shadow-emerald-950/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
+        >
+          <i class="fa-solid fa-right-to-bracket text-amber-400"></i>
+          <span>Masuk</span>
+        </button>
+
+        <p class="text-center text-xs text-slate-500 dark:text-emerald-200/70 pt-1">
+          Belum punya akun? 
+          <button type="button" onclick="switchAuthMode('register')" class="font-bold text-amber-600 dark:text-amber-400 hover:underline">Daftar sekarang</button>
+        </p>
+      </form>
+
+      <!-- ================================================================= -->
+      <!-- MODE 2: FORM DAFTAR (REGISTER + USERNAME + KODE REFERRAL ADMIN)   -->
+      <!-- ================================================================= -->
+      <form id="form-register" onsubmit="handleStandardRegister(event)" class="hidden space-y-3.5 animate-fade-in">
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-forest-900 dark:text-white">Buat Akun Baru</h1>
+          <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-0.5">Lengkapi data diri Anda untuk mulai mengerjakan latihan.</p>
+        </div>
+
+        <div>
+          <label for="reg-fullname" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Nama Lengkap *</label>
+          <div class="relative">
+            <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+            <input type="text" id="reg-fullname" required placeholder="Nama lengkap siswa / guru" class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="reg-username" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Username *</label>
+            <div class="relative">
+              <i class="fa-solid fa-at absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+              <input type="text" id="reg-username" required minlength="4" placeholder="username_unik" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 lowercase" />
+            </div>
+          </div>
+
+          <div>
+            <label for="reg-email" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Email *</label>
+            <div class="relative">
+              <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+              <input type="email" id="reg-email" required placeholder="nama@gmail.com" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="reg-password" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Kata Sandi *</label>
+            <div class="relative">
+              <input type="password" id="reg-password" required minlength="6" placeholder="Min. 6 karakter" class="w-full pl-3.5 pr-9 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              <button type="button" onclick="togglePasswordVisibility('reg-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-600">
+                <i class="fa-regular fa-eye text-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label for="reg-confirm-password" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Konfirmasi Sandi *</label>
+            <div class="relative">
+              <input type="password" id="reg-confirm-password" required minlength="6" placeholder="Ulangi sandi" class="w-full pl-3.5 pr-9 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              <button type="button" onclick="togglePasswordVisibility('reg-confirm-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-600">
+                <i class="fa-regular fa-eye text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kode Referral Opsional untuk Admin -->
+        <div class="p-3 rounded-2xl bg-emerald-50/80 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
+          <div class="flex items-center justify-between mb-1">
+            <label for="reg-referral" class="text-[11px] font-bold uppercase tracking-wider text-forest-900 dark:text-emerald-100 flex items-center gap-1">
+              <i class="fa-solid fa-key text-amber-500"></i> Kode Referral Admin (Opsional)
+            </label>
+            <span class="text-[10px] text-slate-500 dark:text-emerald-300/60">Kosongkan jika Siswa</span>
+          </div>
+          <input 
+            type="text" 
+            id="reg-referral" 
+            placeholder="Isi kode referral khusus Admin..." 
+            class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase font-mono"
+          />
+          <p class="text-[10px] text-slate-600 dark:text-emerald-200/70 mt-1.5 leading-relaxed">
+            Tanpa kode terdaftar sebagai <strong>Siswa</strong>. Kode <code class="text-amber-600 dark:text-amber-400 font-bold font-mono">ADMIN2026</code> / <code class="text-amber-600 dark:text-amber-400 font-bold font-mono">SEJARAHXI14</code> mendaftarkan akun sebagai <strong>Admin</strong>.
+          </p>
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-submit-register"
+          class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-forest-850 via-forest-800 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-extrabold text-sm border border-amber-400/40 shadow-xl shadow-emerald-950/20 flex items-center justify-center gap-2 transition"
+        >
+          <i class="fa-solid fa-user-plus text-amber-400"></i>
+          <span>Daftar Sekarang</span>
+        </button>
+
+        <p class="text-center text-xs text-slate-500 dark:text-emerald-200/70">
+          Sudah memiliki akun? 
+          <button type="button" onclick="switchAuthMode('login')" class="font-bold text-amber-600 dark:text-amber-400 hover:underline">Masuk di sini</button>
+        </p>
+      </form>
+
+      <!-- ================================================================= -->
+      <!-- MODE 3: FORM LUPA SANDI (RESET PASSWORD VIA EMAIL)                -->
+      <!-- ================================================================= -->
+      <form id="form-forgot" onsubmit="handleForgotPassword(event)" class="hidden space-y-4 animate-fade-in">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl mb-1">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-forest-900 dark:text-white">Lupa Kata Sandi?</h1>
+          <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-1 leading-relaxed">
+            Masukkan alamat email yang terdaftar pada akun Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.
+          </p>
+        </div>
+
+        <div>
+          <label for="forgot-email" class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Alamat Email Terdaftar</label>
+          <div class="relative">
+            <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+            <input 
+              type="email" 
+              id="forgot-email" 
+              required
+              placeholder="nama@gmail.com" 
+              class="w-full pl-10 pr-4 py-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+            />
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-submit-forgot"
+          class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-extrabold text-sm border border-amber-400/40 shadow-xl shadow-emerald-950/20 flex items-center justify-center gap-2 transition"
+        >
+          <i class="fa-solid fa-paper-plane text-amber-400"></i>
+          <span>Kirim Tautan Reset Sandi</span>
+        </button>
+
+        <button 
+          type="button" 
+          onclick="switchAuthMode('login')" 
+          class="w-full py-2.5 px-4 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 text-xs font-bold text-forest-900 dark:text-emerald-100 flex items-center justify-center gap-2 transition"
+        >
+          <i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Masuk
+        </button>
+      </form>
+
+      <!-- ================================================================= -->
+      <!-- OPSI SEKUNDER: PEMISAH "ATAU" + GOOGLE & MODE TAMU / LOKAL        -->
+      <!-- ================================================================= -->
+      <div id="secondary-auth-options" class="mt-6">
+        <div class="relative flex py-2 items-center mb-4">
+          <div class="flex-grow border-t border-emerald-200/80 dark:border-forest-800"></div>
+          <span class="flex-shrink mx-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">atau</span>
+          <div class="flex-grow border-t border-emerald-200/80 dark:border-forest-800"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button 
+            type="button"
+            id="google-login-btn" 
+            onclick="handleGoogleLogin()" 
+            class="py-2.5 px-3 rounded-xl bg-white dark:bg-forest-950 hover:bg-emerald-50 dark:hover:bg-forest-850 text-forest-900 dark:text-emerald-100 font-semibold text-xs border border-emerald-200 dark:border-forest-700 flex items-center justify-center gap-2 transition shadow-sm"
+          >
+            <i class="fa-brands fa-google text-amber-500"></i>
+            <span>Masuk dengan Google</span>
+          </button>
+
+          <button 
+            type="button"
+            onclick="handleDemoLogin()" 
+            class="py-2.5 px-3 rounded-xl bg-emerald-50/90 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 font-semibold text-xs border border-emerald-200 dark:border-forest-700 flex items-center justify-center gap-2 transition"
+          >
+            <i class="fa-solid fa-user-clock text-emerald-600 dark:text-amber-400"></i>
+            <span>Mode Tamu / Lokal</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-emerald-200/80 dark:border-forest-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-emerald-300/70">
+        <span><i class="fa-solid fa-database text-emerald-600 dark:text-emerald-400 mr-1"></i> Firebase Auth & Firestore</span>
+        <span>35 Butir Soal SAS Terpadu</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 2: DASHBOARD UTAMA (SETELAH LOGIN)                               -->
+  <!-- ===================================================================== -->
+  <div id="app-shell" class="hidden min-h-screen flex flex-col">
+    
+    <!-- NAVBAR ATAS (HIJAU ZAMRUD RESMI & AKSEN EMAS) -->
+    <header class="sticky top-0 z-30 bg-forest-850 text-white border-b-2 border-amber-500/80 shadow-lg shadow-emerald-950/15">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+        <!-- Brand & Logo Resmi -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
+          <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-br from-amber-300 via-amber-500 to-amber-600 shadow-md shrink-0">
+            <img 
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" 
+              alt="Logo SMAN 14 Surabaya" 
+              onerror="this.onerror=null; this.src='https://placehold.co/80x80/064e3b/fbbf24?text=14';"
+              class="w-full h-full rounded-full object-cover bg-white"
+            />
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-base sm:text-lg tracking-tight text-white">Histori<span class="text-amber-400">CBT</span></span>
+              <span class="hidden md:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-forest-950/70 text-amber-300 border border-amber-400/30">SMAN 14 Surabaya</span>
+            </div>
+            <p class="hidden sm:block text-[10px] text-emerald-200/80 -mt-0.5">Open Learning & Bank Soal Evaluasi</p>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex items-center gap-1 sm:gap-2">
+          <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 bg-amber-400 text-forest-950 shadow-sm">
+            <i class="fa-solid fa-layer-group"></i>
+            <span class="hidden sm:inline">Paket Ulangan</span>
+          </button>
+          <button onclick="switchTab('history')" id="nav-history" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-emerald-100/85 hover:bg-forest-800 hover:text-white">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span class="hidden sm:inline">Riwayat Nilai</span>
+          </button>
+          <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn hidden px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-emerald-100/85 hover:bg-forest-800 hover:text-white">
+            <i class="fa-solid fa-file-import text-amber-400"></i>
+            <span>Import & Kelola Soal</span>
+          </button>
+        </nav>
+
+        <!-- User Profile & Actions -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="toggleTheme()" class="p-2 rounded-xl bg-forest-900/80 border border-forest-700 text-amber-400 hover:bg-forest-800 transition" title="Ganti Mode Terang / Gelap">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+          </button>
+
+          <!-- User Badge Button -->
+          <button onclick="openProfileModal()" class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-2xl bg-forest-900/90 border border-forest-700 hover:border-amber-400/70 transition text-left">
+            <img id="user-avatar" src="https://placehold.co/64x64/f59e0b/022c22?text=U" alt="Avatar" class="w-7 h-7 rounded-full object-cover border border-amber-400" />
+            <div class="hidden md:block">
+              <p id="user-display-name" class="text-xs font-bold leading-tight truncate max-w-[120px] text-white">Pengguna</p>
+              <span id="user-role-badge" class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded bg-forest-700 text-emerald-100">USER</span>
+            </div>
+          </button>
+
+          <button onclick="handleLogout()" class="p-2 rounded-xl bg-rose-500/20 border border-rose-400/30 text-rose-200 hover:bg-rose-500 hover:text-white transition" title="Keluar">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+      <!-- ================================================================= -->
+      <!-- TAB 1: DAFTAR PAKET ULANGAN                                       -->
+      <!-- ================================================================= -->
+      <div id="tab-dashboard" class="animate-fade-in">
+        <!-- Hero Banner -->
+        <div class="rounded-3xl bg-gradient-to-br from-forest-900 via-forest-850 to-forest-700 border border-emerald-700/80 p-6 sm:p-8 text-white mb-8 relative overflow-hidden shadow-xl shadow-emerald-950/15">
+          <div class="absolute right-0 top-0 w-72 h-72 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-16 -left-16 w-64 h-64 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div class="max-w-2xl">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-bold mb-3">
+                <i class="fa-solid fa-award"></i> Kisi-Kisi Terpadu SAS • SMAN 14 Surabaya
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 tracking-tight">Siap Menghadapi Sumatif Akhir Semester?</h2>
+              <p class="text-sm text-emerald-100/90 leading-relaxed">
+                Pilih paket latihan di bawah ini. Paket utama mencakup <strong>35 butir soal terpadu</strong> (Benar/Salah, Pilihan Ganda, Pilihan Ganda Kompleks, Menjodohkan, dan Uraian) lengkap dengan timer, pembahasan otomatis, dan penyimpanan skor ke Cloud.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <button onclick="startExam('default-sas-sejarah-xi')" class="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-forest-950 font-extrabold text-sm shadow-lg shadow-amber-500/25 flex items-center gap-2 transition">
+                <i class="fa-solid fa-play"></i> Mulai SAS Sejarah XI (35 Soal)
+              </button>
+              <button id="hero-import-btn" onclick="switchTab('admin')" class="hidden px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-amber-300/30 text-white font-semibold text-sm flex items-center gap-2 transition">
+                <i class="fa-solid fa-file-import text-amber-300"></i> Import Paket Soal Lain
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Header Paket Soal -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+          <div>
+            <h3 class="text-lg sm:text-xl font-extrabold text-forest-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-book-open text-forest-700 dark:text-amber-400"></i> Daftar Paket Soal Tersedia
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-emerald-200/70">Paket soal bawaan & paket soal hasil import admin dari Firebase</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="relative flex-1 sm:w-64">
+              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
+              <input type="text" id="search-package" oninput="renderPackages()" placeholder="Cari mata pelajaran / judul..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid Paket Soal -->
+        <div id="packages-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Diisi dinamis oleh JS -->
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 2: RIWAYAT NILAI & STATISTIK                                  -->
+      <!-- ================================================================= -->
+      <div id="tab-history" class="hidden animate-fade-in">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-forest-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-forest-700 dark:text-amber-400"></i> Riwayat Pengerjaan & Skor
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-emerald-200/70">Rekapitulasi nilai latihan Anda yang tersimpan di Firebase & penyimpanan lokal.</p>
+          </div>
+          <button onclick="loadHistoryData()" class="px-4 py-2 rounded-xl bg-emerald-100 dark:bg-forest-850 hover:bg-emerald-200 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 text-xs font-bold flex items-center gap-2 self-start border border-emerald-200 dark:border-forest-700">
+            <i class="fa-solid fa-rotate text-amber-600 dark:text-amber-400"></i> Segarkan Data
+          </button>
+        </div>
+
+        <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl overflow-hidden shadow-lg">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-emerald-200 dark:border-forest-800 bg-emerald-50/80 dark:bg-forest-950 text-xs uppercase tracking-wider text-forest-850 dark:text-amber-400 font-bold">
+                  <th class="py-3.5 px-5">Waktu</th>
+                  <th class="py-3.5 px-5">Peserta</th>
+                  <th class="py-3.5 px-5">Paket Ulangan</th>
+                  <th class="py-3.5 px-5 text-center">Benar</th>
+                  <th class="py-3.5 px-5 text-center">Skor Akhir</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body" class="divide-y divide-emerald-100 dark:divide-forest-800 text-sm">
+                <!-- Diisi dinamis -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 3: PANEL ADMIN — IMPORT & MANAJEMEN SOAL ULANGAN              -->
+      <!-- ================================================================= -->
+      <div id="tab-admin" class="hidden animate-fade-in">
+        <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400 mb-1">
+              <i class="fa-solid fa-crown"></i> ADMINISTRATOR PANEL
+            </span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-forest-900 dark:text-white">Import & Manajemen Bank Soal</h2>
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-emerald-200/70">Tambahkan paket ulangan mata pelajaran lain via JSON, CSV, atau input manual ke Cloud Firestore.</p>
+          </div>
+
+          <!-- Pengaturan Kode Referral Admin -->
+          <div class="p-3.5 rounded-2xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 flex flex-wrap items-center gap-2 shadow-sm">
+            <span class="text-xs font-semibold text-forest-900 dark:text-emerald-100"><i class="fa-solid fa-key text-amber-500 mr-1"></i>Kode Referral Aktif:</span>
+            <input type="text" id="admin-referral-setting" class="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-xs font-mono font-bold uppercase w-36" />
+            <button onclick="saveReferralCode()" class="px-3 py-1.5 rounded-lg bg-forest-850 hover:bg-forest-700 text-white text-xs font-bold border border-amber-400/40 transition">Simpan</button>
+          </div>
+        </div>
+
+        <!-- Sub-tabs metode import -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- KOLOM KIRI: IMPORT FILE JSON / CSV -->
+          <div class="lg:col-span-5 space-y-6">
+            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 shadow-lg">
+              <h3 class="text-base font-bold text-forest-900 dark:text-white mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-file-arrow-up text-amber-500"></i> Import File Soal (.JSON / .CSV)
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-4">Unggah file paket ulangan baru untuk langsung dipublikasikan ke semua siswa.</p>
+
+              <!-- Download Template -->
+              <div class="grid grid-cols-2 gap-2.5 mb-5">
+                <button onclick="downloadTemplateJSON()" class="py-2.5 px-3 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 border border-emerald-200 dark:border-forest-700 text-forest-900 dark:text-emerald-100 text-xs font-semibold flex items-center justify-center gap-2 transition">
+                  <i class="fa-solid fa-file-code text-amber-500"></i> Template JSON
+                </button>
+                <button onclick="downloadTemplateCSV()" class="py-2.5 px-3 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 border border-emerald-200 dark:border-forest-700 text-forest-900 dark:text-emerald-100 text-xs font-semibold flex items-center justify-center gap-2 transition">
+                  <i class="fa-solid fa-file-csv text-emerald-600 dark:text-emerald-400"></i> Template CSV
+                </button>
+              </div>
+
+              <!-- Dropzone Upload -->
+              <label for="file-import-input" class="block border-2 border-dashed border-emerald-300 dark:border-forest-700 hover:border-amber-500 rounded-2xl p-6 text-center cursor-pointer transition bg-emerald-50/40 dark:bg-forest-950/60 mb-4">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-forest-700 dark:text-amber-400 mb-2"></i>
+                <p class="text-sm font-bold text-forest-900 dark:text-white">Klik untuk pilih file JSON atau CSV</p>
+                <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-1">Mendukung soal Benar/Salah, PG, PG Kompleks, Menjodohkan & Uraian</p>
+                <input type="file" id="file-import-input" accept=".json,.csv" class="hidden" onchange="handleFileUpload(event)" />
+              </label>
+
+              <!-- Atau Paste JSON langsung -->
+              <div>
+                <label class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Atau Tempel (Paste) Kode JSON Paket Soal:</label>
+                <textarea id="json-paste-area" rows="6" placeholder='{"title": "Ulangan Sejarah Bab 2", "subject": "Sejarah", "duration": 45, "questions": [...]}' class="w-full p-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 mb-3"></textarea>
+                <button onclick="importFromPastedJSON()" class="w-full py-3 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-bold text-xs sm:text-sm border border-amber-400/40 shadow-lg transition">
+                  <i class="fa-solid fa-upload text-amber-400 mr-1.5"></i> Proses & Simpan Paket JSON
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- KOLOM KANAN: FORM BUAT PAKET SOAL MANUAL -->
+          <div class="lg:col-span-7">
+            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 shadow-lg">
+              <h3 class="text-base font-bold text-forest-900 dark:text-white mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-amber-500"></i> Buat Paket Ulangan Baru (Manual)
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-5">Susun paket soal baru butir demi butir secara interaktif.</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Judul Paket Ulangan *</label>
+                  <input type="text" id="manual-title" placeholder="Contoh: Latihan PH Sejarah Pergerakan Nasional" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Durasi (Menit) *</label>
+                  <input type="number" id="manual-duration" value="45" min="5" max="180" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                <div>
+                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Mata Pelajaran</label>
+                  <input type="text" id="manual-subject" placeholder="Sejarah / Ekonomi / Umum" value="Sejarah" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Deskripsi Singkat</label>
+                  <input type="text" id="manual-desc" placeholder="Keterangan singkat materi ujian..." class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
+                </div>
+              </div>
+
+              <!-- Builder Tambah 1 Soal -->
+              <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800 mb-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <span class="text-xs font-extrabold uppercase tracking-wider text-forest-850 dark:text-amber-400">+ Tambah Butir Soal ke Draft</span>
+                  <select id="builder-type" onchange="renderBuilderFields()" class="px-3 py-1.5 rounded-lg bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs font-semibold">
+                    <option value="pg">Pilihan Ganda (1 Jawaban)</option>
+                    <option value="bs">Benar / Salah</option>
+                    <option value="pgk">Pilihan Ganda Kompleks (Multi-Select)</option>
+                    <option value="matching">Menjodohkan</option>
+                    <option value="essay">Uraian / Esai</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="block text-xs font-semibold mb-1">Pertanyaan / Pernyataan Soal *</label>
+                  <textarea id="builder-question" rows="2" placeholder="Tuliskan teks soal di sini..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-sm"></textarea>
+                </div>
+
+                <!-- Dynamic Fields sesuai Tipe Soal -->
+                <div id="builder-dynamic-fields" class="space-y-2.5 mb-3"></div>
+
+                <div class="mb-3">
+                  <label class="block text-xs font-semibold mb-1">Pembahasan Singkat (Opsional)</label>
+                  <input type="text" id="builder-explanation" placeholder="Penjelasan jawaban benar..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+                </div>
+
+                <button onclick="addQuestionToDraft()" class="px-4 py-2 rounded-xl bg-forest-800 hover:bg-forest-700 text-white text-xs font-bold transition">
+                  <i class="fa-solid fa-plus text-amber-400 mr-1"></i> Masukkan ke Daftar Soal Draft (<span id="draft-count">0</span>)
+                </button>
+              </div>
+
+              <!-- Preview Draft Soal -->
+              <div id="draft-list-preview" class="space-y-2 max-h-48 overflow-y-auto mb-4"></div>
+
+              <button onclick="publishManualPackage()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-forest-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 transition">
+                <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Simpan & Publikasikan Paket Ulangan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 4: ARENA UJIAN CBT INTERAKTIF                                 -->
+      <!-- ================================================================= -->
+      <div id="tab-exam" class="hidden animate-fade-in">
+        <!-- Header Ujian -->
+        <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-2xl p-4 mb-5 flex flex-wrap items-center justify-between gap-4 shadow-md">
+          <div>
+            <span id="exam-category-badge" class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider bg-forest-850 text-amber-300 mb-1">BAGIAN A • BENAR/SALAH</span>
+            <h2 id="exam-title-display" class="text-base sm:text-lg font-extrabold text-forest-900 dark:text-white">Judul Ujian</h2>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <!-- Timer -->
+            <div class="px-4 py-2 rounded-xl bg-emerald-50 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 flex items-center gap-2">
+              <i class="fa-regular fa-clock text-amber-600 dark:text-amber-400"></i>
+              <span id="exam-timer" class="font-mono font-extrabold text-base sm:text-lg text-forest-900 dark:text-white">60:00</span>
+            </div>
+
+            <button onclick="confirmFinishExam()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-bold text-xs sm:text-sm border border-amber-400/50 shadow-lg transition">
+              <i class="fa-solid fa-check-double text-amber-400 mr-1"></i> Selesai & Nilai
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Area Soal Utama -->
+          <div class="lg:col-span-8">
+            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 sm:p-8 shadow-xl min-h-[420px] flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 pb-4 mb-5 border-b border-emerald-100 dark:border-forest-800">
+                  <span class="text-sm font-extrabold text-forest-850 dark:text-amber-400">Soal Nomor <span id="current-q-num">1</span> dari <span id="total-q-num">35</span></span>
+                  <button onclick="toggleFlagQuestion()" id="flag-btn" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-forest-850 text-forest-900 dark:text-emerald-100 hover:border-amber-500 border border-emerald-200 dark:border-forest-700 transition">
+                    <i class="fa-regular fa-flag mr-1"></i> Tandai Ragu-ragu
+                  </button>
+                </div>
+
+                <!-- Teks Pertanyaan -->
+                <div id="question-text" class="text-base sm:text-lg font-semibold leading-relaxed mb-6 text-slate-900 dark:text-white"></div>
+
+                <!-- Area Opsi Jawaban Dinamis -->
+                <div id="answer-options-area" class="space-y-3"></div>
+              </div>
+
+              <!-- Navigasi Prev / Next -->
+              <div class="flex items-center justify-between pt-6 mt-8 border-t border-emerald-100 dark:border-forest-800">
+                <button id="prev-q-btn" onclick="navigateQuestion(-1)" class="px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 text-xs sm:text-sm font-bold flex items-center gap-2 border border-emerald-200 dark:border-forest-700 transition disabled:opacity-40">
+                  <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                </button>
+                <button id="next-q-btn" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-forest-950 text-xs sm:text-sm font-extrabold flex items-center gap-2 shadow-md transition">
+                  Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigasi Nomor Soal (Sidebar) -->
+          <div class="lg:col-span-4">
+            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-5 shadow-xl sticky top-20">
+              <h3 class="text-sm font-bold text-forest-900 dark:text-white mb-3 flex items-center justify-between">
+                <span>Navigasi Nomor Soal</span>
+                <span id="answered-counter" class="text-xs text-forest-700 dark:text-amber-400 font-mono font-bold">0/35 Terjawab</span>
+              </h3>
+
+              <!-- Legenda -->
+              <div class="flex flex-wrap gap-3 text-[11px] text-slate-500 dark:text-emerald-200/75 mb-4 pb-3 border-b border-emerald-100 dark:border-forest-800">
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-forest-700 inline-block"></span> Dijawab</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> Ragu</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-50 dark:bg-forest-850 border border-emerald-200 dark:border-forest-700 inline-block"></span> Belum</span>
+              </div>
+
+              <div id="question-nav-grid" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 max-h-80 overflow-y-auto pr-1">
+                <!-- Tombol nomor di-render JS -->
+              </div>
+
+              <button onclick="exitExamConfirm()" class="w-full mt-5 py-2.5 rounded-xl border border-rose-500/30 text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs font-semibold transition">
+                Batalkan & Kembali ke Beranda
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 5: HASIL UJIAN & PEMBAHASAN LENGKAP                           -->
+      <!-- ================================================================= -->
+      <div id="tab-result" class="hidden animate-fade-in">
+        <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 sm:p-8 shadow-xl mb-8 text-center relative overflow-hidden">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-forest-850 text-amber-400 border-2 border-amber-400 text-3xl mb-4 shadow-lg">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 dark:text-white mb-1">Latihan Selesai!</h2>
+          <p id="result-exam-title" class="text-sm text-slate-500 dark:text-emerald-200/75 mb-6">SAS Sejarah Kelas XI</p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mb-6">
+            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Skor Akhir</p>
+              <p id="result-score" class="text-3xl font-extrabold text-amber-600 dark:text-amber-400">0</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Jawaban Benar</p>
+              <p id="result-correct" class="text-2xl font-extrabold text-forest-700 dark:text-emerald-400">0</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Kurang Tepat</p>
+              <p id="result-wrong" class="text-2xl font-extrabold text-rose-500">0</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Predikat</p>
+              <p id="result-grade" class="text-xl font-extrabold text-forest-900 dark:text-amber-300">-</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-3">
+            <button onclick="switchTab('dashboard')" class="px-5 py-3 rounded-xl bg-emerald-100 dark:bg-forest-850 hover:bg-emerald-200 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 text-sm font-bold border border-emerald-200 dark:border-forest-700 transition">
+              <i class="fa-solid fa-house mr-1.5"></i> Kembali ke Beranda
+            </button>
+            <button onclick="retakeCurrentExam()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white text-sm font-bold border border-amber-400/50 shadow-lg transition">
+              <i class="fa-solid fa-rotate-right text-amber-400 mr-1.5"></i> Ulangi Paket Ini
+            </button>
+          </div>
+        </div>
+
+        <!-- Review Pembahasan Tiap Soal -->
+        <h3 class="text-lg font-extrabold text-forest-900 dark:text-white mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-amber-500"></i> Pembahasan & Kunci Jawaban
+        </h3>
+        <div id="result-review-list" class="space-y-4"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL PROFIL & UPGRADE REFERRAL USER -->
+  <div id="profile-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/75 backdrop-blur-sm p-4">
+    <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 rounded-3xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-forest-900 dark:text-white">Profil Pengguna & Hak Akses</h3>
+        <button onclick="closeProfileModal()" class="p-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-forest-800">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800 mb-4">
+        <img id="modal-avatar" src="https://placehold.co/64x64/f59e0b/022c22?text=U" alt="Avatar" class="w-12 h-12 rounded-full border-2 border-amber-400" />
+        <div>
+          <p id="modal-name" class="font-bold text-sm text-forest-900 dark:text-white">Nama Pengguna</p>
+          <p id="modal-email" class="text-xs text-slate-500 dark:text-emerald-200/70">email@gmail.com</p>
+          <span id="modal-role-pill" class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-forest-850 text-amber-300">ROLE</span>
+        </div>
+      </div>
+
+      <div id="upgrade-role-section" class="p-4 rounded-2xl border border-emerald-200 dark:border-forest-700 mb-5">
+        <label class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Aktivasi Kode Referral Admin</label>
+        <div class="flex gap-2">
+          <input type="text" id="modal-referral-input" placeholder="Masukkan kode referral..." class="flex-1 px-3 py-2 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-xs uppercase font-mono" />
+          <button onclick="upgradeRoleWithReferral()" class="px-4 py-2 rounded-xl bg-forest-850 hover:bg-forest-700 text-white text-xs font-bold border border-amber-400/40">Aktivasi</button>
+        </div>
+        <p class="text-[11px] text-slate-500 dark:text-emerald-200/70 mt-1.5">Masukkan kode referral valid untuk membuka fitur Import & Kelola Soal.</p>
+      </div>
+
+      <div class="flex justify-end">
+        <button onclick="closeProfileModal()" class="px-5 py-2.5 rounded-xl bg-emerald-100 dark:bg-forest-800 text-forest-900 dark:text-emerald-100 text-xs font-bold">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT & FIREBASE MODULAR SDK                                     -->
+  <!-- ===================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      sendPasswordResetEmail,
+      updateProfile,
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc, 
+      setDoc, 
+      updateDoc, 
+      collection, 
+      getDocs, 
+      addDoc, 
+      deleteDoc, 
+      serverTimestamp,
+      query,
+      where
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Konfigurasi Firebase dari User
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4D-ChK7m1UiQejvWRkk-9sSZcmKO9SjM",
+      authDomain: "aplikasi-open-learning-daa29.firebaseapp.com",
+      projectId: "aplikasi-open-learning-daa29",
+      storageBucket: "aplikasi-open-learning-daa29.firebasestorage.app",
+      messagingSenderId: "485128568117",
+      appId: "1:485128568117:web:dc1f6eb8da64d12c98207c",
+      measurementId: "G-J16BX351L0"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    // =========================================================================
+    // STATE GLOBAL APLIKASI
+    // =========================================================================
+    let currentUser = null;
+    let userRole = 'user'; // 'admin' | 'user'
+    let validReferralCodes = ['ADMIN2026', 'SEJARAHXI14'];
+    let allPackages = [];
+    let draftQuestions = [];
+
+    // State Ujian Aktif
+    let activeExam = null;
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let flaggedQuestions = {};
+    let timerInterval = null;
+    let remainingSeconds = 3600;
+
+    // =========================================================================
+    // DATA PAKET UTAMA: 35 BUTIR SOAL TERPADU SAS SEJARAH KELAS XI
+    // =========================================================================
+    const DEFAULT_SAS_PACKAGE = {
+      id: 'default-sas-sejarah-xi',
+      title: 'SAS Sejarah Kelas XI — Paket Terpadu (35 Butir)',
+      subject: 'Sejarah',
+      duration: 60,
+      isDefault: true,
+      description: 'Mencakup keseluruhan materi kisi-kisi SAS Sejarah Kelas XI SMAN 14 Surabaya: Kolonialisme & Imperialisme, VOC, Perlawanan Daerah (Diponegoro & Padri), Politik Etis, hingga Organisasi Pergerakan Nasional (Budi Utomo, SI, Indische Partij, Muhammadiyah, Taman Siswa, Perhimpunan Indonesia, dan PNI).',
+      questions: [
+        // --- BAGIAN A: BENAR / SALAH (5 BUTIR) ---
+        {
+          id: 'bs-1',
+          type: 'bs',
+          category: 'Bagian A • Benar / Salah',
+          question: 'Bangsa Spanyol merupakan bangsa Eropa pertama yang berhasil tiba di wilayah Nusantara pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque dan langsung mendirikan pusat kolonialisme di Maluku.',
+          answer: 'Salah',
+          explanation: 'Bangsa Eropa pertama yang tiba di Malaka pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque adalah bangsa Portugis, bukan Spanyol.'
+        },
+        {
+          id: 'bs-2',
+          type: 'bs',
+          category: 'Bagian A • Benar / Salah',
+          question: 'Tujuan utama Belanda mendirikan VOC (Vereenigde Oostindische Compagnie) pada tahun 1602 adalah untuk menghindari persaingan tidak sehat antarpedagang Belanda serta memonopoli perdagangan rempah-rempah di Asia, bukan semata-mata membentuk koloni teritorial permanen sejak awal.',
+          answer: 'Benar',
+          explanation: 'VOC dibentuk pada 20 Maret 1602 sebagai kongsi dagang untuk menyatukan pedagang Belanda menghadapi persaingan dagang Eropa lainnya serta memonopoli rempah-rempah.'
+        },
+        {
+          id: 'bs-3',
+          type: 'bs',
+          category: 'Bagian A • Benar / Salah',
+          question: 'Proses masuk dan berkembangnya kekuasaan kolonialisme Barat di berbagai wilayah Indonesia berlangsung mulus dan damai karena penguasa kerajaan lokal menyambut baik kehadiran mereka tanpa perlawanan fisik.',
+          answer: 'Salah',
+          explanation: 'Kedatangan bangsa Barat yang memaksakan monopoli memicu perlawanan gigih dari berbagai kesultanan dan rakyat lokal (Ternate, Mataram, Gowa-Tallo, Banten, Aceh, dll.).'
+        },
+        {
+          id: 'bs-4',
+          type: 'bs',
+          category: 'Bagian A • Benar / Salah',
+          question: 'Organisasi Budi Utomo didirikan pada tanggal 20 Mei 1908 oleh para pelajar STOVIA dengan dr. Soetomo sebagai ketuanya, dan memfokuskan geraknya pada bidang sosial, pendidikan, serta kebudayaan Jawa.',
+          answer: 'Benar',
+          explanation: 'Budi Utomo berdiri 20 Mei 1908 di Batavia atas gagasan dr. Wahidin Soedirohoesodo dan diketuai dr. Soetomo dengan fokus awal kemajuan sosial-budaya dan pengajaran.'
+        },
+        {
+          id: 'bs-5',
+          type: 'bs',
+          category: 'Bagian A • Benar / Salah',
+          question: 'Sarekat Islam pada awal berdirinya tahun 1911 bernama Sarekat Dagang Islam (SDI) yang diprakarsai oleh H. Samanhudi dengan tujuan utama melindungi pedagang batik pribumi dari dominasi pedagang perantara.',
+          answer: 'Benar',
+          explanation: 'H. Samanhudi mendirikan Sarekat Dagang Islam (SDI) di Surakarta tahun 1911 untuk memperkuat solidaritas dan daya saing pedagang batik pribumi.'
+        },
+
+        // --- BAGIAN B: PILIHAN GANDA (15 BUTIR) ---
+        {
+          id: 'pg-1',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Sebuah negara maju menanamkan modal besar di negara berkembang, menguasai hak konsesi sumber daya alam selama puluhan tahun, dan mengendalikan kebijakan ekonomi negara tersebut tanpa perlu menduduki wilayahnya secara fisik atau mengganti pemerintahannya. Fenomena ini merupakan penerapan konsep...',
+          options: [
+            'Kolonialisme klasik berbasis ekspansi teritorial',
+            'Imperialisme modern berbasis dominasi ekonomi dan modal',
+            'Merkantilisme abad ke-16',
+            'Feodalisme agraris tradisional',
+            'Politik etis berbasis emigrasi'
+          ],
+          answer: 1,
+          explanation: 'Imperialisme modern menekankan penguasaan pengaruh ekonomi, politik, dan sumber daya tanpa aneksasi wilayah secara fisik.'
+        },
+        {
+          id: 'pg-2',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Perhatikan cara kerja kekuasaan asing berikut: (1) Penguasaan paten teknologi, (2) Utang luar negeri bersyarat kebijakan pasar bebas, (3) Dominasi perusahaan multinasional atas komoditas strategis. Analisis yang paling tepat mengenai cara kerja imperialisme modern tersebut adalah...',
+          options: [
+            'Mengandalkan pendudukan garnisun militer di setiap ibu kota provinsi',
+            'Menciptakan ketergantungan struktural ekonomi dan teknologi sehingga kedaulatan kebijakan negara sasaran terikat secara tidak langsung',
+            'Menghapuskan identitas bahasa lokal melalui wajib belajar bahasa negara penjajah',
+            'Membagi wilayah negara sasaran menjadi beberapa negara boneka secara administratif',
+            'Menerapkan sistem tanam paksa atas komoditas pertanian rakyat'
+          ],
+          answer: 1,
+          explanation: 'Imperialisme modern bekerja melalui ketergantungan finansial, investasi, dan teknologi tanpa pendudukan militer langsung.'
+        },
+        {
+          id: 'pg-3',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Salah satu motivasi penjelajahan samudra bangsa Portugis dan Spanyol ke Dunia Timur adalah semboyan Gospel (penyebaran agama Nasrani). Alasan historis yang mendorong kuatnya semangat tersebut pada abad ke-15 hingga ke-16 adalah...',
+          options: [
+            'Keinginan menggantikan jalur perdagangan darat yang dikuasai oleh Kekaisaran Tiongkok',
+            'Semangat melanjutkan Perang Salib (Reconquista) serta kewajiban menjalankan mandat Paus dalam Perjanjian Tordesillas',
+            'Tuntutan para petani rempah di Asia agar mendapatkan perlindungan gereja Eropa',
+            'Kurangnya jumlah penduduk Eropa akibat wabah penyakit',
+            'Larangan berdagang rempah-rempah di seluruh pelabuhan Laut Tengah oleh Paus'
+          ],
+          answer: 1,
+          explanation: 'Semangat Reconquista setelah menaklukkan Semenanjung Iberia dan dekrit Paus (Perjanjian Tordesillas 1494) mendorong misi penyebaran Katolik ke wilayah baru.'
+        },
+        {
+          id: 'pg-4',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Konflik antara Portugis (yang bersekutu dengan Ternate) dan Spanyol (yang bersekutu dengan Tidore) di Maluku diselesaikan melalui Perjanjian Zaragoza pada tahun 1529. Konsekuensi langsung perjanjian tersebut bagi kegiatan Spanyol adalah...',
+          options: [
+            'Spanyol berhak menguasai seluruh wilayah Maluku Utara dan Sulawesi',
+            'Spanyol harus meninggalkan Maluku dan memusatkan aktivitas kolonialnya di Filipina',
+            'Spanyol dan Portugis membagi hak monopoli cengkih di Tidore secara seimbang',
+            'Spanyol diwajibkan menyerahkan seluruh armadanya kepada Kesultanan Ternate',
+            'Spanyol memperoleh hak penuh atas jalur perdagangan Selat Malaka'
+          ],
+          answer: 1,
+          explanation: 'Perjanjian Zaragoza (1529) menetapkan garis batas di sebelah timur Maluku sehingga Spanyol harus mundur ke Filipina.'
+        },
+        {
+          id: 'pg-5',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Kedatangan bangsa Portugis dan jatuhnya Malaka pada tahun 1511 memengaruhi dinamika perdagangan di Nusantara, yaitu...',
+          options: [
+            'Terciptanya perdagangan bebas yang menguntungkan seluruh pedagang Asia Tenggara',
+            'Terputusnya jaringan perdagangan tradisional Nusantara dan bergesernya jalur dagang ke pelabuhan alternatif seperti Aceh, Banten, dan Makassar',
+            'Hilangnya peran pedagang Nusantara secara permanen dari seluruh lautan Hindia',
+            'Berakhirnya seluruh persaingan dagang antar-kesultanan di pesisir utara Jawa',
+            'Meningkatnya harga beli rempah-rempah bagi petani lokal di Maluku'
+          ],
+          answer: 1,
+          explanation: 'Praktik monopoli Portugis di Malaka membuat pedagang Muslim mengalihkan rute perdagangan mereka ke Aceh, Banten, Demak, dan Makassar.'
+        },
+        {
+          id: 'pg-6',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Motivasi utama pemerintah dan para pengusaha Belanda membentuk VOC (Vereenigde Oostindische Compagnie) pada awal abad ke-17 (1602) adalah...',
+          options: [
+            'Menyebarkan kebudayaan dan sistem demokrasi parlementer Belanda di Asia',
+            'Menghindari persaingan tidak sehat antar-kongsi dagang Belanda sendiri serta memperkuat posisi menghadapi persaingan Portugis, Spanyol, dan Inggris',
+            'Membangun infrastruktur pendidikan modern bagi penduduk pribumi di Jawa',
+            'Menghapuskan sistem perbudakan dan feodalisme di seluruh kerajaan Nusantara',
+            'Menjadikan Batavia sebagai pusat industri manufaktur terbesar di Asia'
+          ],
+          answer: 1,
+          explanation: 'Sebelum 1602, banyak perusahaan dagang Belanda saling menjatuhkan harga di Asia sehingga dibentuklah VOC untuk menyatukan kekuatan modal dan monopoli.'
+        },
+        {
+          id: 'pg-7',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Strategi divide et impera (politik adu domba) yang diterapkan VOC dalam konflik suksesi internal kerajaan-kerajaan lokal menimbulkan dampak jangka panjang terhadap struktur politik di Nusantara, yakni...',
+          options: [
+            'Terbentuknya federasi kerajaan-kerajaan Nusantara yang solid melawan Eropa',
+            'Terpecah-belahnya wilayah kerajaan menjadi entitas kecil yang lemah dan bergantung pada legitimasi serta intervensi kekuasaan kolonial',
+            'Menguatnya kedaulatan absolut raja tanpa campur tangan pihak luar',
+            'Modernisasi sistem hukum adat menjadi hukum nasional yang merdeka',
+            'Hilangnya peran kaum bangsawan dalam struktur pemerintahan daerah'
+          ],
+          answer: 1,
+          explanation: 'Contoh nyata adalah terpecahnya Mataram Islam melalui Perjanjian Giyanti (1755) dan Salatiga (1757) yang melemahkan kekuatan politik pribumi.'
+        },
+        {
+          id: 'pg-8',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Dalam Perang Jawa (1825–1830), Pangeran Diponegoro berhasil bertahan menghadapi pasukan Belanda yang lebih modern selama lima tahun. Cara Diponegoro memanfaatkan strategi perang gerilya untuk memperpanjang perlawanan adalah...',
+          options: [
+            'Membangun benteng pertahanan batu permanen di tengah alun-alun Yogyakarta',
+            'Menyerang pasukan Belanda secara terbuka dalam barisan besar di dataran rendah',
+            'Bergerak lincah memanfaatkan medan pegunungan dan hutan, menyerang pos Belanda secara mendadak, lalu menghilang dengan dukungan logistik serta informasi rakyat',
+            'Melakukan blokade laut terhadap seluruh kapal dagang Belanda di Laut Jawa',
+            'Menandatangani gencatan senjata setiap kali memasuki musim penghujan'
+          ],
+          answer: 2,
+          explanation: 'Taktik perang gerilya yang didukung penuh oleh jaringan ulama, bangsawan, dan rakyat pedesaan membuat pasukan Jenderal De Kock kewalahan hingga menerapkan Benteng Stelsel.'
+        },
+        {
+          id: 'pg-9',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Pelajaran penting mengenai hubungan antara rakyat dan penguasa/pemimpin perjuangan yang dapat disimpulkan dari peristiwa Perang Diponegoro adalah...',
+          options: [
+            'Perjuangan bersenjata hanya bergantung pada kecanggihan persenjataan militer',
+            'Dukungan tulus dan keterlibatan aktif rakyat akan muncul apabila pemimpin berpihak pada penderitaan rakyat dan menjunjung nilai keadilan',
+            'Pemimpin tradisional tidak memerlukan dukungan golongan ulama maupun petani',
+            'Kerja sama dengan pemerintah kolonial selalu menjamin kesejahteraan rakyat',
+            'Konflik internal keraton tidak berpengaruh terhadap simpati masyarakat luas'
+          ],
+          answer: 1,
+          explanation: 'Diponegoro mendapat dukungan masif dari rakyat kecil karena ia membela rakyat dari beban pajak berat dan kesewenang-wenangan pejabat kolonial.'
+        },
+        {
+          id: 'pg-10',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Pada fase awal Perang Padri di Sumatra Barat (1821–1832), terjadi pertentangan tajam antara Kaum Padri dan Kaum Adat. Analisis yang tepat mengenai perpecahan internal tersebut sebagai faktor pelemah perlawanan adalah...',
+          options: [
+            'Perpecahan internal membuat Kaum Adat meminta bantuan Belanda sehingga Belanda memperoleh legitimasi dan pintu masuk untuk mengintervensi Sumatra Barat',
+            'Kaum Padri dan Kaum Adat sama-sama menyerahkan wilayah pesisir kepada Inggris secara sukarela',
+            'Konflik tersebut menyebabkan seluruh hasil pertanian kopi Minangkabau musnah terbakar',
+            'Perpecahan internal langsung diakhiri oleh Plakat Panjang sebelum Belanda tiba',
+            'Kaum Adat memiliki armada laut yang menghalangi bantuan logistik Kaum Padri'
+          ],
+          answer: 0,
+          explanation: 'Permintaan bantuan Kaum Adat kepada Belanda pada 1821 dimanfaatkan Belanda untuk menancapkan kekuasaan sebelum akhirnya Kaum Adat dan Kaum Padri bersatu.'
+        },
+        {
+          id: 'pg-11',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Pelaksanaan Politik Etis (terutama program Edukasi) pada awal abad ke-20 bertujuan menyediakan tenaga administrasi terdidik berupah murah bagi pemerintah kolonial. Namun, dampak historis jangka panjang yang lahir dari kebijakan tersebut adalah...',
+          options: [
+            'Lahirnya golongan terpelajar (elite modern) pribumi yang memiliki kesadaran kebangsaan dan mempelopori organisasi pergerakan nasional',
+            'Terhapusnya seluruh praktik diskriminasi rasial di sekolah-sekolah Hindia Belanda',
+            'Kembalinya sistem pemerintahan kerajaan tradisional seperti sebelum kedatangan VOC',
+            'Seluruh rakyat Hindia Belanda memperoleh hak pilih dalam parlemen di negeri Belanda',
+            'Berakhirnya eksploitasi perkebunan swasta asing di luar Pulau Jawa'
+          ],
+          answer: 0,
+          explanation: 'Edukasi melahirkan kaum terpelajar seperti dr. Soetomo, Cipto Mangunkusumo, Suwardi Suryaningrat, dan Soekarno yang memimpin pergerakan nasional.'
+        },
+        {
+          id: 'pg-12',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Dr. Wahidin Soedirohoesodo berkeliling Pulau Jawa mengampanyekan gagasan pembentukan dana pelajar (studiefonds) untuk membantu pemuda pribumi cerdas yang tidak mampu melanjutkan sekolah. Hubungan gagasan tersebut dengan berdirinya Budi Utomo adalah...',
+          options: [
+            'Gagasan tersebut ditolak oleh mahasiswa STOVIA sehingga mereka mendirikan partai politik radikal',
+            'Pertemuan dr. Wahidin dengan dr. Soetomo dan pelajar STOVIA menginspirasi lahirnya Budi Utomo sebagai organisasi modern untuk memajukan pendidikan dan martabat bangsa',
+            'Dana pelajar tersebut digunakan untuk membeli persenjataan bagi perlawanan bersenjata di Batavia',
+            'Dr. Wahidin diangkat menjadi Gubernur Jenderal berkat keberhasilan program studiefonds',
+            'Budi Utomo didirikan semata-mata untuk menggantikan peran sekolah-sekolah partikelir Belanda'
+          ],
+          answer: 1,
+          explanation: 'Pertemuan dr. Wahidin dengan mahasiswa STOVIA di Jakarta memicu berdirinya Budi Utomo pada 20 Mei 1908.'
+        },
+        {
+          id: 'pg-13',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Buletin atau majalah perjuangan yang diterbitkan oleh Perhimpunan Indonesia di negeri Belanda sebagai media menyuarakan gagasan kemerdekaan Indonesia ke dunia internasional adalah...',
+          options: [
+            'De Expres',
+            'Indonesia Merdeka (semula Hindia Poetra)',
+            'Oetoesan Hindia',
+            'Medan Prijaji',
+            'Fikiran Ra’jat'
+          ],
+          answer: 1,
+          explanation: 'Perhimpunan Indonesia menerbitkan majalah Hindia Poetra yang kemudian berganti nama menjadi Indonesia Merdeka pada tahun 1924.'
+        },
+        {
+          id: 'pg-14',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Semboyan terkenal "Indie voor Indiers" (Hindia untuk orang Hindia) yang diperjuangkan oleh Indische Partij mengandung arti...',
+          options: [
+            'Hindia Belanda hanya boleh diperintah oleh golongan bangsawan keturunan Jawa asli',
+            'Tanah air Hindia diperuntukkan bagi seluruh penduduk yang lahir, menetap, dan mencintai Hindia tanpa membedakan asal-usul ras atau keturunan untuk membangun bangsa merdeka',
+            'Pemerintah Belanda harus menyerahkan pengelolaan perkebunan hanya kepada pengusaha Indo-Eropa',
+            'Seluruh penduduk keturunan asing wajib dipulangkan ke negara leluhurnya masing-masing',
+            'Hindia Belanda tetap menjadi provinsi otonom di bawah kedaulatan Ratu Belanda'
+          ],
+          answer: 1,
+          explanation: 'Indische Partij mengembangkan nasionalisme inklusif (Indische Nationalisme) yang menyatukan pribumi, Indo-Eropa, Tionghoa, dan Arab yang mencintai Hindia.'
+        },
+        {
+          id: 'pg-15',
+          type: 'pg',
+          category: 'Bagian B • Pilihan Ganda',
+          question: 'Organisasi pergerakan Islam modern yang didirikan oleh K.H. Ahmad Dahlan di Yogyakarta pada 18 November 1912 dan tercatat sebagai organisasi pergerakan pertama yang memiliki sayap perempuan (Aisyiyah) adalah...',
+          options: [
+            'Sarekat Islam',
+            'Nahdlatul Ulama',
+            'Muhammadiyah',
+            'Persatuan Islam (PERSIS)',
+            'Al-Irsyad'
+          ],
+          answer: 2,
+          explanation: 'Muhammadiyah didirikan K.H. Ahmad Dahlan pada 18 November 1912 dan membentuk bagian perempuan Aisyiyah pada tahun 1917.'
+        },
+
+        // --- BAGIAN C: PILIHAN GANDA KOMPLEKS (5 BUTIR) ---
+        {
+          id: 'pgk-1',
+          type: 'pgk',
+          category: 'Bagian C • Pilihan Ganda Kompleks',
+          question: 'Perhatikan pernyataan-pernyataan berikut terkait Perguruan Taman Siswa yang didirikan Ki Hajar Dewantara pada 3 Juli 1922! Pilihlah pernyataan yang BENAR (lebih dari satu):',
+          options: [
+            'Menerapkan sistem Among dengan semboyan Ing Ngarso Sung Tulodo, Ing Madyo Mangun Karso, Tut Wuri Handayani.',
+            'Menolak bantuan subsidi dari pemerintah kolonial Belanda agar tetap bebas dan mandiri menentukan kurikulum berwawasan kebangsaan.',
+            'Mewajibkan penggunaan bahasa Belanda sebagai satu-satunya bahasa pengantar di seluruh jenjang kelas.',
+            'Menyelenggarakan pendidikan yang memadukan kecerdasan intelek dengan pembentukan karakter serta akar budaya nasional.'
+          ],
+          answer: [0, 1, 3],
+          explanation: 'Taman Siswa menolak subsidi Belanda ("ordonansi sekolah liar" pun ditentang), menerapkan sistem Among, dan berakar pada budaya nasional.'
+        },
+        {
+          id: 'pgk-2',
+          type: 'pgk',
+          category: 'Bagian C • Pilihan Ganda Kompleks',
+          question: 'Manakah pernyataan yang TEPAT mengenai tujuan dan kiprah Perhimpunan Indonesia (PI) setelah perubahan nama dan penegasan manifesto politik pada tahun 1925?',
+          options: [
+            'Menuntut kemerdekaan penuh bagi Indonesia yang dicapai melalui kekuatan dan kemampuan bangsa sendiri (self-help).',
+            'Menggalang persatuan seluruh elemen bangsa tanpa membedakan suku, agama, maupun golongan (solidaritas nasional).',
+            'Menyebarkan propaganda perjuangan kemerdekaan Indonesia di forum-forum internasional Eropa.',
+            'Mendukung penuh politik asosiasi dan kerja sama permanen dengan Kerajaan Belanda.'
+          ],
+          answer: [0, 1, 2],
+          explanation: 'Manifesto 1925 Perhimpunan Indonesia di bawah Mohammad Hatta menegaskan prinsip persatuan nasional, solidaritas, nonkooperasi, dan swadaya (self-help).'
+        },
+        {
+          id: 'pgk-3',
+          type: 'pgk',
+          category: 'Bagian C • Pilihan Ganda Kompleks',
+          question: 'Kiprah Tiga Serangkai (Douwes Dekker, Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat) melalui Indische Partij memiliki makna penting bagi perjuangan nasional karena...',
+          options: [
+            'Menjadi organisasi politik pertama di Hindia Belanda yang secara terang-terangan menuntut kemerdekaan penuh.',
+            'Mengkritik tajam ketidakadilan kolonial melalui tulisan fenomenal seperti "Als ik eens Nederlander was" (Seandainya Aku Seorang Belanda).',
+            'Menanamkan paham nasionalisme yang melampaui sekat-sekat kesukuan dan kedaerahan.',
+            'Berhasil menduduki mayoritas kursi pemerintahan kolonial di Batavia pada tahun 1913.'
+          ],
+          answer: [0, 1, 2],
+          explanation: 'Tiga Serangkai mempelopori pergerakan politik radikal dan nasionalisme inklusif sehingga mereka dibuang ke Belanda pada tahun 1913.'
+        },
+        {
+          id: 'pgk-4',
+          type: 'pgk',
+          category: 'Bagian C • Pilihan Ganda Kompleks',
+          question: 'Faktor-faktor yang menyebabkan Sarekat Islam (SI) berkembang sangat pesat menjadi organisasi massa pertama dengan ratusan ribu anggota pada dekade 1910-an adalah...',
+          options: [
+            'Keanggotaannya bersifat terbuka (inklusif) bagi seluruh rakyat pribumi tanpa memandang status kebangsawanan.',
+            'Menyuarakan pembelaan nyata terhadap nasib ekonomi rakyat kecil, buruh, dan pedagang pribumi yang tertindas.',
+            'Kepemimpinan H.O.S. Tjokroaminoto yang karismatik dan mampu memobilisasi kesadaran masyarakat luas.',
+            'Mendapatkan bantuan dana operasional langsung dari Ratu Belanda.'
+          ],
+          answer: [0, 1, 2],
+          explanation: 'Sifat demokratis, pembelaan terhadap wong cilik, ikatan solidaritas Islam, dan karisma Tjokroaminoto membuat SI tumbuh pesat.'
+        },
+        {
+          id: 'pgk-5',
+          type: 'pgk',
+          category: 'Bagian C • Pilihan Ganda Kompleks',
+          question: 'Manakah pasangan organisasi pergerakan nasional dan karakteristik perjuangannya yang SESUAI?',
+          options: [
+            'Budi Utomo (1908): Pada awal berdirinya bersifat moderat, kooperatif, dan berfokus pada pendidikan serta kebudayaan.',
+            'Partai Nasional Indonesia / PNI (1927): Dipimpin Ir. Soekarno dengan asas marhaenisme, nonkooperatif, dan mobilisasi massa.',
+            'Indische Partij (1912): Bersifat nonkooperatif dan radikal menentang kolonialisme Belanda.',
+            'Taman Siswa (1922): Organisasi militer rahasia yang melatih pasukan bersenjata di Yogyakarta.'
+          ],
+          answer: [0, 1, 2],
+          explanation: 'Budi Utomo (moderat awal), PNI (nonkooperatif massa), dan Indische Partij (radikal nonkooperatif) adalah pasangan yang tepat; Taman Siswa bergerak di bidang pendidikan.'
+        },
+
+        // --- BAGIAN D: MENJODOHKAN / IDENTIFIKASI TOKOH & ORGANISASI (5 BUTIR) ---
+        {
+          id: 'mj-1',
+          type: 'matching',
+          category: 'Bagian D • Menjodohkan',
+          question: '[Menjodohkan 1] Organisasi pergerakan modern pertama yang berdiri pada tanggal 20 Mei 1908 atas gagasan dr. Wahidin Soedirohoesodo dan diketuai oleh dr. Soetomo adalah...',
+          options: [
+            'Budi Utomo',
+            'Sarekat Islam',
+            'Indische Partij',
+            'Perhimpunan Indonesia',
+            'Muhammadiyah'
+          ],
+          answer: 0,
+          explanation: 'Budi Utomo berdiri 20 Mei 1908 oleh dr. Soetomo dan rekan-rekan STOVIA.'
+        },
+        {
+          id: 'mj-2',
+          type: 'matching',
+          category: 'Bagian D • Menjodohkan',
+          question: '[Menjodohkan 2] Organisasi yang semula bernama Sarekat Dagang Islam (SDI) yang didirikan oleh H. Samanhudi di Surakarta tahun 1911 dan kemudian berkembang pesat di bawah H.O.S. Tjokroaminoto adalah...',
+          options: [
+            'Taman Siswa',
+            'Sarekat Islam',
+            'Partai Nasional Indonesia (PNI)',
+            'Indische Partij',
+            'Budi Utomo'
+          ],
+          answer: 1,
+          explanation: 'SDI diubah namanya menjadi Sarekat Islam (SI) tahun 1912 agar ruang geraknya tidak terbatas pada kalangan pedagang saja.'
+        },
+        {
+          id: 'mj-3',
+          type: 'matching',
+          category: 'Bagian D • Menjodohkan',
+          question: '[Menjodohkan 3] Partai politik pertama di Hindia Belanda yang didirikan di Bandung pada 25 Desember 1912 oleh Tiga Serangkai (Douwes Dekker, Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat) adalah...',
+          options: [
+            'Perhimpunan Indonesia',
+            'Partai Nasional Indonesia',
+            'Indische Partij',
+            'Budi Utomo',
+            'Parindra'
+          ],
+          answer: 2,
+          explanation: 'Indische Partij didirikan oleh Tiga Serangkai dengan semboyan Indie voor Indiers.'
+        },
+        {
+          id: 'mj-4',
+          type: 'matching',
+          category: 'Bagian D • Menjodohkan',
+          question: '[Menjodohkan 4] Gerakan sosial-politik berhaluan Islam-komunis di Surakarta pada awal dekade 1920-an yang dipimpin oleh tokoh berjuluk "Haji Merah" (Haji Misbach) dan berafiliasi dengan gerakan kiri/PKI adalah...',
+          options: [
+            'Muhammadiyah',
+            'Taman Siswa',
+            'Sarekat Rakyat / Gerakan Islam-Komunis (PKI)',
+            'Budi Utomo',
+            'Perhimpunan Indonesia'
+          ],
+          answer: 2,
+          explanation: 'Haji Misbach dikenal sebagai mubaligh radikal di Surakarta yang memadukan nilai Islam pembebasan dengan gerakan komunis/Sarekat Rakyat.'
+        },
+        {
+          id: 'mj-5',
+          type: 'matching',
+          category: 'Bagian D • Menjodohkan',
+          question: '[Menjodohkan 5] Organisasi mahasiswa Indonesia di negeri Belanda yang semula bernama Indische Vereeniging (berdiri 1908 oleh Soetan Kasajangan Soripada dan R.M. Noto Soeroto) lalu bertransformasi menjadi organisasi politik radikal di bawah Mohammad Hatta adalah...',
+          options: [
+            'Indische Partij',
+            'Perhimpunan Indonesia',
+            'Budi Utomo',
+            'Sarekat Islam',
+            'Taman Siswa'
+          ],
+          answer: 1,
+          explanation: 'Indische Vereeniging berubah nama menjadi Indonesische Vereeniging (1922) dan Perhimpunan Indonesia (1925).'
+        },
+
+        // --- BAGIAN E: URAIAN / ESAI ANALITIS (5 BUTIR) ---
+        {
+          id: 'ur-1',
+          type: 'essay',
+          category: 'Bagian E • Uraian Analitis',
+          question: 'Jelaskan mengapa berdirinya Budi Utomo pada tanggal 20 Mei 1908 dianggap sebagai tonggak Kebangkitan Nasional dan bagaimana perubahan pola perjuangan bangsa Indonesia setelah peristiwa tersebut!',
+          keywords: ['organisasi', 'modern', 'kedaerahan', 'persatuan', 'pendidikan', 'diplomasi'],
+          sampleAnswer: 'Budi Utomo menjadi tonggak Kebangkitan Nasional karena menandai perubahan pola perjuangan bangsa Indonesia: dari perlawanan fisik/bersenjata yang bersifat kedaerahan dan bergantung pada satu tokoh karismatik, beralih menuju perjuangan modern melalui organisasi yang terstruktur, mengandalkan pendidikan, kesadaran kebangsaan, dan persatuan nasional.',
+          explanation: 'Poin utama: peralihan dari perlawanan fisik kedaerahan menuju perjuangan modern terorganisir berbasis intelektual dan persatuan.'
+        },
+        {
+          id: 'ur-2',
+          type: 'essay',
+          category: 'Bagian E • Uraian Analitis',
+          question: 'Analisislah faktor-faktor utama yang membuat Sarekat Islam (SI) mampu menarik perhatian masyarakat luas dan berkembang pesat dibandingkan organisasi awal lainnya!',
+          keywords: ['terbuka', 'rakyat', 'islam', 'ekonomi', 'tjokroaminoto'],
+          sampleAnswer: 'Sarekat Islam menarik minat masyarakat luas karena: (1) Keanggotaannya terbuka bagi semua lapisan rakyat pribumi tanpa memandang status kebangsawanan; (2) Menggunakan identitas agama Islam sebagai pemersatu psikologis dan kultural; (3) Membela kepentingan ekonomi pedagang kecil dan rakyat yang tertindas kolonialisme; serta (4) Kepemimpinan H.O.S. Tjokroaminoto yang karismatik.',
+          explanation: 'Poin utama: sifat terbuka/egaliter, solidaritas Islam, pembelaan ekonomi rakyat kecil, dan karisma pemimpin.'
+        },
+        {
+          id: 'ur-3',
+          type: 'essay',
+          category: 'Bagian E • Uraian Analitis',
+          question: 'Mengapa semboyan "Indie voor Indiers" yang diusung Indische Partij dianggap sangat berbahaya oleh pemerintah kolonial Belanda, dan bagaimana kaitannya dengan lahirnya konsep nasionalisme Indonesia?',
+          keywords: ['kemerdekaan', 'persatuan', 'ras', 'nasionalisme', 'kolonial'],
+          sampleAnswer: 'Semboyan "Indie voor Indiers" (Hindia untuk orang Hindia) dianggap berbahaya oleh Belanda karena secara terang-terangan menuntut kemerdekaan dan kedaulatan penuh bagi Hindia lepas dari kekuasaan Belanda. Kaitannya dengan nasionalisme adalah semboyan ini meletakkan dasar nasionalisme inklusif bahwa semua orang yang lahir dan mencintai tanah Hindia adalah satu bangsa tanpa memandang ras atau suku.',
+          explanation: 'Poin utama: ancaman langsung terhadap legitimasi kekuasaan kolonial Belanda dan peletak dasar nasionalisme inklusif lintas ras/suku.'
+        },
+        {
+          id: 'ur-4',
+          type: 'essay',
+          category: 'Bagian E • Uraian Analitis',
+          question: 'Bandingkan strategi perjuangan Budi Utomo, Sarekat Islam, Indische Partij, dan PNI (kooperatif vs nonkooperatif), lalu berikan penilaianmu strategi mana yang paling efektif pada konteks zamannya!',
+          keywords: ['kooperatif', 'nonkooperatif', 'moderat', 'radikal', 'massa'],
+          sampleAnswer: 'Budi Utomo (fase awal) dan sebagian SI menempuh jalur kooperatif/moderat dengan memanfaatkan jalur pendidikan dan Dewan Rakyat (Volksraad) untuk membangun fondasi SDM. Sebaliknya, Indische Partij dan PNI menempuh jalur nonkooperatif dan mobilisasi massa untuk menuntut kemerdekaan secara tegas. Keduanya saling melengkapi: jalur kooperatif efektif menjaga keberlangsungan ruang gerak legal dan pendidikan, sedangkan nonkooperatif efektif membangkitkan keberanian politik dan kesadaran merdeka.',
+          explanation: 'Poin utama: perbandingan kooperatif (BU/SI) vs nonkooperatif (IP/PNI) disertai argumen penilaian efektivitasnya.'
+        },
+        {
+          id: 'ur-5',
+          type: 'essay',
+          category: 'Bagian E • Uraian Analitis',
+          question: 'Bayangkan kamu adalah tokoh pemuda pada masa pergerakan nasional. Rancanglah sebuah organisasi perjuangan lengkap dengan: (a) Nama organisasi, (b) Tujuan utama, (c) Strategi perjuangan, dan (d) Dua program kerja konkret!',
+          keywords: ['tujuan', 'strategi', 'program', 'pendidikan', 'persatuan', 'kemerdekaan'],
+          sampleAnswer: 'Contoh rancangan: (a) Nama: Perhimpunan Pemuda Nusantara (PPN); (b) Tujuan: Mempersatukan pemuda lintas daerah untuk mencapai kemerdekaan Indonesia; (c) Strategi: Nonkooperatif konstruktif melalui pencerdasan massa dan kemandirian ekonomi; (d) Program kerja: 1. Mendirikan taman bacaan dan kursus pemberantasan buta huruf bagi rakyat; 2. Membentuk koperasi simpan pinjam dan usaha mandiri pemuda.',
+          explanation: 'Penilaian mencakup kelengkapan 4 komponen: nama, tujuan, strategi, dan 2 program kerja yang relevan dengan konteks pergerakan nasional.'
+        }
+      ]
+    };
+
+    // =========================================================================
+    // UTILITAS UI (TOAST, MODAL KONFIRMASI, THEME)
+    // =========================================================================
+    window.showToast = function(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const colors = {
+        success: 'bg-forest-850 text-white border-amber-400',
+        error: 'bg-rose-600 text-white border-rose-400',
+        warning: 'bg-amber-500 text-forest-950 border-amber-300',
+        info: 'bg-forest-900 text-white border-emerald-500'
+      };
+      const icons = {
+        success: 'fa-circle-check text-amber-400',
+        error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info text-amber-400'
+      };
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl border shadow-xl text-xs sm:text-sm font-semibold animate-fade-in ${colors[type] || colors.info}`;
+      toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-base"></i><span class="flex-1">${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-6px)';
+        toast.style.transition = 'all 0.25s ease';
+        setTimeout(() => toast.remove(), 260);
+      }, 3600);
+    };
+
+    window.showConfirm = function(title, message, onConfirm) {
+      const modal = document.getElementById('confirm-modal');
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      const okBtn = document.getElementById('confirm-ok-btn');
+      const cancelBtn = document.getElementById('confirm-cancel-btn');
+
+      const cleanup = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+      };
+
+      cancelBtn.onclick = cleanup;
+      okBtn.onclick = () => {
+        cleanup();
+        onConfirm();
+      };
+    };
+
+    window.toggleTheme = function() {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('historicbt_theme', isDark ? 'dark' : 'light');
+    };
+
+    // Muat preferensi tema (Default Light Emerald & Gold agar serasi dengan logo)
+    if (localStorage.getItem('historicbt_theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    // =========================================================================
+    // FIREBASE REFERRAL CONFIG & AUTHENTICATION (USERNAME/PASSWORD, DAFTAR, LUPA SANDI)
+    // =========================================================================
+    window.switchAuthMode = function(mode) {
+      const formLogin = document.getElementById('form-login');
+      const formRegister = document.getElementById('form-register');
+      const formForgot = document.getElementById('form-forgot');
+      const tabsHeader = document.getElementById('auth-tabs-header');
+      const secondaryAuth = document.getElementById('secondary-auth-options');
+      const btnLoginTab = document.getElementById('tab-btn-login');
+      const btnRegisterTab = document.getElementById('tab-btn-register');
+
+      formLogin.classList.add('hidden');
+      formRegister.classList.add('hidden');
+      formForgot.classList.add('hidden');
+
+      if (mode === 'login') {
+        formLogin.classList.remove('hidden');
+        tabsHeader.classList.remove('hidden');
+        secondaryAuth.classList.remove('hidden');
+        btnLoginTab.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-forest-850 text-white shadow-md shadow-emerald-900/20 transition';
+        btnRegisterTab.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-forest-850 dark:text-emerald-200/75 hover:text-forest-950 dark:hover:text-white transition';
+      } else if (mode === 'register') {
+        formRegister.classList.remove('hidden');
+        tabsHeader.classList.remove('hidden');
+        secondaryAuth.classList.remove('hidden');
+        btnRegisterTab.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-forest-850 text-white shadow-md shadow-emerald-900/20 transition';
+        btnLoginTab.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-forest-850 dark:text-emerald-200/75 hover:text-forest-950 dark:hover:text-white transition';
+      } else if (mode === 'forgot') {
+        formForgot.classList.remove('hidden');
+        tabsHeader.classList.add('hidden');
+        secondaryAuth.classList.add('hidden');
+      }
+    };
+
+    window.togglePasswordVisibility = function(inputId, btnEl) {
+      const input = document.getElementById(inputId);
+      const icon = btnEl.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    };
+
+    function mapFirebaseAuthError(errorCode) {
+      const map = {
+        'auth/invalid-credential': 'Username/email atau kata sandi salah.',
+        'auth/user-not-found': 'Akun dengan email tersebut tidak ditemukan.',
+        'auth/wrong-password': 'Kata sandi yang Anda masukkan salah.',
+        'auth/email-already-in-use': 'Alamat email ini sudah terdaftar. Silakan masuk atau gunakan email lain.',
+        'auth/weak-password': 'Kata sandi terlalu lemah (minimal 6 karakter).',
+        'auth/invalid-email': 'Format alamat email tidak valid.',
+        'auth/too-many-requests': 'Terlalu banyak percobaan gagal. Silakan coba beberapa saat lagi.',
+        'auth/network-request-failed': 'Koneksi internet bermasalah. Periksa jaringan Anda.'
+      };
+      return map[errorCode] || 'Terjadi kesalahan autentikasi. Silakan coba lagi.';
+    }
+
+    async function loadReferralCodesFromFirestore() {
+      try {
+        const refDoc = await getDoc(doc(db, 'app_settings', 'referral_config'));
+        if (refDoc.exists() && Array.isArray(refDoc.data().codes)) {
+          validReferralCodes = refDoc.data().codes;
+        } else {
+          await setDoc(doc(db, 'app_settings', 'referral_config'), {
+            codes: ['ADMIN2026', 'SEJARAHXI14'],
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.warn('Menggunakan kode referral lokal fallback:', err.message);
+      }
+      const adminRefInput = document.getElementById('admin-referral-setting');
+      if (adminRefInput) adminRefInput.value = validReferralCodes[0] || 'ADMIN2026';
+    }
+
+    function checkReferralValid(codeInput) {
+      if (!codeInput) return false;
+      const clean = codeInput.trim().toUpperCase();
+      return validReferralCodes.map(c => c.toUpperCase()).includes(clean);
+    }
+
+    // 1. HANDLER MASUK (USERNAME ATAU EMAIL + PASSWORD)
+    window.handleStandardLogin = async function(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('login-identifier').value.trim();
+      const password = document.getElementById('login-password').value;
+      const btn = document.getElementById('btn-submit-login');
+
+      if (!identifier || !password) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> <span>Memverifikasi Akun...</span>`;
+
+      try {
+        let emailToLogin = identifier;
+
+        if (!identifier.includes('@')) {
+          const cleanUsername = identifier.toLowerCase();
+          let foundEmail = null;
+
+          try {
+            const q = query(collection(db, 'users'), where('username', '==', cleanUsername));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+              foundEmail = snap.docs[0].data().email;
+            }
+          } catch (fsErr) {
+            console.warn('Pencarian username di Firestore gagal, cek cache lokal:', fsErr.message);
+          }
+
+          if (!foundEmail) {
+            const localUsers = JSON.parse(localStorage.getItem('historicbt_local_users') || '[]');
+            const localMatch = localUsers.find(u => (u.username || '').toLowerCase() === cleanUsername);
+            if (localMatch) foundEmail = localMatch.email;
+          }
+
+          if (!foundEmail) {
+            throw { customMessage: `Username "@${cleanUsername}" tidak ditemukan. Pastikan penulisan benar atau gunakan email.` };
+          }
+          emailToLogin = foundEmail;
+        }
+
+        const cred = await signInWithEmailAndPassword(auth, emailToLogin, password);
+        await processUserLogin(cred.user, '');
+      } catch (err) {
+        console.error('Login error:', err);
+        const msg = err.customMessage || mapFirebaseAuthError(err.code);
+        showToast(msg, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-right-to-bracket text-amber-400"></i> <span>Masuk</span>`;
+      }
+    };
+
+    // 2. HANDLER DAFTAR AKUN BARU (NAMA, USERNAME UNIK, EMAIL, PASSWORD, REFERRAL ADMIN)
+    window.handleStandardRegister = async function(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('reg-fullname').value.trim();
+      const usernameRaw = document.getElementById('reg-username').value.trim().toLowerCase();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-confirm-password').value;
+      const referralInput = document.getElementById('reg-referral').value.trim().toUpperCase();
+      const btn = document.getElementById('btn-submit-register');
+
+      if (!/^[a-z0-9_]{4,20}$/.test(usernameRaw)) {
+        showToast('Username harus 4–20 karakter (hanya huruf kecil, angka, atau garis bawah _).', 'warning');
+        return;
+      }
+      if (password !== confirmPassword) {
+        showToast('Konfirmasi kata sandi tidak cocok!', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> <span>Mendaftarkan Akun...</span>`;
+
+      try {
+        await loadReferralCodesFromFirestore();
+
+        try {
+          const q = query(collection(db, 'users'), where('username', '==', usernameRaw));
+          const existingSnap = await getDocs(q);
+          if (!existingSnap.empty) {
+            throw { customMessage: `Username "@${usernameRaw}" sudah digunakan pengguna lain. Pilih username lain.` };
+          }
+        } catch (fsErr) {
+          if (fsErr.customMessage) throw fsErr;
+        }
+
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(cred.user, { displayName: fullName });
+
+        const isReferralValid = checkReferralValid(referralInput);
+        const assignedRole = isReferralValid ? 'admin' : 'user';
+
+        const profilePayload = {
+          uid: cred.user.uid,
+          name: fullName,
+          displayName: fullName,
+          username: usernameRaw,
+          email: email,
+          role: assignedRole,
+          referralUsed: isReferralValid ? referralInput : null,
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp()
+        };
+
+        try {
+          await setDoc(doc(db, 'users', cred.user.uid), profilePayload);
+        } catch (saveErr) {
+          console.warn('Gagal simpan ke Firestore, menyimpan ke cache lokal:', saveErr.message);
+        }
+
+        const localUsers = JSON.parse(localStorage.getItem('historicbt_local_users') || '[]');
+        localUsers.push({ username: usernameRaw, email, name: fullName, role: assignedRole });
+        localStorage.setItem('historicbt_local_users', JSON.stringify(localUsers));
+
+        await processUserLogin(cred.user, referralInput, fullName, usernameRaw);
+      } catch (err) {
+        console.error('Register error:', err);
+        const msg = err.customMessage || mapFirebaseAuthError(err.code);
+        showToast(msg, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-user-plus text-amber-400"></i> <span>Daftar Sekarang</span>`;
+      }
+    };
+
+    // 3. HANDLER LUPA SANDI (RESET PASSWORD)
+    window.handleForgotPassword = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgot-email').value.trim();
+      const btn = document.getElementById('btn-submit-forgot');
+
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> <span>Mengirim Tautan...</span>`;
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast(`Tautan reset kata sandi telah dikirim ke ${email}. Periksa kotak masuk atau folder Spam Anda.`, 'success');
+        document.getElementById('forgot-email').value = '';
+        switchAuthMode('login');
+      } catch (err) {
+        console.error('Forgot password error:', err);
+        showToast(mapFirebaseAuthError(err.code), 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane text-amber-400"></i> <span>Kirim Tautan Reset Sandi</span>`;
+      }
+    };
+
+    // Opsi Sekunder: Login Google
+    window.handleGoogleLogin = async function() {
+      await loadReferralCodesFromFirestore();
+
+      const btn = document.getElementById('google-login-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Menghubungkan...</span>`;
+
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        await processUserLogin(result.user, '');
+      } catch (error) {
+        console.error('Google Sign-In Error:', error);
+        showToast('Pop-up Google diblokir atau domain belum diotorisasi. Gunakan form Masuk / Daftar atau Mode Tamu.', 'warning');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-brands fa-google text-amber-500"></i> <span>Masuk dengan Google</span>`;
+      }
+    };
+
+    // Opsi Sekunder: Mode Tamu / Lokal (Sandbox)
+    window.handleDemoLogin = async function() {
+      const mockUser = {
+        uid: 'demo-student-user',
+        displayName: 'Siswa Tamu (Mode Lokal)',
+        email: 'tamu.xi@sman14sby.sch.id',
+        photoURL: 'https://placehold.co/80x80/064e3b/fbbf24?text=SIS',
+        isDemo: true
+      };
+      await processUserLogin(mockUser, '');
+    };
+
+    async function processUserLogin(user, referralCodeUsed, overrideName = null, overrideUsername = null) {
+      currentUser = user;
+      const isReferralValid = checkReferralValid(referralCodeUsed);
+      let assignedRole = isReferralValid ? 'admin' : 'user';
+      let resolvedName = overrideName || user.displayName || 'Pengguna';
+
+      if (!user.isDemo) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          const userSnap = await getDoc(userRef);
+
+          if (userSnap.exists()) {
+            const existingData = userSnap.data();
+            resolvedName = existingData.name || existingData.displayName || resolvedName;
+            if (existingData.role === 'admin' || isReferralValid) {
+              assignedRole = 'admin';
+            } else {
+              assignedRole = 'user';
+            }
+            await updateDoc(userRef, {
+              displayName: resolvedName,
+              role: assignedRole,
+              lastLogin: serverTimestamp()
+            });
+          } else {
+            const generatedUsername = overrideUsername || (user.email ? user.email.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '') : `user_${Date.now()}`);
+            await setDoc(userRef, {
+              uid: user.uid,
+              name: resolvedName,
+              displayName: resolvedName,
+              username: generatedUsername,
+              email: user.email,
+              photoURL: user.photoURL || '',
+              role: assignedRole,
+              referralUsed: isReferralValid ? referralCodeUsed : null,
+              createdAt: serverTimestamp(),
+              lastLogin: serverTimestamp()
+            });
+          }
+        } catch (err) {
+          console.warn('Firestore user sync fallback:', err.message);
+        }
+      }
+
+      currentUser.displayName = resolvedName;
+      userRole = assignedRole;
+      localStorage.setItem('historicbt_session', JSON.stringify({
+        uid: user.uid,
+        displayName: resolvedName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: userRole,
+        isDemo: !!user.isDemo
+      }));
+
+      enterAppShell();
+      if (referralCodeUsed && !isReferralValid) {
+        showToast('Kode referral tidak valid. Anda terdaftar sebagai Pengguna Biasa (Siswa).', 'warning');
+      } else if (userRole === 'admin') {
+        showToast(`Selamat datang Admin ${resolvedName}! Akses Import & Kelola Soal aktif.`, 'success');
+      } else {
+        showToast(`Selamat datang, ${resolvedName}!`, 'success');
+      }
+    }
+
+    function enterAppShell() {
+      document.getElementById('auth-view').classList.add('hidden');
+      document.getElementById('app-shell').classList.remove('hidden');
+
+      // Update UI profil header
+      document.getElementById('user-display-name').textContent = currentUser.displayName || currentUser.email;
+      const avatarUrl = currentUser.photoURL || 'https://placehold.co/64x64/f59e0b/022c22?text=U';
+      document.getElementById('user-avatar').src = avatarUrl;
+      document.getElementById('modal-avatar').src = avatarUrl;
+      document.getElementById('modal-name').textContent = currentUser.displayName || 'Pengguna';
+      document.getElementById('modal-email').textContent = currentUser.email || '-';
+
+      const badge = document.getElementById('user-role-badge');
+      const modalPill = document.getElementById('modal-role-pill');
+      const navAdmin = document.getElementById('nav-admin');
+      const heroImportBtn = document.getElementById('hero-import-btn');
+
+      if (userRole === 'admin') {
+        badge.textContent = 'ADMIN';
+        badge.className = 'inline-block text-[10px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded bg-amber-400 text-forest-950';
+        modalPill.textContent = 'ADMINISTRATOR';
+        navAdmin.classList.remove('hidden');
+        heroImportBtn.classList.remove('hidden');
+      } else {
+        badge.textContent = 'SISWA / USER';
+        badge.className = 'inline-block text-[10px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded bg-forest-700 text-emerald-100';
+        modalPill.textContent = 'PENGGUNA BIASA (SISWA)';
+        navAdmin.classList.add('hidden');
+        heroImportBtn.classList.add('hidden');
+      }
+
+      loadAllExamPackages();
+      renderBuilderFields();
+    }
+
+    window.handleLogout = async function() {
+      try {
+        await signOut(auth);
+      } catch (e) {}
+      localStorage.removeItem('historicbt_session');
+      currentUser = null;
+      userRole = 'user';
+      clearInterval(timerInterval);
+      document.getElementById('app-shell').classList.add('hidden');
+      document.getElementById('auth-view').classList.remove('hidden');
+      showToast('Anda telah keluar dari akun.', 'info');
+    };
+
+    // Modal Profil & Upgrade Role
+    window.openProfileModal = function() {
+      const m = document.getElementById('profile-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+      document.getElementById('upgrade-role-section').style.display = userRole === 'admin' ? 'none' : 'block';
+    };
+    window.closeProfileModal = function() {
+      const m = document.getElementById('profile-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    };
+
+    window.upgradeRoleWithReferral = async function() {
+      const code = document.getElementById('modal-referral-input').value.trim().toUpperCase();
+      await loadReferralCodesFromFirestore();
+      if (checkReferralValid(code)) {
+        userRole = 'admin';
+        if (currentUser && !currentUser.isDemo) {
+          try {
+            await updateDoc(doc(db, 'users', currentUser.uid), { role: 'admin', referralUsed: code });
+          } catch (e) {}
+        }
+        const saved = JSON.parse(localStorage.getItem('historicbt_session') || '{}');
+        saved.role = 'admin';
+        localStorage.setItem('historicbt_session', JSON.stringify(saved));
+        closeProfileModal();
+        enterAppShell();
+        showToast('Berhasil! Akun Anda kini berstatus ADMIN.', 'success');
+      } else {
+        showToast('Kode referral salah! Silakan cek kembali.', 'error');
+      }
+    };
+
+    window.saveReferralCode = async function() {
+      const newCode = document.getElementById('admin-referral-setting').value.trim().toUpperCase();
+      if (newCode.length < 4) {
+        showToast('Kode referral minimal 4 karakter.', 'warning');
+        return;
+      }
+      validReferralCodes = [newCode, 'SEJARAHXI14'];
+      try {
+        await setDoc(doc(db, 'app_settings', 'referral_config'), {
+          codes: validReferralCodes,
+          updatedAt: serverTimestamp()
+        });
+        showToast(`Kode referral admin diperbarui menjadi: ${newCode}`, 'success');
+      } catch (e) {
+        showToast(`Kode referral lokal diperbarui menjadi: ${newCode}`, 'info');
+      }
+    };
+
+    // Cek sesi tersimpan saat reload
+    onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser && !currentUser) {
+        await loadReferralCodesFromFirestore();
+        await processUserLogin(firebaseUser, '');
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadReferralCodesFromFirestore();
+      const savedSession = localStorage.getItem('historicbt_session');
+      if (savedSession) {
+        const parsed = JSON.parse(savedSession);
+        if (parsed.isDemo) {
+          currentUser = parsed;
+          userRole = parsed.role || 'user';
+          enterAppShell();
+        }
+      }
+    });
+
+    // =========================================================================
+    // NAVIGASI TAB
+    // =========================================================================
+    window.switchTab = function(tabName) {
+      const tabs = ['dashboard', 'history', 'admin', 'exam', 'result'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const target = document.getElementById(`tab-${tabName}`);
+      if (target) target.classList.remove('hidden');
+
+      // Highlight nav button pada navbar hijau zamrud
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-400', 'text-forest-950', 'font-bold', 'shadow-sm');
+        btn.classList.add('text-emerald-100/85', 'hover:bg-forest-800', 'hover:text-white');
+      });
+      const activeNav = document.getElementById(`nav-${tabName}`);
+      if (activeNav) {
+        activeNav.classList.add('bg-amber-400', 'text-forest-950', 'font-bold', 'shadow-sm');
+        activeNav.classList.remove('text-emerald-100/85', 'hover:bg-forest-800', 'hover:text-white');
+      }
+
+      if (tabName === 'history') loadHistoryData();
+      if (tabName === 'dashboard') renderPackages();
+    };
+
+    // =========================================================================
+    // MANAJEMEN PAKET SOAL (FIRESTORE + LOCAL STORAGE + DEFAULT)
+    // =========================================================================
+    async function loadAllExamPackages() {
+      let customPackages = [];
+
+      try {
+        const localSaved = JSON.parse(localStorage.getItem('historicbt_custom_packages') || '[]');
+        customPackages = [...localSaved];
+      } catch (e) {}
+
+      try {
+        const snap = await getDocs(collection(db, 'exam_packages'));
+        snap.forEach(docSnap => {
+          const data = docSnap.data();
+          if (!customPackages.some(p => p.id === docSnap.id)) {
+            customPackages.push({ id: docSnap.id, ...data });
+          }
+        });
+      } catch (err) {
+        console.warn('Firestore packages fetch info:', err.message);
+      }
+
+      allPackages = [DEFAULT_SAS_PACKAGE, ...customPackages];
+      renderPackages();
+    }
+
+    window.renderPackages = function() {
+      const grid = document.getElementById('packages-grid');
+      const keyword = (document.getElementById('search-package')?.value || '').toLowerCase();
+
+      const filtered = allPackages.filter(pkg => 
+        pkg.title.toLowerCase().includes(keyword) || 
+        (pkg.subject || '').toLowerCase().includes(keyword)
+      );
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Tidak ada paket soal yang cocok dengan pencarian Anda.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(pkg => {
+        const qCount = pkg.questions ? pkg.questions.length : 0;
+        const canDelete = userRole === 'admin' && !pkg.isDefault;
+
+        return `
+          <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 hover:border-amber-500 rounded-3xl p-6 shadow-lg shadow-emerald-950/5 flex flex-col justify-between transition group">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider bg-emerald-100 dark:bg-forest-850 text-forest-850 dark:text-amber-400">
+                  ${pkg.subject || 'Umum'}
+                </span>
+                <div class="flex items-center gap-2">
+                  ${pkg.isDefault ? '<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-700 dark:text-amber-300 border border-amber-400/30">Paket Utama</span>' : '<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">Import</span>'}
+                  ${canDelete ? `<button onclick="deleteExamPackage('${pkg.id}')" class="text-rose-500 hover:text-rose-400 p-1" title="Hapus Paket"><i class="fa-solid fa-trash-can text-xs"></i></button>` : ''}
+                </div>
+              </div>
+
+              <h4 class="text-base sm:text-lg font-extrabold text-forest-900 dark:text-white mb-2 group-hover:text-forest-700 dark:group-hover:text-amber-400 transition">${pkg.title}</h4>
+              <p class="text-xs text-slate-500 dark:text-emerald-200/70 leading-relaxed mb-5 line-clamp-3">${pkg.description || 'Latihan soal interaktif siap dikerjakan.'}</p>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between text-xs text-slate-500 dark:text-emerald-200/75 pt-3 mb-4 border-t border-emerald-100 dark:border-forest-800">
+                <span><i class="fa-solid fa-list-ol text-amber-500 mr-1"></i> ${qCount} Butir Soal</span>
+                <span><i class="fa-regular fa-clock text-amber-500 mr-1"></i> ${pkg.duration || 45} Menit</span>
+              </div>
+
+              <button onclick="startExam('${pkg.id}')" class="w-full py-3 rounded-xl bg-forest-850 group-hover:bg-gradient-to-r group-hover:from-amber-400 group-hover:to-amber-500 text-white group-hover:text-forest-950 font-extrabold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-sm">
+                <i class="fa-solid fa-play"></i> Kerjakan Latihan
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    window.deleteExamPackage = function(pkgId) {
+      showConfirm('Hapus Paket Ulangan', 'Yakin ingin menghapus paket soal ini secara permanen?', async () => {
+        allPackages = allPackages.filter(p => p.id !== pkgId);
+        const localSaved = JSON.parse(localStorage.getItem('historicbt_custom_packages') || '[]').filter(p => p.id !== pkgId);
+        localStorage.setItem('historicbt_custom_packages', JSON.stringify(localSaved));
+
+        try {
+          await deleteDoc(doc(db, 'exam_packages', pkgId));
+        } catch (e) {}
+
+        renderPackages();
+        showToast('Paket soal berhasil dihapus.', 'success');
+      });
+    };
+
+    async function saveNewPackageToCloudAndLocal(newPkg) {
+      newPkg.createdBy = currentUser?.displayName || 'Admin';
+      newPkg.createdAt = new Date().toISOString();
+
+      try {
+        const docRef = await addDoc(collection(db, 'exam_packages'), newPkg);
+        newPkg.id = docRef.id;
+      } catch (err) {
+        newPkg.id = 'pkg-' + Date.now();
+        console.warn('Disimpan ke penyimpanan lokal:', err.message);
+      }
+
+      const localSaved = JSON.parse(localStorage.getItem('historicbt_custom_packages') || '[]');
+      localSaved.push(newPkg);
+      localStorage.setItem('historicbt_custom_packages', JSON.stringify(localSaved));
+
+      allPackages.push(newPkg);
+      renderPackages();
+      showToast(`Paket "${newPkg.title}" (${newPkg.questions.length} soal) berhasil ditambahkan!`, 'success');
+      switchTab('dashboard');
+    }
+
+    // =========================================================================
+    // FITUR IMPORT SOAL (JSON, CSV, TEMPLATE DOWNLOAD, MANUAL BUILDER)
+    // =========================================================================
+    window.downloadTemplateJSON = function() {
+      const template = {
+        title: "Latihan Ulangan Harian — Pergerakan Nasional",
+        subject: "Sejarah",
+        duration: 30,
+        description: "Paket soal contoh hasil import JSON.",
+        questions: [
+          {
+            type: "bs",
+            category: "Benar / Salah",
+            question: "Sumpah Pemuda diikrarkan pada tanggal 28 Oktober 1928.",
+            answer: "Benar",
+            explanation: "Kongres Pemuda II menghasilkan ikrar Sumpah Pemuda pada 28 Oktober 1928."
+          },
+          {
+            type: "pg",
+            category: "Pilihan Ganda",
+            question: "Siapakah tokoh pencipta lagu Indonesia Raya yang pertama kali diperdengarkan pada Kongres Pemuda II?",
+            options: ["W.R. Supratman", "Ismail Marzuki", "C. Simanjuntak", "Kusbini", "Ibu Sud"],
+            answer: 0,
+            explanation: "Wage Rudolf Supratman memperdengarkan lagu Indonesia Raya dengan biola pada 28 Oktober 1928."
+          },
+          {
+            type: "pgk",
+            category: "Pilihan Ganda Kompleks",
+            question: "Pilih dua tokoh yang termasuk dalam Tiga Serangkai pendiri Indische Partij!",
+            options: ["Douwes Dekker", "Dr. Soetomo", "Suwardi Suryaningrat", "H. Samanhudi"],
+            answer: [0, 2],
+            explanation: "Tiga Serangkai terdiri dari Douwes Dekker, Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat."
+          },
+          {
+            type: "essay",
+            category: "Uraian",
+            question: "Jelaskan makna penting ikrar Sumpah Pemuda bagi persatuan bangsa Indonesia!",
+            keywords: ["persatuan", "bahasa", "tanah air", "bangsa"],
+            sampleAnswer: "Sumpah Pemuda menyatukan seluruh pemuda dari berbagai daerah ke dalam satu identitas: bertanah air satu, berbangsa satu, dan berbahasa persatuan bahasa Indonesia.",
+            explanation: "Mencakup aspek satu tanah air, satu bangsa, dan satu bahasa."
+          }
+        ]
+      };
+
+      const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'template-paket-soal-cbt.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Template JSON berhasil diunduh.', 'success');
+    };
+
+    window.downloadTemplateCSV = function() {
+      const csvLines = [
+        'title,subject,duration,type,question,optionA,optionB,optionC,optionD,optionE,answer,explanation',
+        '"Ulangan Umum Sejarah","Sejarah",30,"pg","Kongres Pemuda II dilaksanakan di kota...","Surabaya","Bandung","Batavia (Jakarta)","Yogyakarta","Semarang","0","Kongres Pemuda II berlangsung di Batavia (Jakarta) pada 27-28 Oktober 1928."',
+        '"Ulangan Umum Sejarah","Sejarah",30,"bs","Organisasi Muhammadiyah didirikan oleh K.H. Ahmad Dahlan pada tahun 1912.","","","","","","Benar","Muhammadiyah berdiri 18 November 1912 di Yogyakarta."',
+        '"Ulangan Umum Sejarah","Sejarah",30,"pgk","Pilih 2 organisasi yang bersifat nonkooperatif!","Indische Partij","Budi Utomo","PNI","Parindra","","0|2","Indische Partij dan PNI bersifat nonkooperatif terhadap Belanda."'
+      ];
+      const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'template-paket-soal-cbt.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Template CSV berhasil diunduh.', 'success');
+    };
+
+    window.handleFileUpload = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        const content = e.target.result;
+        if (file.name.endsWith('.json')) {
+          try {
+            const parsed = JSON.parse(content);
+            await validateAndImportPackage(parsed);
+          } catch (err) {
+            showToast('Format file JSON tidak valid: ' + err.message, 'error');
+          }
+        } else if (file.name.endsWith('.csv')) {
+          try {
+            const parsedFromCsv = parseCSVToPackage(content, file.name.replace('.csv', ''));
+            await validateAndImportPackage(parsedFromCsv);
+          } catch (err) {
+            showToast('Gagal memproses CSV: ' + err.message, 'error');
+          }
+        } else {
+          showToast('Harap pilih file berformat .json atau .csv', 'warning');
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    };
+
+    window.importFromPastedJSON = async function() {
+      const raw = document.getElementById('json-paste-area').value.trim();
+      if (!raw) {
+        showToast('Silakan tempel kode JSON terlebih dahulu.', 'warning');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        await validateAndImportPackage(parsed);
+        document.getElementById('json-paste-area').value = '';
+      } catch (err) {
+        showToast('JSON tidak valid: ' + err.message, 'error');
+      }
+    };
+
+    async function validateAndImportPackage(pkg) {
+      if (!pkg.title || !Array.isArray(pkg.questions) || pkg.questions.length === 0) {
+        throw new Error('JSON harus memiliki "title" dan array "questions" minimal 1 soal.');
+      }
+      pkg.questions = pkg.questions.map((q, idx) => ({
+        id: q.id || `q-imp-${idx + 1}`,
+        type: q.type || 'pg',
+        category: q.category || getCategoryLabel(q.type || 'pg'),
+        question: q.question,
+        options: q.options || [],
+        answer: q.answer,
+        keywords: q.keywords || [],
+        sampleAnswer: q.sampleAnswer || '',
+        explanation: q.explanation || ''
+      }));
+      await saveNewPackageToCloudAndLocal(pkg);
+    }
+
+    function parseCSVToPackage(csvText, fallbackTitle) {
+      const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lines.length < 2) throw new Error('File CSV kosong.');
+
+      const parseRow = (row) => {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < row.length; i++) {
+          const ch = row[i];
+          if (ch === '"') {
+            inQuotes = !inQuotes;
+          } else if (ch === ',' && !inQuotes) {
+            result.push(current.trim());
+            current = '';
+          } else {
+            current += ch;
+          }
+        }
+        result.push(current.trim());
+        return result;
+      };
+
+      const rows = lines.slice(1).map(parseRow);
+      const first = rows[0];
+      const pkg = {
+        title: first[0] || fallbackTitle,
+        subject: first[1] || 'Umum',
+        duration: parseInt(first[2]) || 45,
+        description: `Paket soal hasil import CSV (${rows.length} butir soal).`,
+        questions: []
+      };
+
+      rows.forEach((r, idx) => {
+        const type = (r[3] || 'pg').toLowerCase();
+        const question = r[4];
+        const opts = [r[5], r[6], r[7], r[8], r[9]].filter(o => o && o.length > 0);
+        const rawAns = r[10] || '';
+        const explanation = r[11] || '';
+
+        let parsedAns = rawAns;
+        if (type === 'pg' || type === 'matching') {
+          parsedAns = parseInt(rawAns) || 0;
+        } else if (type === 'pgk') {
+          parsedAns = rawAns.split('|').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+        }
+
+        pkg.questions.push({
+          id: `csv-q-${idx + 1}`,
+          type,
+          category: getCategoryLabel(type),
+          question,
+          options: opts,
+          answer: parsedAns,
+          keywords: type === 'essay' ? rawAns.split('|') : [],
+          sampleAnswer: type === 'essay' ? rawAns : '',
+          explanation
+        });
+      });
+
+      return pkg;
+    }
+
+    function getCategoryLabel(type) {
+      const map = {
+        bs: 'Benar / Salah',
+        pg: 'Pilihan Ganda',
+        pgk: 'Pilihan Ganda Kompleks',
+        matching: 'Menjodohkan',
+        essay: 'Uraian / Esai'
+      };
+      return map[type] || 'Soal Latihan';
+    }
+
+    // Manual Question Builder UI
+    window.renderBuilderFields = function() {
+      const type = document.getElementById('builder-type').value;
+      const container = document.getElementById('builder-dynamic-fields');
+
+      if (type === 'bs') {
+        container.innerHTML = `
+          <label class="block text-xs font-semibold mb-1">Kunci Jawaban Benar / Salah *</label>
+          <select id="b-bs-ans" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs font-bold">
+            <option value="Benar">Benar</option>
+            <option value="Salah">Salah</option>
+          </select>
+        `;
+      } else if (type === 'pg' || type === 'matching') {
+        container.innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input type="text" id="b-opt-0" placeholder="Opsi A *" class="px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            <input type="text" id="b-opt-1" placeholder="Opsi B *" class="px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            <input type="text" id="b-opt-2" placeholder="Opsi C" class="px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            <input type="text" id="b-opt-3" placeholder="Opsi D" class="px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1">Kunci Jawaban Benar *</label>
+            <select id="b-pg-ans" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs font-bold">
+              <option value="0">Opsi A</option>
+              <option value="1">Opsi B</option>
+              <option value="2">Opsi C</option>
+              <option value="3">Opsi D</option>
+            </select>
+          </div>
+        `;
+      } else if (type === 'pgk') {
+        container.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="b-pgk-chk-0" class="w-4 h-4 accent-forest-850" />
+              <input type="text" id="b-opt-0" placeholder="Pernyataan 1 (Centang jika benar)" class="flex-1 px-3 py-1.5 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="b-pgk-chk-1" class="w-4 h-4 accent-forest-850" />
+              <input type="text" id="b-opt-1" placeholder="Pernyataan 2 (Centang jika benar)" class="flex-1 px-3 py-1.5 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="b-pgk-chk-2" class="w-4 h-4 accent-forest-850" />
+              <input type="text" id="b-opt-2" placeholder="Pernyataan 3 (Centang jika benar)" class="flex-1 px-3 py-1.5 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="b-pgk-chk-3" class="w-4 h-4 accent-forest-850" />
+              <input type="text" id="b-opt-3" placeholder="Pernyataan 4 (Centang jika benar)" class="flex-1 px-3 py-1.5 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
+            </div>
+          </div>
+        `;
+      } else if (type === 'essay') {
+        container.innerHTML = `
+          <div>
+            <label class="block text-xs font-semibold mb-1">Kata Kunci Penilaian Otomatis (pisahkan dengan koma) *</label>
+            <input type="text" id="b-essay-kw" placeholder="Contoh: persatuan, organisasi, nasionalisme" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs mb-2" />
+            <label class="block text-xs font-semibold mb-1">Contoh Jawaban Ideal / Rubrik *</label>
+            <textarea id="b-essay-sample" rows="2" placeholder="Tuliskan kunci jawaban uraian..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs"></textarea>
+          </div>
+        `;
+      }
+    };
+
+    window.addQuestionToDraft = function() {
+      const type = document.getElementById('builder-type').value;
+      const question = document.getElementById('builder-question').value.trim();
+      const explanation = document.getElementById('builder-explanation').value.trim();
+
+      if (!question) {
+        showToast('Teks pertanyaan tidak boleh kosong.', 'warning');
+        return;
+      }
+
+      const qObj = {
+        id: `draft-${Date.now()}`,
+        type,
+        category: getCategoryLabel(type),
+        question,
+        explanation
+      };
+
+      if (type === 'bs') {
+        qObj.answer = document.getElementById('b-bs-ans').value;
+      } else if (type === 'pg' || type === 'matching') {
+        const opts = [0, 1, 2, 3].map(i => document.getElementById(`b-opt-${i}`).value.trim()).filter(Boolean);
+        if (opts.length < 2) {
+          showToast('Minimal masukkan 2 pilihan jawaban.', 'warning');
+          return;
+        }
+        qObj.options = opts;
+        qObj.answer = parseInt(document.getElementById('b-pg-ans').value) || 0;
+      } else if (type === 'pgk') {
+        const opts = [];
+        const ans = [];
+        [0, 1, 2, 3].forEach(i => {
+          const val = document.getElementById(`b-opt-${i}`).value.trim();
+          const checked = document.getElementById(`b-pgk-chk-${i}`).checked;
+          if (val) {
+            if (checked) ans.push(opts.length);
+            opts.push(val);
+          }
+        });
+        if (opts.length < 2 || ans.length === 0) {
+          showToast('Masukkan minimal 2 opsi dan centang minimal 1 jawaban benar.', 'warning');
+          return;
+        }
+        qObj.options = opts;
+        qObj.answer = ans;
+      } else if (type === 'essay') {
+        const kw = document.getElementById('b-essay-kw').value.split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+        const sample = document.getElementById('b-essay-sample').value.trim();
+        qObj.keywords = kw;
+        qObj.sampleAnswer = sample;
+      }
+
+      draftQuestions.push(qObj);
+      document.getElementById('builder-question').value = '';
+      document.getElementById('builder-explanation').value = '';
+      renderBuilderFields();
+      renderDraftPreview();
+      showToast('Butir soal ditambahkan ke draft.', 'success');
+    };
+
+    function renderDraftPreview() {
+      document.getElementById('draft-count').textContent = draftQuestions.length;
+      const list = document.getElementById('draft-list-preview');
+      list.innerHTML = draftQuestions.map((q, idx) => `
+        <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-emerald-50 dark:bg-forest-850 text-xs border border-emerald-200/70 dark:border-forest-700">
+          <div class="truncate">
+            <span class="font-bold text-forest-850 dark:text-amber-400 mr-1">#${idx + 1} [${q.type.toUpperCase()}]</span>
+            <span>${q.question}</span>
+          </div>
+          <button onclick="removeDraftQuestion(${idx})" class="text-rose-500 hover:text-rose-400 px-1.5"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      `).join('');
+    }
+
+    window.removeDraftQuestion = function(idx) {
+      draftQuestions.splice(idx, 1);
+      renderDraftPreview();
+    };
+
+    window.publishManualPackage = async function() {
+      const title = document.getElementById('manual-title').value.trim();
+      const subject = document.getElementById('manual-subject').value.trim() || 'Umum';
+      const duration = parseInt(document.getElementById('manual-duration').value) || 45;
+      const description = document.getElementById('manual-desc').value.trim() || 'Paket soal buatan admin.';
+
+      if (!title) {
+        showToast('Judul paket ulangan wajib diisi.', 'warning');
+        return;
+      }
+      if (draftQuestions.length === 0) {
+        showToast('Tambahkan minimal 1 butir soal ke draft terlebih dahulu.', 'warning');
+        return;
+      }
+
+      await saveNewPackageToCloudAndLocal({
+        title,
+        subject,
+        duration,
+        description,
+        questions: [...draftQuestions]
+      });
+
+      draftQuestions = [];
+      document.getElementById('manual-title').value = '';
+      document.getElementById('manual-desc').value = '';
+      renderDraftPreview();
+    };
+
+    // =========================================================================
+    // ENGINE CBT / PENGERJAAN UJIAN INTERAKTIF
+    // =========================================================================
+    window.startExam = function(packageId) {
+      const pkg = allPackages.find(p => p.id === packageId);
+      if (!pkg || !pkg.questions || pkg.questions.length === 0) {
+        showToast('Paket soal tidak ditemukan atau kosong.', 'error');
+        return;
+      }
+
+      activeExam = pkg;
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      flaggedQuestions = {};
+      remainingSeconds = (pkg.duration || 45) * 60;
+
+      document.getElementById('exam-title-display').textContent = pkg.title;
+      document.getElementById('total-q-num').textContent = pkg.questions.length;
+
+      switchTab('exam');
+      startExamTimer();
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.retakeCurrentExam = function() {
+      if (activeExam) startExam(activeExam.id);
+    };
+
+    function startExamTimer() {
+      clearInterval(timerInterval);
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay();
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          showToast('Waktu pengerjaan telah habis! Jawaban otomatis dinilai.', 'warning');
+          finishAndGradeExam();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(Math.max(0, remainingSeconds) / 60);
+      const secs = Math.max(0, remainingSeconds) % 60;
+      const el = document.getElementById('exam-timer');
+      el.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      if (remainingSeconds < 120) {
+        el.classList.add('text-rose-500');
+      } else {
+        el.classList.remove('text-rose-500');
+      }
+    }
+
+    function renderCurrentQuestion() {
+      const q = activeExam.questions[currentQuestionIndex];
+      document.getElementById('current-q-num').textContent = currentQuestionIndex + 1;
+      document.getElementById('exam-category-badge').textContent = q.category || getCategoryLabel(q.type);
+      document.getElementById('question-text').textContent = q.question;
+
+      // Update status tombol ragu-ragu
+      const flagBtn = document.getElementById('flag-btn');
+      if (flaggedQuestions[q.id]) {
+        flagBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-extrabold bg-amber-400 text-forest-950 transition shadow-sm';
+      } else {
+        flagBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-forest-850 text-forest-900 dark:text-emerald-100 border border-emerald-200 dark:border-forest-700 transition';
+      }
+
+      // Update tombol prev/next
+      document.getElementById('prev-q-btn').disabled = currentQuestionIndex === 0;
+      const nextBtn = document.getElementById('next-q-btn');
+      if (currentQuestionIndex === activeExam.questions.length - 1) {
+        nextBtn.innerHTML = `Selesai Ujian <i class="fa-solid fa-check"></i>`;
+        nextBtn.onclick = confirmFinishExam;
+      } else {
+        nextBtn.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right"></i>`;
+        nextBtn.onclick = () => navigateQuestion(1);
+      }
+
+      const optionsArea = document.getElementById('answer-options-area');
+      const savedAns = userAnswers[q.id];
+
+      if (q.type === 'bs') {
+        optionsArea.innerHTML = ['Benar', 'Salah'].map(choice => {
+          const selected = savedAns === choice;
+          return `
+            <button onclick="selectSingleAnswer('${q.id}', '${choice}')" class="w-full p-4 rounded-2xl border text-left font-bold text-sm sm:text-base flex items-center justify-between transition ${selected ? 'bg-emerald-50 dark:bg-forest-850 border-forest-700 dark:border-amber-400 text-forest-900 dark:text-amber-300 shadow-sm' : 'bg-[#f8faf9] dark:bg-forest-950 border-emerald-200 dark:border-forest-800 hover:border-amber-500'}">
+              <span class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold ${selected ? 'bg-forest-850 text-amber-400' : 'bg-emerald-100 dark:bg-forest-800 text-forest-900 dark:text-emerald-100'}">
+                  ${choice === 'Benar' ? 'B' : 'S'}
+                </span>
+                Pernyataan ${choice.toUpperCase()}
+              </span>
+              ${selected ? '<i class="fa-solid fa-circle-check text-forest-700 dark:text-amber-400 text-lg"></i>' : ''}
+            </button>
+          `;
+        }).join('');
+      } else if (q.type === 'pg' || q.type === 'matching') {
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+        optionsArea.innerHTML = (q.options || []).map((opt, idx) => {
+          const selected = savedAns === idx;
+          return `
+            <button onclick="selectSingleAnswer('${q.id}', ${idx})" class="w-full p-4 rounded-2xl border text-left text-sm flex items-start gap-3.5 transition ${selected ? 'bg-emerald-50 dark:bg-forest-850 border-forest-700 dark:border-amber-400 font-semibold text-forest-950 dark:text-white shadow-sm' : 'bg-[#f8faf9] dark:bg-forest-950 border-emerald-200 dark:border-forest-800 hover:border-amber-500'}">
+              <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold mt-0.5 ${selected ? 'bg-forest-850 text-amber-400' : 'bg-emerald-100 dark:bg-forest-800 text-forest-900 dark:text-emerald-100'}">
+                ${letters[idx] || idx + 1}
+              </span>
+              <span class="flex-1 leading-relaxed">${opt}</span>
+            </button>
+          `;
+        }).join('');
+      } else if (q.type === 'pgk') {
+        const currentArr = Array.isArray(savedAns) ? savedAns : [];
+        optionsArea.innerHTML = `
+          <p class="text-xs font-bold text-forest-700 dark:text-amber-400 mb-2"><i class="fa-solid fa-square-check mr-1"></i> Pilih lebih dari satu jawaban yang benar:</p>
+          ${(q.options || []).map((opt, idx) => {
+            const checked = currentArr.includes(idx);
+            return `
+              <button onclick="toggleMultiAnswer('${q.id}', ${idx})" class="w-full p-4 rounded-2xl border text-left text-sm flex items-start gap-3.5 transition ${checked ? 'bg-emerald-50 dark:bg-forest-850 border-forest-700 dark:border-amber-400 font-semibold text-forest-950 dark:text-white shadow-sm' : 'bg-[#f8faf9] dark:bg-forest-950 border-emerald-200 dark:border-forest-800 hover:border-amber-500'}">
+                <span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs mt-0.5 border ${checked ? 'bg-forest-850 border-forest-850 text-amber-400' : 'border-emerald-300 dark:border-forest-700'}">
+                  ${checked ? '<i class="fa-solid fa-check"></i>' : ''}
+                </span>
+                <span class="flex-1 leading-relaxed">${opt}</span>
+              </button>
+            `;
+          }).join('')}
+        `;
+      } else if (q.type === 'essay') {
+        optionsArea.innerHTML = `
+          <div>
+            <label class="block text-xs font-bold text-forest-900 dark:text-emerald-100 mb-2">Tuliskan jawaban uraian Anda secara lengkap dan jelas:</label>
+            <textarea 
+              rows="5" 
+              oninput="saveEssayAnswer('${q.id}', this.value)"
+              placeholder="Ketik analisis atau jawaban uraian Anda di sini..." 
+              class="w-full p-4 rounded-2xl bg-[#f8faf9] dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed"
+            >${savedAns || ''}</textarea>
+          </div>
+        `;
+      }
+    }
+
+    window.selectSingleAnswer = function(qId, val) {
+      userAnswers[qId] = val;
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.toggleMultiAnswer = function(qId, idx) {
+      const current = Array.isArray(userAnswers[qId]) ? [...userAnswers[qId]] : [];
+      const pos = current.indexOf(idx);
+      if (pos >= 0) current.splice(pos, 1);
+      else current.push(idx);
+      userAnswers[qId] = current;
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.saveEssayAnswer = function(qId, text) {
+      if (text.trim().length > 0) {
+        userAnswers[qId] = text;
+      } else {
+        delete userAnswers[qId];
+      }
+      renderQuestionNavGrid();
+    };
+
+    window.toggleFlagQuestion = function() {
+      const q = activeExam.questions[currentQuestionIndex];
+      flaggedQuestions[q.id] = !flaggedQuestions[q.id];
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.navigateQuestion = function(step) {
+      const nextIdx = currentQuestionIndex + step;
+      if (nextIdx >= 0 && nextIdx < activeExam.questions.length) {
+        currentQuestionIndex = nextIdx;
+        renderCurrentQuestion();
+        renderQuestionNavGrid();
+      }
+    };
+
+    window.jumpToQuestion = function(idx) {
+      currentQuestionIndex = idx;
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    function renderQuestionNavGrid() {
+      const grid = document.getElementById('question-nav-grid');
+      let answeredCount = 0;
+
+      grid.innerHTML = activeExam.questions.map((q, idx) => {
+        const ans = userAnswers[q.id];
+        const isAnswered = Array.isArray(ans) ? ans.length > 0 : (ans !== undefined && ans !== '');
+        if (isAnswered) answeredCount++;
+
+        const isCurrent = idx === currentQuestionIndex;
+        const isFlagged = flaggedQuestions[q.id];
+
+        let btnClass = 'bg-emerald-50 dark:bg-forest-850 text-forest-900 dark:text-emerald-100 border border-emerald-200 dark:border-forest-700';
+        if (isFlagged) btnClass = 'bg-amber-400 text-forest-950 font-extrabold border-amber-500';
+        else if (isAnswered) btnClass = 'bg-forest-700 text-white font-extrabold border-forest-700';
+
+        if (isCurrent) btnClass += ' ring-2 ring-offset-2 ring-amber-500 dark:ring-offset-forest-900';
+
+        return `
+          <button onclick="jumpToQuestion(${idx})" class="h-10 rounded-xl text-xs font-bold transition ${btnClass}">
+            ${idx + 1}
+          </button>
+        `;
+      }).join('');
+
+      document.getElementById('answered-counter').textContent = `${answeredCount}/${activeExam.questions.length} Terjawab`;
+    }
+
+    window.exitExamConfirm = function() {
+      showConfirm('Batalkan Ujian?', 'Progres pengerjaan saat ini tidak akan disimpan. Kembali ke beranda?', () => {
+        clearInterval(timerInterval);
+        switchTab('dashboard');
+      });
+    };
+
+    window.confirmFinishExam = function() {
+      showConfirm('Kumpulkan Jawaban?', 'Pastikan Anda telah memeriksa seluruh jawaban sebelum menyelesaikan latihan ini.', () => {
+        finishAndGradeExam();
+      });
+    };
+
+    // =========================================================================
+    // PENILAIAN OTOMATIS & PEMBAHASAN
+    // =========================================================================
+    async function finishAndGradeExam() {
+      clearInterval(timerInterval);
+
+      let totalPoints = 0;
+      const maxPoints = activeExam.questions.length;
+      let fullCorrectCount = 0;
+
+      const reviewItems = activeExam.questions.map((q, idx) => {
+        const uAns = userAnswers[q.id];
+        let earned = 0;
+        let userText = 'Tidak dijawab';
+        let keyText = '';
+
+        if (q.type === 'bs') {
+          userText = uAns || 'Tidak dijawab';
+          keyText = q.answer;
+          if (uAns === q.answer) earned = 1;
+        } else if (q.type === 'pg' || q.type === 'matching') {
+          userText = uAns !== undefined ? q.options[uAns] : 'Tidak dijawab';
+          keyText = q.options[q.answer];
+          if (uAns === q.answer) earned = 1;
+        } else if (q.type === 'pgk') {
+          const arr = Array.isArray(uAns) ? [...uAns].sort() : [];
+          const keyArr = [...q.answer].sort();
+          userText = arr.length > 0 ? arr.map(i => q.options[i]).join('; ') : 'Tidak dijawab';
+          keyText = keyArr.map(i => q.options[i]).join('; ');
+          if (arr.length === keyArr.length && arr.every((v, i) => v === keyArr[i])) {
+            earned = 1;
+          }
+        } else if (q.type === 'essay') {
+          userText = uAns || 'Tidak dijawab';
+          keyText = q.sampleAnswer || 'Lihat rubrik pembahasan';
+          if (uAns && uAns.trim().length > 10) {
+            const lower = uAns.toLowerCase();
+            const kws = q.keywords || [];
+            if (kws.length > 0) {
+              const matched = kws.filter(k => lower.includes(k.toLowerCase())).length;
+              earned = matched / kws.length >= 0.4 ? 1 : (matched > 0 ? 0.5 : 0.25);
+            } else {
+              earned = 1;
+            }
+          }
+        }
+
+        if (earned >= 0.8) fullCorrectCount++;
+        totalPoints += earned;
+
+        return { q, idx, earned, userText, keyText };
+      });
+
+      const finalScore = Math.round((totalPoints / maxPoints) * 100);
+      let grade = 'Perlu Belajar Lagi';
+      if (finalScore >= 90) grade = 'Sangat Baik (A)';
+      else if (finalScore >= 78) grade = 'Baik (B)';
+      else if (finalScore >= 65) grade = 'Cukup (C)';
+
+      // Render Halaman Hasil
+      document.getElementById('result-exam-title').textContent = activeExam.title;
+      document.getElementById('result-score').textContent = finalScore;
+      document.getElementById('result-correct').textContent = `${fullCorrectCount}/${maxPoints}`;
+      document.getElementById('result-wrong').textContent = `${maxPoints - fullCorrectCount}`;
+      document.getElementById('result-grade').textContent = grade;
+
+      const reviewList = document.getElementById('result-review-list');
+      reviewList.innerHTML = reviewItems.map(item => {
+        const isGood = item.earned >= 0.8;
+        return `
+          <div class="bg-white dark:bg-forest-900 border ${isGood ? 'border-emerald-400/60' : 'border-rose-400/60'} rounded-2xl p-5 shadow-md">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-forest-850 dark:text-amber-400">Soal #${item.idx + 1} • ${item.q.category || ''}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${isGood ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : 'bg-rose-500/15 text-rose-600 dark:text-rose-400'}">
+                ${isGood ? 'Benar / Tepat' : 'Kurang Tepat'}
+              </span>
+            </div>
+            <p class="text-sm font-semibold mb-3 text-slate-900 dark:text-white">${item.q.question}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mb-3">
+              <div class="p-3 rounded-xl bg-emerald-50/60 dark:bg-forest-950 border border-emerald-100 dark:border-forest-800">
+                <span class="block font-bold text-slate-500 dark:text-emerald-200/70 mb-1">Jawaban Anda:</span>
+                <span class="${isGood ? 'text-forest-700 dark:text-emerald-300 font-semibold' : 'text-rose-500 font-semibold'}">${item.userText}</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-50/60 dark:bg-forest-950 border border-emerald-100 dark:border-forest-800">
+                <span class="block font-bold text-slate-500 dark:text-emerald-200/70 mb-1">Kunci Jawaban:</span>
+                <span class="text-forest-700 dark:text-emerald-300 font-semibold">${item.keyText}</span>
+              </div>
+            </div>
+            ${item.q.explanation ? `<p class="text-xs text-slate-700 dark:text-emerald-100/90 bg-amber-400/15 border border-amber-400/30 p-3 rounded-xl"><strong class="text-amber-700 dark:text-amber-400">Pembahasan:</strong> ${item.q.explanation}</p>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      switchTab('result');
+      await saveExamResultRecord(activeExam.title, fullCorrectCount, maxPoints, finalScore);
+    }
+
+    async function saveExamResultRecord(examTitle, correctCount, totalQuestions, score) {
+      const record = {
+        uid: currentUser?.uid || 'guest',
+        userName: currentUser?.displayName || 'Pengguna',
+        userEmail: currentUser?.email || '-',
+        examTitle,
+        correctCount,
+        totalQuestions,
+        score,
+        timestamp: new Date().toISOString()
+      };
+
+      const localHistory = JSON.parse(localStorage.getItem('historicbt_history') || '[]');
+      localHistory.unshift(record);
+      localStorage.setItem('historicbt_history', JSON.stringify(localHistory));
+
+      try {
+        await addDoc(collection(db, 'exam_results'), {
+          ...record,
+          createdAt: serverTimestamp()
+        });
+      } catch (e) {
+        console.warn('Hasil disimpan secara lokal:', e.message);
+      }
+    }
+
+    window.loadHistoryData = async function() {
+      const tbody = document.getElementById('history-table-body');
+      let records = JSON.parse(localStorage.getItem('historicbt_history') || '[]');
+
+      try {
+        const snap = await getDocs(collection(db, 'exam_results'));
+        snap.forEach(d => {
+          const data = d.data();
+          if (userRole === 'admin' || data.uid === currentUser?.uid) {
+            if (!records.some(r => r.timestamp === data.timestamp && r.userEmail === data.userEmail)) {
+              records.push(data);
+            }
+          }
+        });
+      } catch (e) {}
+
+      if (userRole !== 'admin') {
+        records = records.filter(r => r.uid === currentUser?.uid);
+      }
+
+      if (records.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-slate-500 text-xs sm:text-sm">Belum ada riwayat pengerjaan ujian. Silakan kerjakan paket latihan terlebih dahulu.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = records.map(r => {
+        const dateStr = r.timestamp ? new Date(r.timestamp).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
+        return `
+          <tr class="hover:bg-emerald-50/50 dark:hover:bg-forest-850/60 transition">
+            <td class="py-3.5 px-5 text-xs text-slate-500 dark:text-emerald-200/70">${dateStr}</td>
+            <td class="py-3.5 px-5">
+              <p class="font-bold text-xs sm:text-sm text-forest-900 dark:text-white">${r.userName}</p>
+              <p class="text-[11px] text-slate-500 dark:text-emerald-200/70">${r.userEmail}</p>
+            </td>
+            <td class="py-3.5 px-5 text-xs sm:text-sm font-medium">${r.examTitle}</td>
+            <td class="py-3.5 px-5 text-center text-xs font-bold">${r.correctCount} / ${r.totalQuestions}</td>
+            <td class="py-3.5 px-5 text-center">
+              <span class="px-3 py-1 rounded-full text-xs font-extrabold ${r.score >= 75 ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : 'bg-amber-500/15 text-amber-700 dark:text-amber-300'}">
+                ${r.score}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    };
+  </script>
+</body>
+</html>
