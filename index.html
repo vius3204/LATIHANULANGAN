@@ -242,22 +242,27 @@
     </div>
   </div>
 
-  <!-- FLOATING BACKSOUND AUDIO WIDGET -->
-  <div id="bgmFloatingWidget" class="fixed bottom-3 right-3 z-40 no-print flex items-center gap-1.5 bg-emeraldbrand-950/90 glass-card text-white px-3 py-2 rounded-2xl border border-goldbrand-500/40 shadow-xl">
-    <button type="button" id="bgmToggleBtn" onclick="toggleBacksound()" title="Putar / Hentikan Backsound" class="w-8 h-8 rounded-xl bg-goldbrand-500 text-emeraldbrand-950 flex items-center justify-center font-extrabold text-xs hover:bg-goldbrand-400 transition">
+  <!-- FLOATING BACKSOUND AUDIO WIDGET (COMPACT ON MOBILE + MINIMIZABLE) -->
+  <div id="bgmFloatingWidget" class="fixed bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 z-40 no-print flex items-center gap-1 sm:gap-1.5 bg-emeraldbrand-950/92 glass-card text-white px-2 py-1.5 sm:px-3 sm:py-2 rounded-2xl border border-goldbrand-500/40 shadow-xl max-w-[calc(100vw-20px)]">
+    <button type="button" id="bgmToggleBtn" onclick="toggleBacksound()" title="Putar / Hentikan Backsound" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-goldbrand-500 text-emeraldbrand-950 flex items-center justify-center font-extrabold text-xs hover:bg-goldbrand-400 transition shrink-0">
       <i id="bgmPlayIcon" class="fa-solid fa-play"></i>
     </button>
-    <div id="bgmEqBars" class="hidden items-end gap-0.5 h-4 px-1">
+    <div id="bgmEqBars" class="hidden items-end gap-0.5 h-3.5 px-0.5 shrink-0">
       <span class="w-1 bg-goldbrand-400 rounded-full eq-bar-1"></span>
       <span class="w-1 bg-emeraldbrand-400 rounded-full eq-bar-2"></span>
       <span class="w-1 bg-goldbrand-300 rounded-full eq-bar-3"></span>
     </div>
-    <select id="bgmPresetSelect" onchange="changeBacksoundPreset(this.value)" title="Pilih Nuansa Backsound" class="bg-transparent text-[11px] font-bold text-goldbrand-300 outline-none cursor-pointer pr-1">
-      <option value="lofi" class="bg-slate-900 text-white">Synthwave Belajar</option>
-      <option value="piano" class="bg-slate-900 text-white">Piano Melodi</option>
-      <option value="ambient" class="bg-slate-900 text-white">Lofi Chill Beat</option>
-    </select>
-    <input type="range" id="bgmVolumeSlider" min="0" max="100" value="75" oninput="setBacksoundVolume(this.value)" title="Volume Backsound" class="w-14 sm:w-16 accent-cyan-400 cursor-pointer" />
+    <div id="bgmExpandedControls" class="flex items-center gap-1 sm:gap-1.5 min-w-0">
+      <select id="bgmPresetSelect" onchange="changeBacksoundPreset(this.value)" title="Pilih Nuansa Backsound" class="bg-transparent text-[10px] sm:text-[11px] font-bold text-goldbrand-300 outline-none cursor-pointer max-w-[82px] sm:max-w-none truncate">
+        <option value="lofi" class="bg-slate-900 text-white">Synthwave</option>
+        <option value="piano" class="bg-slate-900 text-white">Piano Melodi</option>
+        <option value="ambient" class="bg-slate-900 text-white">Lofi Chill</option>
+      </select>
+      <input type="range" id="bgmVolumeSlider" min="0" max="100" value="75" oninput="setBacksoundVolume(this.value)" title="Volume Backsound" class="w-10 sm:w-16 accent-cyan-400 cursor-pointer shrink-0" />
+    </div>
+    <button type="button" id="bgmCollapseBtn" onclick="toggleBgmCompact()" title="Kecilkan / Perlebar Player" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center text-[10px] shrink-0">
+      <i id="bgmCollapseIcon" class="fa-solid fa-chevron-right"></i>
+    </button>
   </div>
 
 
@@ -455,7 +460,7 @@
       </div>
     </header>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 pt-4 pb-24 sm:py-6">
       <!-- =====================================================
            SUB-VIEW A: DASHBOARD BERANDA
       ====================================================== -->
@@ -1502,6 +1507,15 @@
     window.changeBacksoundPreset = function (preset) {
       currentBgmPreset = preset;
       if (isBgmPlaying) runBacksoundScheduler();
+    };
+
+        let isBgmCompact = false;
+    window.toggleBgmCompact = function () {
+      isBgmCompact = !isBgmCompact;
+      const exp = document.getElementById("bgmExpandedControls");
+      const icon = document.getElementById("bgmCollapseIcon");
+      if (exp) exp.classList.toggle("hidden", isBgmCompact);
+      if (icon) icon.className = isBgmCompact ? "fa-solid fa-chevron-left" : "fa-solid fa-chevron-right";
     };
 
     window.setBacksoundVolume = function (val) {
