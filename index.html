@@ -2336,9 +2336,9 @@
 
         const isCurrent = idx === currentQuestionIndex;
         let cls = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700";
-        if (flagged) cls = "bg-amber-400 text-slate-950 font-extrabold border border-amber-500";
-        else if (answered) cls = "bg-emeraldbrand-600 text-white font-extrabold border border-emeraldbrand-500";
-        if (isCurrent) cls += " ring-2 ring-goldbrand-400";
+        if (flagged) cls = "bg-amber-400 text-slate-950 font-extrabold border border-amber-500 shadow-sm";
+        else if (answered) cls = "bg-indigo-600 text-white font-extrabold border border-indigo-500 shadow-sm";
+        if (isCurrent) cls += " ring-2 ring-cyan-400 scale-105";
         return `<button type="button" onclick="jumpToQuestion(${idx})" class="h-9 rounded-xl text-xs font-bold transition ${cls}">${idx + 1}</button>`;
       }).join("");
 
@@ -2471,7 +2471,13 @@
       if (q.type === "bs") {
         optContainer.innerHTML = [{ val: true, label: "BENAR", icon: "fa-circle-check" }, { val: false, label: "SALAH", icon: "fa-circle-xmark" }].map((item) => {
           const selected = currentAns === item.val;
-          return `<button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-center gap-3 ${selected ? "border-emeraldbrand-600 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-extrabold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><i class="fa-solid ${item.icon} text-base ${selected ? "text-emeraldbrand-600 dark:text-goldbrand-400" : "text-slate-400"}"></i><span class="text-sm">${item.label}</span></button>`;
+          return `<button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 ${selected ? "border-indigo-600 bg-indigo-100/90 dark:bg-indigo-600/35 text-indigo-950 dark:text-white font-extrabold shadow-md ring-2 ring-indigo-500/30" : "border-slate-200 dark:border-slate-800 hover:border-cyan-500"}">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid ${item.icon} text-lg ${selected ? "text-indigo-600 dark:text-cyan-300" : "text-slate-400"}"></i>
+              <span class="text-sm">${item.label}</span>
+            </div>
+            ${selected ? `<span class="px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-extrabold uppercase tracking-wide">Dipilih</span>` : ""}
+          </button>`;
         }).join("");
       } else if (q.type === "pg" || q.type === "mj") {
         const letters = ["A", "B", "C", "D", "E"];
@@ -2479,20 +2485,29 @@
           const selected = currentAns === i;
           const eliminated = !!eliminatedOptions[`${currentQuestionIndex}_${i}`];
           return `
-            <div onclick="selectSingleAnswer(${i})" class="w-full cursor-pointer p-3.5 rounded-2xl border-2 transition flex items-start justify-between gap-2.5 ${selected ? "border-emeraldbrand-600 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"} ${eliminated ? "opacity-45 line-through" : ""}">
+            <div onclick="selectSingleAnswer(${i})" class="w-full cursor-pointer p-3.5 rounded-2xl border-2 transition-all flex items-start justify-between gap-2.5 ${selected ? "border-indigo-600 bg-indigo-100/90 dark:bg-indigo-600/35 text-indigo-950 dark:text-white font-bold shadow-md ring-2 ring-indigo-500/30" : "border-slate-200 dark:border-slate-800 hover:border-cyan-500"} ${eliminated ? "opacity-45 line-through" : ""}">
               <div class="flex items-start gap-3">
-                <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold ${selected ? "bg-emeraldbrand-700 text-goldbrand-300" : "bg-slate-100 dark:bg-slate-800"}">${letters[i] || i + 1}</span>
+                <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold transition-colors ${selected ? "bg-indigo-600 text-white shadow-sm" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}">${letters[i] || i + 1}</span>
                 <span class="text-sm pt-0.5 leading-relaxed">${optText}</span>
               </div>
-              <button type="button" onclick="toggleEliminateOption(event, ${i})" title="Coret opsi ini" class="text-slate-400 hover:text-rose-500 px-1.5 py-1 text-xs shrink-0"><i class="fa-solid fa-strikethrough"></i></button>
+              <div class="flex items-center gap-1.5 shrink-0">
+                ${selected ? `<span class="px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-extrabold">Dipilih</span>` : ""}
+                <button type="button" onclick="toggleEliminateOption(event, ${i})" title="Coret opsi ini" class="text-slate-400 hover:text-rose-500 px-1.5 py-1 text-xs"><i class="fa-solid fa-strikethrough"></i></button>
+              </div>
             </div>`;
         }).join("");
       } else if (q.type === "pgk") {
         const selectedArr = Array.isArray(currentAns) ? currentAns : [];
-        optContainer.innerHTML = `<p class="text-xs font-bold text-goldbrand-600 mb-1.5">Centang semua pernyataan yang benar:</p>` +
+        optContainer.innerHTML = `<p class="text-xs font-bold text-cyan-600 dark:text-cyan-400 mb-1.5">Centang semua pernyataan yang benar:</p>` +
           q.options.map((optText, i) => {
             const checked = selectedArr.includes(i);
-            return `<button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-start gap-3 ${checked ? "border-emeraldbrand-600 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border ${checked ? "bg-emeraldbrand-700 border-emeraldbrand-700 text-goldbrand-300" : "border-slate-400 text-transparent"}"><i class="fa-solid fa-check"></i></span><span class="text-sm leading-relaxed">${optText}</span></button>`;
+            return `<button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 ${checked ? "border-indigo-600 bg-indigo-100/90 dark:bg-indigo-600/35 text-indigo-950 dark:text-white font-bold shadow-md ring-2 ring-indigo-500/30" : "border-slate-200 dark:border-slate-800 hover:border-cyan-500"}">
+              <div class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border transition-colors ${checked ? "bg-indigo-600 border-indigo-600 text-white" : "border-slate-400 text-transparent"}"><i class="fa-solid fa-check"></i></span>
+                <span class="text-sm leading-relaxed">${optText}</span>
+              </div>
+              ${checked ? `<span class="px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-extrabold shrink-0">Dipilih</span>` : ""}
+            </button>`;
           }).join("");
       } else if (q.type === "ur") {
         const textVal = typeof currentAns === "string" ? currentAns : "";
