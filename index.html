@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CBT SAS Sejarah Kelas XI - SMAN 14 Surabaya</title>
+  <title>CBT SAS Kelas XI - SMAN 14 Surabaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -41,46 +41,21 @@
             'float': 'float 6s ease-in-out infinite',
           },
           keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
-            slideUp: {
-              '0%': { opacity: '0', transform: 'translateY(16px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            }
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } }
           }
         }
       }
     };
   </script>
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .gold-ring {
-      background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #047857 100%);
-      padding: 3px;
-    }
-    .glass-card {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #059669;
-      border-radius: 9999px;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .gold-ring { background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #047857 100%); padding: 3px; }
+    .glass-card { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #059669; border-radius: 9999px; }
   </style>
 </head>
 <body class="bg-[#f4f8f6] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-300">
@@ -92,12 +67,10 @@
        VIEW 1: AUTHENTICATION (MASUK / DAFTAR / LUPA SANDI)
   ========================================================== -->
   <section id="authSection" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-emeraldbrand-950 via-emeraldbrand-900 to-emeraldbrand-800 relative overflow-hidden">
-    <!-- Animated Decorative Blobs -->
     <div class="animate-float absolute -top-24 -left-24 w-72 h-72 bg-goldbrand-500/20 rounded-full blur-3xl pointer-events-none"></div>
     <div class="animate-float absolute -bottom-24 -right-24 w-80 h-80 bg-emeraldbrand-500/25 rounded-full blur-3xl pointer-events-none" style="animation-delay: 2s;"></div>
 
     <div class="animate-slide-up w-full max-w-md bg-white/95 dark:bg-slate-900/95 glass-card rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden relative z-10">
-      <!-- Header Brand -->
       <div class="bg-gradient-to-r from-emeraldbrand-900 to-emeraldbrand-800 p-6 text-center text-white border-b-4 border-goldbrand-500">
         <div class="w-20 h-20 mx-auto rounded-full gold-ring shadow-lg mb-3 transform hover:scale-105 transition duration-300">
           <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
@@ -107,16 +80,13 @@
               class="w-full h-full object-cover"
               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
             />
-            <div class="hidden w-full h-full items-center justify-center bg-emeraldbrand-900 text-goldbrand-400 font-extrabold text-xl">
-              CBT
-            </div>
+            <div class="hidden w-full h-full items-center justify-center bg-emeraldbrand-900 text-goldbrand-400 font-extrabold text-xl">CBT</div>
           </div>
         </div>
         <h1 class="text-xl font-extrabold tracking-tight text-white">Portal Evaluasi & CBT</h1>
         <p class="text-xs text-goldbrand-300 font-medium mt-0.5">Latihan Sumatif Akhir Semester (SAS)</p>
       </div>
 
-      <!-- Auth Tabs -->
       <div id="authTabs" class="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60">
         <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="py-3.5 text-sm font-bold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500 transition">
           Masuk
@@ -127,7 +97,7 @@
       </div>
 
       <div class="p-6">
-        <!-- FORM MASUK (LOGIN) -->
+        <!-- FORM MASUK -->
         <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off" class="space-y-4 animate-fade-in">
           <input type="text" style="display:none" aria-hidden="true" />
           <input type="password" style="display:none" aria-hidden="true" />
@@ -141,10 +111,12 @@
               <input
                 type="text"
                 id="loginIdentifier"
-                name="cbt_user_ident_x1"
+                name="cbt_ident_field"
                 autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
                 required
-                placeholder="Masukkan username atau email"
+                placeholder="Ketik email atau username Anda"
                 class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none transition"
               />
             </div>
@@ -164,7 +136,7 @@
               <input
                 type="password"
                 id="loginPassword"
-                name="cbt_user_pass_x1"
+                name="cbt_pass_field"
                 autocomplete="new-password"
                 required
                 placeholder="Masukkan kata sandi"
@@ -182,87 +154,41 @@
           </button>
         </form>
 
-        <!-- FORM DAFTAR (REGISTER) -->
+        <!-- FORM DAFTAR -->
         <form id="registerForm" onsubmit="handleRegister(event)" autocomplete="off" class="space-y-3.5 hidden animate-fade-in">
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Nama Lengkap</label>
-            <input
-              type="text"
-              id="regName"
-              autocomplete="off"
-              required
-              placeholder="Contoh: Ahmad Fauzan"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
-            />
+            <input type="text" id="regName" autocomplete="off" required placeholder="Contoh: Ahmad Fauzan" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Username</label>
-              <input
-                type="text"
-                id="regUsername"
-                autocomplete="off"
-                required
-                placeholder="username_anda"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
-              />
+              <input type="text" id="regUsername" autocomplete="off" autocapitalize="none" required placeholder="username_anda" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition" />
             </div>
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Email (Gmail)</label>
-              <input
-                type="email"
-                id="regEmail"
-                autocomplete="off"
-                required
-                placeholder="nama@gmail.com"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
-              />
+              <input type="email" id="regEmail" autocomplete="off" autocapitalize="none" required placeholder="nama@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Kata Sandi</label>
-              <input
-                type="password"
-                id="regPassword"
-                autocomplete="new-password"
-                required
-                minlength="6"
-                placeholder="Min. 6 karakter"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
-              />
+              <input type="password" id="regPassword" autocomplete="new-password" required minlength="6" placeholder="Min. 6 karakter" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition" />
             </div>
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Ulangi Sandi</label>
-              <input
-                type="password"
-                id="regConfirmPassword"
-                autocomplete="new-password"
-                required
-                minlength="6"
-                placeholder="Konfirmasi sandi"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
-              />
+              <input type="password" id="regConfirmPassword" autocomplete="new-password" required minlength="6" placeholder="Konfirmasi sandi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition" />
             </div>
           </div>
 
-          <!-- Kode Referral (Tanpa menampilkan kode) -->
           <div class="p-3 rounded-xl bg-emeraldbrand-50/70 dark:bg-emeraldbrand-900/30 border border-emeraldbrand-200 dark:border-emeraldbrand-800">
             <label class="block text-xs font-bold text-emeraldbrand-900 dark:text-goldbrand-300 mb-1">
               <i class="fa-solid fa-key mr-1 text-goldbrand-600"></i> Kode Referral (Opsional)
             </label>
-            <input
-              type="text"
-              id="regReferral"
-              autocomplete="off"
-              placeholder="Masukkan kode referral jika ada"
-              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition"
-            />
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              Kosongkan untuk mendaftar sebagai peserta ujian biasa.
-            </p>
+            <input type="text" id="regReferral" autocomplete="off" placeholder="Masukkan kode referral jika ada" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none transition" />
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Kosongkan untuk mendaftar sebagai peserta ujian biasa.</p>
           </div>
 
           <button type="submit" id="btnRegisterSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg border border-goldbrand-500/40 transform active:scale-[0.99] transition flex items-center justify-center gap-2">
@@ -283,14 +209,7 @@
 
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Email Terdaftar</label>
-            <input
-              type="email"
-              id="forgotEmail"
-              autocomplete="off"
-              required
-              placeholder="nama@gmail.com"
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
-            />
+            <input type="email" id="forgotEmail" autocomplete="off" required placeholder="nama@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none" />
           </div>
 
           <button type="submit" class="w-full py-2.5 rounded-xl bg-goldbrand-600 hover:bg-goldbrand-700 text-white font-bold text-sm shadow transition">
@@ -302,7 +221,7 @@
           </button>
         </form>
 
-        <!-- DIVIDER & OPSI LOGIN CEPAT -->
+        <!-- OPSI LOGIN CEPAT -->
         <div id="socialAuthBlock" class="mt-5">
           <div class="relative flex py-2 items-center">
             <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
@@ -330,10 +249,8 @@
        VIEW 2: MAIN APPLICATION SHELL
   ========================================================== -->
   <div id="appShell" class="hidden min-h-screen flex flex-col">
-    <!-- TOP NAVBAR -->
     <header class="sticky top-0 z-30 bg-emeraldbrand-900/95 glass-card text-white border-b-2 border-goldbrand-500 shadow-md">
       <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
-        <!-- Brand -->
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full gold-ring shrink-0">
             <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
@@ -349,15 +266,12 @@
           <div>
             <div class="flex items-center gap-2">
               <span class="font-extrabold text-sm sm:text-base tracking-tight">CBT SAS Online</span>
-              <span id="roleBadgeHeader" class="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-500 text-emeraldbrand-950">
-                Siswa
-              </span>
+              <span id="roleBadgeHeader" class="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-500 text-emeraldbrand-950">Siswa</span>
             </div>
             <p class="text-[11px] text-emeraldbrand-200 hidden sm:block">Sistem Latihan Ujian Berbasis Komputer</p>
           </div>
         </div>
 
-        <!-- Nav Actions -->
         <div class="flex items-center gap-2 sm:gap-3">
           <button type="button" onclick="showDashboard()" class="px-3 py-1.5 rounded-lg bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-xs font-semibold flex items-center gap-1.5 border border-emeraldbrand-700 transition">
             <i class="fa-solid fa-house text-goldbrand-400"></i>
@@ -374,31 +288,22 @@
           </button>
 
           <button type="button" onclick="openProfileModal()" class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-emeraldbrand-950/60 hover:bg-emeraldbrand-950 border border-goldbrand-500/40 transition">
-            <div id="userAvatarInitial" class="w-7 h-7 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xs flex items-center justify-center">
-              U
-            </div>
+            <div id="userAvatarInitial" class="w-7 h-7 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xs flex items-center justify-center">U</div>
             <span id="headerUserName" class="text-xs font-bold max-w-[90px] truncate hidden md:inline">Pengguna</span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
-
-      <!-- =====================================
-           SUB-VIEW A: DASHBOARD PAKET UJIAN
-      ====================================== -->
+      <!-- SUB-VIEW A: DASHBOARD -->
       <div id="dashboardView" class="space-y-6 animate-fade-in">
-        <!-- Hero Banner -->
         <div class="rounded-3xl bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-900 text-white p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 relative overflow-hidden">
           <div class="relative z-10 max-w-2xl">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-goldbrand-500/20 border border-goldbrand-400/40 text-goldbrand-300 text-xs font-bold mb-3">
               <i class="fa-solid fa-graduation-cap"></i> Semester Ganjil 2026/2027
             </span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
-              Siap Menghadapi Sumatif Akhir Semester?
-            </h2>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">Siap Menghadapi Sumatif Akhir Semester?</h2>
             <p class="text-sm text-emeraldbrand-100 leading-relaxed mb-5">
               Pilih paket latihan di bawah ini untuk menguji pemahaman Anda dengan sistem penilaian otomatis, timer ujian, serta kunci jawaban dan pembahasan lengkap.
             </p>
@@ -414,7 +319,6 @@
           <i class="fa-solid fa-landmark text-[150px] text-white/5 absolute -right-4 -bottom-6 pointer-events-none"></i>
         </div>
 
-        <!-- Daftar Paket Soal -->
         <div>
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-extrabold text-emeraldbrand-950 dark:text-white flex items-center gap-2">
@@ -424,35 +328,23 @@
               1 Paket Tersedia
             </span>
           </div>
-
-          <div id="examPackagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- Diisi otomatis via JavaScript -->
-          </div>
+          <div id="examPackagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
         </div>
       </div>
 
-      <!-- =====================================
-           SUB-VIEW B: HALAMAN PENGERJAAN UJIAN
-      ====================================== -->
+      <!-- SUB-VIEW B: HALAMAN UJIAN -->
       <div id="examView" class="hidden animate-fade-in">
-        <!-- Exam Top Info Bar -->
         <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span id="examSubjectBadge" class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emeraldbrand-100 text-emeraldbrand-800 dark:bg-emeraldbrand-900 dark:text-goldbrand-300">
-              Sejarah Kelas XI
-            </span>
-            <h2 id="examTitleDisplay" class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
-              Sumatif Akhir Semester (SAS) Sejarah
-            </h2>
+            <span id="examSubjectBadge" class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emeraldbrand-100 text-emeraldbrand-800 dark:bg-emeraldbrand-900 dark:text-goldbrand-300">Sejarah Kelas XI</span>
+            <h2 id="examTitleDisplay" class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">Sumatif Akhir Semester (SAS) Sejarah</h2>
           </div>
 
           <div class="flex items-center gap-3">
-            <!-- Timer -->
             <div class="px-4 py-2 rounded-xl bg-emeraldbrand-950 text-goldbrand-400 font-mono font-extrabold text-base flex items-center gap-2 border border-goldbrand-500/40">
               <i class="fa-regular fa-clock"></i>
               <span id="timerDisplay">60:00</span>
             </div>
-
             <button type="button" onclick="confirmSubmitExam()" class="px-4 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs sm:text-sm shadow transition flex items-center gap-2">
               <i class="fa-solid fa-paper-plane"></i> Selesai & Kumpulkan
             </button>
@@ -460,99 +352,55 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- Kolom Soal (8 Kolom) -->
           <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between min-h-[430px]">
             <div>
-              <!-- Header Nomor & Tipe Soal -->
               <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-100 dark:border-slate-800">
                 <div class="flex items-center gap-2.5">
-                  <span id="currentQNumBadge" class="px-3.5 py-1.5 rounded-xl bg-emeraldbrand-800 text-white font-extrabold text-sm">
-                    Soal No. 1
-                  </span>
-                  <span id="currentQTypeBadge" class="px-3 py-1 rounded-lg bg-goldbrand-500/15 text-goldbrand-700 dark:text-goldbrand-300 font-bold text-xs border border-goldbrand-500/30">
-                    Benar / Salah
-                  </span>
+                  <span id="currentQNumBadge" class="px-3.5 py-1.5 rounded-xl bg-emeraldbrand-800 text-white font-extrabold text-sm">Soal No. 1</span>
+                  <span id="currentQTypeBadge" class="px-3 py-1 rounded-lg bg-goldbrand-500/15 text-goldbrand-700 dark:text-goldbrand-300 font-bold text-xs border border-goldbrand-500/30">Benar / Salah</span>
                 </div>
-
                 <label class="inline-flex items-center gap-2 cursor-pointer select-none px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs font-bold text-amber-800 dark:text-amber-300">
                   <input type="checkbox" id="flagCheckbox" onchange="toggleFlagCurrent()" class="rounded text-amber-600 focus:ring-amber-500" />
                   <span>Ragu-ragu</span>
                 </label>
               </div>
-
-              <!-- Teks Pertanyaan -->
-              <div id="questionPromptArea" class="text-base sm:text-[17px] leading-relaxed font-medium text-slate-800 dark:text-slate-100 mb-6">
-                <!-- Diisi JS -->
-              </div>
-
-              <!-- Area Pilihan Jawaban -->
-              <div id="questionOptionsArea" class="space-y-3">
-                <!-- Diisi JS -->
-              </div>
+              <div id="questionPromptArea" class="text-base sm:text-[17px] leading-relaxed font-medium text-slate-800 dark:text-slate-100 mb-6"></div>
+              <div id="questionOptionsArea" class="space-y-3"></div>
             </div>
 
-            <!-- Navigasi Bawah -->
             <div class="pt-6 mt-8 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
               <button type="button" id="btnPrevQ" onclick="navigateQuestion(-1)" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs sm:text-sm font-bold flex items-center gap-2 transition disabled:opacity-40">
                 <i class="fa-solid fa-chevron-left"></i> Sebelumnya
               </button>
-
-              <span id="answeredCounterText" class="text-xs font-bold text-slate-500 dark:text-slate-400">
-                Terjawab: 0 / 35
-              </span>
-
+              <span id="answeredCounterText" class="text-xs font-bold text-slate-500 dark:text-slate-400">Terjawab: 0 / 35</span>
               <button type="button" id="btnNextQ" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition">
                 <span>Selanjutnya</span> <i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
           </div>
 
-          <!-- Kolom Navigasi Nomor Soal (4 Kolom) -->
           <div class="lg:col-span-4 bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 h-fit">
             <h3 class="text-sm font-extrabold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
               <i class="fa-solid fa-grip text-goldbrand-600"></i> Navigasi Nomor Soal
             </h3>
-
-            <div id="questionGridNav" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 mb-5">
-              <!-- Diisi tombol nomor 1..N -->
-            </div>
-
-            <!-- Legenda Warna -->
+            <div id="questionGridNav" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 mb-5"></div>
             <div class="space-y-1.5 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
-              <div class="flex items-center gap-2">
-                <span class="w-4 h-4 rounded bg-emeraldbrand-700 inline-block"></span>
-                <span>Sudah dijawab</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-4 h-4 rounded bg-amber-400 inline-block"></span>
-                <span>Ditandai ragu-ragu</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-4 h-4 rounded border-2 border-goldbrand-500 bg-white dark:bg-slate-800 inline-block"></span>
-                <span>Soal aktif saat ini</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-4 h-4 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 inline-block"></span>
-                <span>Belum dijawab</span>
-              </div>
+              <div class="flex items-center gap-2"><span class="w-4 h-4 rounded bg-emeraldbrand-700 inline-block"></span><span>Sudah dijawab</span></div>
+              <div class="flex items-center gap-2"><span class="w-4 h-4 rounded bg-amber-400 inline-block"></span><span>Ditandai ragu-ragu</span></div>
+              <div class="flex items-center gap-2"><span class="w-4 h-4 rounded border-2 border-goldbrand-500 bg-white dark:bg-slate-800 inline-block"></span><span>Soal aktif saat ini</span></div>
+              <div class="flex items-center gap-2"><span class="w-4 h-4 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 inline-block"></span><span>Belum dijawab</span></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- =====================================
-           SUB-VIEW C: HASIL & PEMBAHASAN UJIAN
-      ====================================== -->
+      <!-- SUB-VIEW C: HASIL UJIAN -->
       <div id="resultView" class="hidden space-y-6 animate-slide-up">
         <div class="bg-gradient-to-br from-emeraldbrand-900 to-emeraldbrand-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <span class="px-3 py-1 rounded-full bg-goldbrand-500 text-emeraldbrand-950 text-xs font-extrabold uppercase">
-              Hasil Evaluasi Ujian
-            </span>
+            <span class="px-3 py-1 rounded-full bg-goldbrand-500 text-emeraldbrand-950 text-xs font-extrabold uppercase">Hasil Evaluasi Ujian</span>
             <h2 id="resultExamTitle" class="text-2xl font-extrabold mt-2">SAS Sejarah Kelas XI</h2>
-            <p id="resultSummaryText" class="text-sm text-emeraldbrand-100 mt-1">
-              Anda telah menyelesaikan latihan soal. Periksa pembahasan setiap butir di bawah ini.
-            </p>
+            <p id="resultSummaryText" class="text-sm text-emeraldbrand-100 mt-1">Anda telah menyelesaikan latihan soal. Periksa pembahasan setiap butir di bawah ini.</p>
             <div class="flex flex-wrap gap-3 mt-5">
               <button type="button" onclick="retryCurrentExam()" class="px-4 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs sm:text-sm transition">
                 <i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Ujian
@@ -563,7 +411,6 @@
             </div>
           </div>
 
-          <!-- Score Card -->
           <div class="bg-emeraldbrand-950/80 border-2 border-goldbrand-400 rounded-2xl p-5 text-center min-w-[180px]">
             <p class="text-xs uppercase tracking-wider text-goldbrand-300 font-bold">Skor Akhir</p>
             <div id="finalScoreDisplay" class="text-5xl font-extrabold text-white my-1">0</div>
@@ -571,23 +418,17 @@
           </div>
         </div>
 
-        <!-- Review Pembahasan -->
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
           <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <i class="fa-solid fa-clipboard-check text-emeraldbrand-700"></i> Kunci Jawaban & Pembahasan Lengkap
           </h3>
-          <div id="reviewListContainer" class="space-y-4">
-            <!-- Diisi JS -->
-          </div>
+          <div id="reviewListContainer" class="space-y-4"></div>
         </div>
       </div>
-
     </main>
   </div>
 
-  <!-- =========================================================
-       MODAL 1: ADMIN IMPORT & BUAT PAKET SOAL
-  ========================================================== -->
+  <!-- MODAL 1: ADMIN IMPORT & BUAT PAKET SOAL -->
   <div id="adminModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-3xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[90vh] flex flex-col">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -600,21 +441,13 @@
         </button>
       </div>
 
-      <!-- Modal Tabs -->
       <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4">
-        <button type="button" onclick="switchAdminTab('import')" id="admTabImport" class="px-4 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500">
-          Import File (JSON / CSV)
-        </button>
-        <button type="button" onclick="switchAdminTab('manual')" id="admTabManual" class="px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700">
-          Buat Manual Cepat
-        </button>
-        <button type="button" onclick="switchAdminTab('manage')" id="admTabManage" class="px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700">
-          Kelola Paket
-        </button>
+        <button type="button" onclick="switchAdminTab('import')" id="admTabImport" class="px-4 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500">Import File (JSON / CSV)</button>
+        <button type="button" onclick="switchAdminTab('manual')" id="admTabManual" class="px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700">Buat Manual Cepat</button>
+        <button type="button" onclick="switchAdminTab('manage')" id="admTabManage" class="px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700">Kelola Paket</button>
       </div>
 
       <div class="p-6 overflow-y-auto space-y-5 flex-1">
-        <!-- TAB 1: IMPORT JSON / CSV -->
         <div id="admPaneImport" class="space-y-4">
           <div class="p-4 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950/60 border border-emeraldbrand-200 dark:border-emeraldbrand-800 flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -622,12 +455,8 @@
               <p class="text-xs text-slate-600 dark:text-slate-400">Gunakan template JSON atau CSV agar struktur soal terbaca otomatis.</p>
             </div>
             <div class="flex gap-2">
-              <button type="button" onclick="downloadTemplate('json')" class="px-3 py-1.5 rounded-lg bg-emeraldbrand-800 text-white text-xs font-bold hover:bg-emeraldbrand-700">
-                <i class="fa-solid fa-download mr-1"></i> Template JSON
-              </button>
-              <button type="button" onclick="downloadTemplate('csv')" class="px-3 py-1.5 rounded-lg bg-goldbrand-600 text-white text-xs font-bold hover:bg-goldbrand-500">
-                <i class="fa-solid fa-file-csv mr-1"></i> Template CSV
-              </button>
+              <button type="button" onclick="downloadTemplate('json')" class="px-3 py-1.5 rounded-lg bg-emeraldbrand-800 text-white text-xs font-bold hover:bg-emeraldbrand-700"><i class="fa-solid fa-download mr-1"></i> Template JSON</button>
+              <button type="button" onclick="downloadTemplate('csv')" class="px-3 py-1.5 rounded-lg bg-goldbrand-600 text-white text-xs font-bold hover:bg-goldbrand-500"><i class="fa-solid fa-file-csv mr-1"></i> Template CSV</button>
             </div>
           </div>
 
@@ -652,7 +481,7 @@
 
           <div>
             <label class="block text-xs font-bold mb-1">Atau Tempel (Paste) Kode JSON Soal di Sini</label>
-            <textarea id="importJsonTextarea" rows="5" placeholder='[{"type":"pg","question":"Ibu kota Indonesia adalah...","options":["Jakarta","Bandung","Surabaya","Medan"],"answer":0,"explanation":"Jakarta adalah ibu kota negara."}]' class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono text-xs"></textarea>
+            <textarea id="importJsonTextarea" rows="5" placeholder='[{"type":"pg","question":"Pertanyaan...","options":["A","B","C","D"],"answer":0,"explanation":"Pembahasan..."}]' class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono text-xs"></textarea>
           </div>
 
           <button type="button" onclick="processImportPackage()" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 text-white font-extrabold text-sm shadow hover:opacity-95 transition">
@@ -660,7 +489,6 @@
           </button>
         </div>
 
-        <!-- TAB 2: BUAT MANUAL CEPAT -->
         <div id="admPaneManual" class="hidden space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -669,7 +497,7 @@
             </div>
             <div>
               <label class="block text-xs font-bold mb-1">Mata Pelajaran</label>
-              <input type="text" id="manPkgSubject" placeholder="Sejarah / Umum" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
+              <input type="text" id="manPkgSubject" placeholder="Geografi / Sejarah" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
             </div>
           </div>
 
@@ -694,17 +522,12 @@
               </select>
               <input type="text" id="manExplanation" placeholder="Pembahasan singkat (opsional)" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
             </div>
-            <button type="button" onclick="addManualQuestionToDraft()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white text-xs font-bold hover:bg-emeraldbrand-700">
-              + Tambahkan ke Draft
-            </button>
+            <button type="button" onclick="addManualQuestionToDraft()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white text-xs font-bold hover:bg-emeraldbrand-700">+ Tambahkan ke Draft</button>
           </div>
 
-          <button type="button" onclick="saveManualPackage()" class="w-full py-3 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-sm shadow">
-            Simpan Paket Soal Manual
-          </button>
+          <button type="button" onclick="saveManualPackage()" class="w-full py-3 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-sm shadow">Simpan Paket Soal Manual</button>
         </div>
 
-        <!-- TAB 3: KELOLA PAKET -->
         <div id="admPaneManage" class="hidden space-y-3">
           <p class="text-xs text-slate-500">Daftar paket soal yang tersimpan di sistem:</p>
           <div id="adminManageList" class="space-y-2"></div>
@@ -713,9 +536,7 @@
     </div>
   </div>
 
-  <!-- =========================================================
-       MODAL 2: PROFIL PENGGUNA & UPGRADE REFERRAL
-  ========================================================== -->
+  <!-- MODAL 2: PROFIL PENGGUNA -->
   <div id="profileModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -726,26 +547,19 @@
       </div>
       <div class="p-6 space-y-4">
         <div class="flex items-center gap-3.5">
-          <div id="modalAvatar" class="w-14 h-14 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xl flex items-center justify-center">
-            U
-          </div>
+          <div id="modalAvatar" class="w-14 h-14 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xl flex items-center justify-center">U</div>
           <div>
             <h4 id="modalUserName" class="font-extrabold text-base text-slate-900 dark:text-white">Nama Pengguna</h4>
             <p id="modalUserEmail" class="text-xs text-slate-500">email@contoh.com</p>
-            <span id="modalUserRole" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emeraldbrand-100 text-emeraldbrand-800">
-              Peserta Biasa
-            </span>
+            <span id="modalUserRole" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emeraldbrand-100 text-emeraldbrand-800">Peserta Biasa</span>
           </div>
         </div>
 
-        <!-- Aktivasi Kode Referral dari Profil -->
         <div id="upgradeReferralBox" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Aktivasi Kode Referral Admin</label>
           <div class="flex gap-2">
             <input type="text" id="profileReferralInput" autocomplete="off" placeholder="Masukkan kode referral" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
-            <button type="button" onclick="applyReferralFromProfile()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold">
-              Aktivasi
-            </button>
+            <button type="button" onclick="applyReferralFromProfile()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold">Aktivasi</button>
           </div>
         </div>
 
@@ -756,9 +570,7 @@
     </div>
   </div>
 
-  <!-- =========================================================
-       MODAL 3: GMAIL FALLBACK DIALOG (SAAT IFRAME/POPUP DIBLOKIR)
-  ========================================================== -->
+  <!-- MODAL 3: GMAIL FALLBACK DIALOG -->
   <div id="gmailFallbackModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="animate-slide-up bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
       <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
@@ -772,7 +584,7 @@
       </div>
       <form onsubmit="submitGmailFallback(event)" autocomplete="off" class="p-6 space-y-3.5">
         <div id="gmailBlockReason" class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-800 dark:text-amber-200 leading-relaxed">
-          Pop-up Google OAuth diblokir oleh jendela pratinjau/browser Anda. Silakan lengkapi detail Gmail di bawah ini untuk langsung masuk.
+          Pop-up Google OAuth diblokir oleh browser/pratinjau Anda. Silakan lengkapi detail Gmail di bawah ini untuk langsung masuk.
         </div>
         <div>
           <label class="block text-xs font-bold mb-1">Nama Lengkap</label>
@@ -786,9 +598,7 @@
           <label class="block text-xs font-bold mb-1">Kode Referral (Opsional)</label>
           <input type="text" id="fbGmailReferral" autocomplete="off" placeholder="Masukkan kode referral jika ada" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
         </div>
-        <button type="submit" class="w-full py-2.5 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white font-bold text-sm shadow">
-          Masuk Sekarang
-        </button>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white font-bold text-sm shadow">Masuk Sekarang</button>
       </form>
     </div>
   </div>
@@ -849,9 +659,19 @@
     let timeRemainingSeconds = 3600;
     let manualDraftQuestions = [];
 
-    // =========================================================
-    // PAKET SOAL BAWAAN: SAS SEJARAH KELAS XI (35 BUTIR LENGKAP)
-    // =========================================================
+    // Helper lokal pemetaan username -> email agar tetap bisa login meski Firestore Rules memblokir unauthenticated read
+    function saveLocalUsernameMap(username, email) {
+      if (!username || !email) return;
+      const map = JSON.parse(localStorage.getItem("cbt_username_map") || "{}");
+      map[username.toLowerCase().trim()] = email.toLowerCase().trim();
+      localStorage.setItem("cbt_username_map", JSON.stringify(map));
+    }
+
+    function getLocalEmailByUsername(username) {
+      const map = JSON.parse(localStorage.getItem("cbt_username_map") || "{}");
+      return map[username.toLowerCase().trim()] || null;
+    }
+
     const DEFAULT_SEJARAH_PACKAGE = {
       id: "sas-sejarah-xi",
       title: "SAS Sejarah Kelas XI (Paket Terpadu 35 Soal)",
@@ -860,406 +680,44 @@
       isDefault: true,
       description: "Mencakup 5 Benar/Salah, 15 Pilihan Ganda, 5 Pilihan Ganda Kompleks, 5 Menjodohkan, dan 5 Uraian sesuai Kisi-Kisi SAS.",
       questions: [
-        // --- BAGIAN 1: BENAR / SALAH (5 Soal) ---
-        {
-          type: "bs",
-          question: "Bangsa Spanyol merupakan bangsa Eropa pertama yang tiba di wilayah Nusantara pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque dan langsung mendirikan pusat kolonialisme di Maluku.",
-          answer: false,
-          explanation: "SALAH. Bangsa Eropa pertama yang berhasil tiba di Malaka pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque adalah bangsa Portugis, bukan Spanyol."
-        },
-        {
-          type: "bs",
-          question: "Tujuan utama Belanda mendirikan VOC (Vereenigde Oostindische Compagnie) pada tahun 1602 adalah untuk menghindari persaingan tidak sehat antarpedagang Belanda serta memonopoli perdagangan rempah-rempah di Asia.",
-          answer: true,
-          explanation: "BENAR. VOC awalnya dibentuk sebagai kongsi dagang untuk menyatukan pedagang Belanda dan memonopoli perdagangan rempah-rempah."
-        },
-        {
-          type: "bs",
-          question: "Proses masuk dan berkembangnya kekuasaan kolonialisme Barat di berbagai wilayah Indonesia berlangsung mulus dan damai karena penguasa kerajaan lokal menyambut baik kehadiran mereka tanpa perlawanan.",
-          answer: false,
-          explanation: "SALAH. Kedatangan bangsa Barat memicu perlawanan heroik di berbagai daerah seperti Ternate, Malaka, Mataram, Gowa-Tallo, Banten, dan lainnya."
-        },
-        {
-          type: "bs",
-          question: "Organisasi Budi Utomo didirikan pada tanggal 20 Mei 1908 oleh para pelajar STOVIA dengan dr. Soetomo sebagai ketuanya, dan memfokuskan geraknya pada bidang sosial, pendidikan, serta kebudayaan Jawa.",
-          answer: true,
-          explanation: "BENAR. Budi Utomo berdiri 20 Mei 1908 atas gagasan dr. Wahidin Soedirohoesodo dan diketuai oleh dr. Soetomo."
-        },
-        {
-          type: "bs",
-          question: "Sarekat Islam pada awal berdirinya tahun 1911 bernama Sarekat Dagang Islam (SDI) yang diprakarsai oleh H. Samanhudi dengan tujuan melindungi pedagang batik pribumi dari dominasi pedagang Tionghoa.",
-          answer: true,
-          explanation: "BENAR. SDI didirikan di Solo tahun 1911 oleh H. Samanhudi sebelum diubah menjadi Sarekat Islam oleh H.O.S. Tjokroaminoto."
-        },
-
-        // --- BAGIAN 2: PILIHAN GANDA (15 Soal) ---
-        {
-          type: "pg",
-          question: "Sebuah perusahaan multinasional menanamkan modal besar di negara berkembang, menguasai konsesi tambang puluhan tahun, dan menentukan harga komoditas sehingga kebijakan ekonomi negara tersebut bergantung padanya tanpa pendudukan fisik militer. Fenomena ini merupakan wujud dari...",
-          options: [
-            "Kolonialisme klasik berbasis ekspansi wilayah",
-            "Imperialisme modern berbasis dominasi ekonomi",
-            "Merkantilisme abad ke-16",
-            "Feodalisme agraris tradisional",
-            "Politik pintu terbuka"
-          ],
-          answer: 1,
-          explanation: "Imperialisme modern menekankan penguasaan sektor ekonomi, modal, dan kebijakan tanpa harus menduduki wilayah secara fisik."
-        },
-        {
-          type: "pg",
-          question: "Alasan historis yang melatarbelakangi kuatnya motivasi penyebaran agama (Gospel) saat bangsa Portugis dan Spanyol berlayar ke Timur adalah...",
-          options: [
-            "Keinginan menghapuskan seluruh kepercayaan lokal secara paksa",
-            "Semangat melanjutkan Perang Salib (Reconquista) serta kewajiban melaksanakan mandat Paus (Perjanjian Tordesillas)",
-            "Tuntutan pedagang rempah agar masyarakat Asia berbahasa sama",
-            "Upaya menggantikan jalur darat yang dikuasai Tiongkok",
-            "Kurangnya tenaga misionaris di Eropa Barat"
-          ],
-          answer: 1,
-          explanation: "Bangsa Iberia (Portugis & Spanyol) membawa misi Reconquista dan amanat Paus untuk menyebarkan agama Katolik ke wilayah baru."
-        },
-        {
-          type: "pg",
-          question: "Konflik antara Spanyol dan Portugis di Maluku diselesaikan melalui Perjanjian Zaragoza pada tahun 1529 yang membawa konsekuensi bagi Spanyol berupa...",
-          options: [
-            "Spanyol berhak menguasai seluruh wilayah Maluku bagian utara",
-            "Spanyol harus meninggalkan Maluku dan memusatkan kekuasaannya di Filipina",
-            "Spanyol dan Portugis membagi wilayah perdagangan di Malaka",
-            "Spanyol mendapatkan hak monopoli cengkih di Tidore selama 50 tahun",
-            "Spanyol wajib membayar ganti rugi perang kepada Ternate"
-          ],
-          answer: 1,
-          explanation: "Perjanjian Zaragoza (1529) menetapkan Maluku berada di bawah pengaruh Portugis, sedangkan Spanyol harus mundur ke Filipina."
-        },
-        {
-          type: "pg",
-          question: "Kedatangan bangsa Portugis ke Malaka (1511) dan Maluku membawa pengaruh besar terhadap dinamika perdagangan di Nusantara, yaitu...",
-          options: [
-            "Terbentuknya sistem perdagangan bebas yang menguntungkan pedagang Asia",
-            "Meningkatnya kesejahteraan petani rempah karena harga stabil",
-            "Terputusnya jaringan perdagangan tradisional Nusantara dan beralihnya jalur dagang ke pelabuhan alternatif akibat sistem monopoli",
-            "Hilangnya peran pedagang Arab dan Gujarat secara permanen dari Asia",
-            "Berakhirnya persaingan antar-kesultanan maritim di pesisir Jawa"
-          ],
-          answer: 2,
-          explanation: "Monopoli Portugis di Malaka membuat pedagang muslim beralih ke pelabuhan alternatif seperti Aceh, Banten, dan Makassar."
-        },
-        {
-          type: "pg",
-          question: "Dampak jangka panjang paling signifikan dari penerapan strategi divide et impera (politik adu domba) oleh VOC terhadap struktur politik kerajaan di Nusantara adalah...",
-          options: [
-            "Terciptanya aliansi pertahanan bersama antar-kerajaan",
-            "Menguatnya otoritas absolut raja terhadap kaum bangsawan",
-            "Terpecah-belahnya wilayah kerajaan menjadi negara-negara kecil yang lemah dan bergantung pada intervensi VOC",
-            "Modernisasi sistem birokrasi kerajaan mengikuti standar Eropa",
-            "Meningkatnya solidaritas rakyat dalam satu kepemimpinan nasional"
-          ],
-          answer: 2,
-          explanation: "Strategi divide et impera memecah kesatuan kerajaan (seperti Perjanjian Giyanti di Mataram) sehingga mudah dikendalikan VOC."
-        },
-        {
-          type: "pg",
-          question: "Keberhasilan Pangeran Diponegoro memperpanjang perlawanan selama lima tahun pada Perang Jawa (1825–1830) sangat didukung oleh penerapan taktik perang gerilya, yaitu dengan cara...",
-          options: [
-            "Membangun benteng pertahanan permanen di pusat kota Yogyakarta",
-            "Menghadapi pasukan Belanda secara terbuka di medan luas",
-            "Memanfaatkan medan pegunungan dan hutan, menyerang pos Belanda secara mendadak, lalu menghilang dengan dukungan logistik rakyat",
-            "Memblokade seluruh pelabuhan di pesisir utara Jawa",
-            "Melakukan perundingan damai setiap kali terdesak"
-          ],
-          answer: 2,
-          explanation: "Taktik gerilya Diponegoro mengandalkan mobilitas tinggi di medan pegunungan/goa serta dukungan penuh masyarakat pedesaan."
-        },
-        {
-          type: "pg",
-          question: "Pelajaran penting yang dapat disimpulkan dari hubungan rakyat dan pemimpin pada masa Perang Diponegoro adalah...",
-          options: [
-            "Perjuangan bersenjata tidak membutuhkan dukungan logistik rakyat",
-            "Persatuan antara pemimpin yang merakyat dan dukungan tulus masyarakat mampu menggoyahkan kekuatan militer kolonial yang modern",
-            "Kemenangan perang hanya ditentukan oleh kecanggihan senjata api",
-            "Golongan ulama tidak memiliki pengaruh dalam mobilisasi massa",
-            "Perjanjian damai dengan kolonial selalu menguntungkan pribumi"
-          ],
-          answer: 1,
-          explanation: "Dukungan lintas lapisan (petani, bangsawan, dan ulama seperti Kyai Mojo) menjadi kekuatan utama Perang Diponegoro."
-        },
-        {
-          type: "pg",
-          question: "Perang Padri di Sumatra Barat (1821–1837) awalnya merupakan konflik internal antara Kaum Padri dan Kaum Adat sebelum akhirnya bersatu. Analisis yang tepat mengenai fase awal Perang Padri adalah...",
-          options: [
-            "Perbedaan pandangan adat tidak mungkin diselesaikan tanpa pihak asing",
-            "Perpecahan internal antarelemen bangsa justru membuka celah bagi kekuatan kolonial Belanda untuk masuk dan mengintervensi",
-            "Bantuan militer Belanda selalu efektif menyelesaikan konflik sipil",
-            "Kaum Adat memiliki persenjataan lebih unggul dari Belanda",
-            "Perjuangan daerah selalu gagal jika tidak dipimpin oleh pemuka agama"
-          ],
-          answer: 1,
-          explanation: "Belanda memanfaatkan permintaan bantuan Kaum Adat untuk menancapkan kekuasaannya di Sumatra Barat."
-        },
-        {
-          type: "pg",
-          question: "Kebijakan Politik Etis di bidang Edukasi secara tidak langsung menjadi 'senjata makan tuan' bagi pemerintah kolonial Belanda karena...",
-          options: [
-            "Sekolah Belanda mengajarkan teknik perang modern kepada pribumi",
-            "Melahirkan golongan terpelajar (elite modern) yang memiliki kesadaran nasional dan memimpin organisasi pergerakan kemerdekaan",
-            "Menghapuskan seluruh sistem feodalisme di pedesaan",
-            "Membuat seluruh rakyat fasih berbahasa Belanda dalam waktu singkat",
-            "Mendorong Belanda segera memberikan kemerdekaan penuh"
-          ],
-          answer: 1,
-          explanation: "Kaum terpelajar hasil edukasi Politik Etis menjadi pelopor lahirnya organisasi pergerakan nasional sejak 1908."
-        },
-        {
-          type: "pg",
-          question: "Hubungan antara gagasan dr. Wahidin Soedirohoesodo dengan berdirinya Budi Utomo pada tahun 1908 adalah...",
-          options: [
-            "dr. Wahidin memimpin langsung aksi mogok buruh di Batavia",
-            "Gagasan dr. Wahidin tentang dana pelajar (studiefonds) menginspirasi dr. Soetomo dan mahasiswa STOVIA mendirikan organisasi modern",
-            "dr. Wahidin mendanai pembelian senjata bagi anggota Budi Utomo",
-            "Gagasan dr. Wahidin menolak seluruh bentuk pendidikan Barat",
-            "dr. Wahidin menjadi ketua pertama Budi Utomo hingga 1920"
-          ],
-          answer: 1,
-          explanation: "Pertemuan dr. Wahidin dengan dr. Soetomo di STOVIA melahirkan kesepakatan mendirikan Budi Utomo untuk memajukan pendidikan."
-        },
-        {
-          type: "pg",
-          question: "Buletin perjuangan yang diterbitkan oleh Perhimpunan Indonesia di Belanda sebagai media propaganda kemerdekaan ke dunia internasional adalah...",
-          options: [
-            "De Expres",
-            "Oetoesan Hindia",
-            "Indonesia Merdeka",
-            "Medan Prijaji",
-            "Darmo Kondo"
-          ],
-          answer: 2,
-          explanation: "Buletin Hindia Poetra diubah namanya menjadi 'Indonesia Merdeka' oleh Perhimpunan Indonesia pada tahun 1924."
-        },
-        {
-          type: "pg",
-          question: "Tujuan utama didirikannya Budi Utomo pada fase awal perkembangannya (1908) adalah...",
-          options: [
-            "Menuntut kemerdekaan Indonesia secara radikal melalui jalur politik",
-            "Mencapai kemajuan yang harmonis bagi nusa dan bangsa terutama di bidang pengajaran, pertanian, peternakan, teknik, dan kebudayaan",
-            "Menyatukan seluruh partai politik di Hindia Belanda dalam satu federasi",
-            "Menghapuskan sistem tanam paksa di seluruh wilayah Sumatra",
-            "Membentuk tentara rakyat untuk melawan pemerintah kolonial"
-          ],
-          answer: 1,
-          explanation: "Pada awal berdirinya, Budi Utomo bergerak di bidang sosial, pendidikan, dan kebudayaan secara moderat."
-        },
-        {
-          type: "pg",
-          question: "Makna utama dari semboyan 'Indie voor Indiers' (Hindia untuk orang Hindia) yang diusung oleh Indische Partij adalah...",
-          options: [
-            "Menuntut hak istimewa hanya bagi keturunan Indo-Eropa",
-            "Mengajak seluruh penduduk yang menetap di Hindia Belanda tanpa memandang ras/suku untuk bersatu membangun tanah air merdeka",
-            "Mengusir seluruh penduduk keturunan asing keluar dari Nusantara",
-            "Mendukung asimilasi budaya Belanda ke dalam masyarakat pribumi",
-            "Menjadikan Hindia Belanda sebagai provinsi Kerajaan Belanda"
-          ],
-          answer: 1,
-          explanation: "Indische Partij mengembangkan nasionalisme inklusif (Indische Nationalisme) bagi semua golongan yang mencintai Hindia."
-        },
-        {
-          type: "pg",
-          question: "Tujuan utama Perhimpunan Indonesia yang ditegaskan dalam Manifesto Politik tahun 1925 adalah...",
-          options: [
-            "Meminta penambahan kursi anggota pribumi di Volksraad",
-            "Indonesia merdeka penuh yang dicapai melalui aksi massa nasional berdasarkan kekuatan sendiri (self-help)",
-            "Bekerja sama dengan pemerintah Belanda dalam bidang perdagangan",
-            "Mengirimkan pelajar Indonesia untuk menjadi pegawai kolonial",
-            "Mempertahankan sistem pemerintahan kerajaan tradisional"
-          ],
-          answer: 1,
-          explanation: "Manifesto 1925 menegaskan kemerdekaan Indonesia harus direbut dengan kekuatan sendiri dan persatuan nasional."
-        },
-        {
-          type: "pg",
-          question: "Organisasi pergerakan Islam modern yang didirikan K.H. Ahmad Dahlan pada tahun 1912 dan tercatat sebagai organisasi pergerakan pertama yang memiliki sayap perempuan (Aisyiyah) adalah...",
-          options: [
-            "Nahdlatul Ulama",
-            "Sarekat Islam",
-            "Muhammadiyah",
-            "Al-Irsyad",
-            "Persatuan Islam"
-          ],
-          answer: 2,
-          explanation: "Muhammadiyah didirikan 18 November 1912 di Yogyakarta dan mendirikan bagian perempuan Aisyiyah pada tahun 1917."
-        },
-
-        // --- BAGIAN 3: PILIHAN GANDA KOMPLEKS (5 Soal) ---
-        {
-          type: "pgk",
-          question: "Perhatikan pernyataan berikut terkait arti penting berdirinya Budi Utomo (1908)! Pilihlah pernyataan yang BENAR (lebih dari satu):",
-          options: [
-            "Dianggap sebagai tonggak Kebangkitan Nasional karena mempelopori perjuangan modern berbasis organisasi.",
-            "Mengubah pola perlawanan yang semula bersifat kedaerahan dan mengandalkan kekuatan fisik menjadi lebih terorganisir.",
-            "Langsung memimpin pemberontakan bersenjata di Batavia pada tahun 1908.",
-            "Mendorong lahirnya berbagai organisasi pergerakan nasional lainnya di berbagai daerah."
-          ],
-          answer: [0, 1, 3],
-          explanation: "Budi Utomo tidak melakukan pemberontakan bersenjata, melainkan menjadi pelopor organisasi modern yang menginspirasi kebangkitan nasional."
-        },
-        {
-          type: "pgk",
-          question: "Manakah pernyataan yang TEPAT mengenai Perguruan Taman Siswa yang didirikan oleh Ki Hajar Dewantara pada 3 Juli 1922?",
-          options: [
-            "Menerapkan sistem Among dengan semboyan Ing Ngarso Sung Tulodo, Ing Madyo Mangun Karso, Tut Wuri Handayani.",
-            "Menolak bantuan subsidi dari pemerintah kolonial Belanda agar tetap merdeka menentukan kurikulum nasional.",
-            "Mewajibkan bahasa Belanda sebagai satu-satunya bahasa pengantar di kelas.",
-            "Memadukan kecerdasan intelektual dengan pembentukan karakter dan budaya bangsa."
-          ],
-          answer: [0, 1, 3],
-          explanation: "Taman Siswa berdiri mandiri tanpa subsidi kolonial, menggunakan sistem Among, dan berakar pada budaya nasional."
-        },
-        {
-          type: "pgk",
-          question: "Kiprah Tiga Serangkai (Douwes Dekker, Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat) melalui Indische Partij memiliki makna penting bagi perjuangan nasional, yaitu...",
-          options: [
-            "Menjadi organisasi politik pertama yang secara terang-terangan menuntut kemerdekaan Hindia Belanda.",
-            "Menanamkan paham nasionalisme yang melampaui sekat suku, agama, dan ras.",
-            "Berani mengkritik kebijakan kolonial secara tajam, seperti tulisan 'Als ik eens Nederlander was'.",
-            "Menjadi organisasi yang paling disukai dan didanai oleh Gubernur Jenderal Belanda."
-          ],
-          answer: [0, 1, 2],
-          explanation: "Indische Partij bersifat radikal dan nonkooperatif sehingga dibubarkan pemerintah kolonial pada 1913 dan Tiga Serangkai diasingkan."
-        },
-        {
-          type: "pgk",
-          question: "Faktor-faktor yang membuat Sarekat Islam (SI) berkembang sangat pesat dan menjadi organisasi massa pertama di Hindia Belanda adalah...",
-          options: [
-            "Keanggotaannya terbuka bagi seluruh lapisan masyarakat pribumi tanpa memandang status sosial.",
-            "Mengusung solidaritas keagamaan (Islam) serta membela hak-hak ekonomi rakyat kecil.",
-            "Kepemimpinan H.O.S. Tjokroaminoto yang karismatik dan mampu menyuarakan aspirasi rakyat.",
-            "Mendapatkan fasilitas gedung dan gaji bulanan dari pemerintah kolonial."
-          ],
-          answer: [0, 1, 2],
-          explanation: "Sifat terbuka, identitas Islam, pembelaan ekonomi rakyat, dan karisma Tjokroaminoto membuat SI menarik ratusan ribu anggota."
-        },
-        {
-          type: "pgk",
-          question: "Pilihlah pasangan organisasi pergerakan nasional dan strategi perjuangannya yang SESUAI:",
-          options: [
-            "Indische Partij — Nonkooperatif dan radikal menuntut kemerdekaan.",
-            "Budi Utomo (awal) — Moderat dan kooperatif di bidang pendidikan/kebudayaan.",
-            "Partai Nasional Indonesia (PNI) — Nonkooperatif dengan mobilisasi massa.",
-            "Perhimpunan Indonesia — Kooperatif dengan menjadi bagian dari parlemen Belanda."
-          ],
-          answer: [0, 1, 2],
-          explanation: "Perhimpunan Indonesia juga bersifat nonkooperatif (self-help), bukan bagian dari parlemen Belanda."
-        },
-
-        // --- BAGIAN 4: MENJODOHKAN (5 Soal) ---
-        {
-          type: "mj",
-          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Didirikan pada 20 Mei 1908 oleh dr. Soetomo dan para mahasiswa STOVIA atas gagasan dr. Wahidin Soedirohoesodo.",
-          options: [
-            "Budi Utomo",
-            "Sarekat Islam",
-            "Indische Partij",
-            "Perhimpunan Indonesia",
-            "Muhammadiyah"
-          ],
-          answer: 0,
-          explanation: "Budi Utomo didirikan 20 Mei 1908 oleh dr. Soetomo bersama pelajar STOVIA."
-        },
-        {
-          type: "mj",
-          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Awalnya bernama Sarekat Dagang Islam (SDI) yang didirikan oleh H. Samanhudi di Solo pada tahun 1911.",
-          options: [
-            "Budi Utomo",
-            "Sarekat Islam",
-            "Indische Partij",
-            "Perhimpunan Indonesia",
-            "Taman Siswa"
-          ],
-          answer: 1,
-          explanation: "Sarekat Islam berawal dari Sarekat Dagang Islam (SDI) yang didirikan H. Samanhudi."
-        },
-        {
-          type: "mj",
-          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Didirikan di Bandung pada 25 Desember 1912 oleh tokoh Tiga Serangkai (Douwes Dekker, dr. Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat).",
-          options: [
-            "Budi Utomo",
-            "Sarekat Islam",
-            "Indische Partij",
-            "Perhimpunan Indonesia",
-            "Partai Nasional Indonesia"
-          ],
-          answer: 2,
-          explanation: "Indische Partij didirikan oleh Tiga Serangkai pada 25 Desember 1912."
-        },
-        {
-          type: "mj",
-          question: "Jodohkan deskripsi berikut dengan tokoh/organisasi yang sesuai: Gerakan pembaruan Islam dan perlawanan anti-kolonial di Surakarta yang dipelopori oleh Haji Misbach ('Haji Merah').",
-          options: [
-            "Budi Utomo",
-            "Sarekat Islam Merah / Gerakan Islam-Komunis",
-            "Indische Partij",
-            "Taman Siswa",
-            "Perhimpunan Indonesia"
-          ],
-          answer: 1,
-          explanation: "Haji Misbach dikenal sebagai tokoh Sarekat Islam Merah / gerakan Islam-komunis di Surakarta."
-        },
-        {
-          type: "mj",
-          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Didirikan di Belanda pada tahun 1908 dengan nama awal Indische Vereeniging oleh Soetan Kasajangan Soripada dan R.M. Noto Soeroto.",
-          options: [
-            "Budi Utomo",
-            "Sarekat Islam",
-            "Indische Partij",
-            "Perhimpunan Indonesia",
-            "Muhammadiyah"
-          ],
-          answer: 3,
-          explanation: "Indische Vereeniging bertransformasi menjadi Perhimpunan Indonesia pada tahun 1925."
-        },
-
-        // --- BAGIAN 5: URAIAN / ESAI (5 Soal) ---
-        {
-          type: "ur",
-          question: "Jelaskan mengapa berdirinya Budi Utomo pada tanggal 20 Mei 1908 dianggap sebagai tonggak Kebangkitan Nasional dan bagaimana perubahan pola perjuangan bangsa Indonesia setelah peristiwa tersebut!",
-          keywords: ["modern", "organisasi", "kedaerahan", "pendidikan", "nasional"],
-          sampleAnswer: "Budi Utomo dianggap sebagai tonggak Kebangkitan Nasional karena menandai peralihan strategi perjuangan bangsa Indonesia: dari perlawanan fisik/bersenjata yang bersifat kedaerahan dan bergantung pada satu pemimpin karismatik, menuju perjuangan modern melalui organisasi yang terstruktur, mengandalkan pendidikan, persatuan, dan kesadaran kebangsaan.",
-          explanation: "Poin penilaian: (1) Perubahan dari perjuangan fisik kedaerahan menjadi perjuangan modern berorganisasi, (2) Peran pendidikan/kaum terpelajar, (3) Menginspirasi lahirnya organisasi pergerakan nasional lainnya."
-        },
-        {
-          type: "ur",
-          question: "Analisislah 3 faktor utama yang membuat Sarekat Islam (SI) cepat berkembang dan menarik perhatian masyarakat luas di Hindia Belanda!",
-          keywords: ["terbuka", "islam", "ekonomi", "tjokroaminoto", "rakyat"],
-          sampleAnswer: "1) Sifat keanggotaan yang terbuka dan demokratis bagi seluruh lapisan masyarakat (rakyat jelata maupun terpelajar); 2) Mengusung identitas agama Islam yang menjadi pemersatu mayoritas penduduk pribumi; 3) Membela kepentingan ekonomi pedagang dan rakyat kecil dari penindasan kolonial serta kepemimpinan H.O.S. Tjokroaminoto yang karismatik.",
-          explanation: "Poin penilaian: Keanggotaan inklusif/terbuka, solidaritas Islam, pembelaan ekonomi rakyat kecil, dan peran kepemimpinan H.O.S. Tjokroaminoto."
-        },
-        {
-          type: "ur",
-          question: "Mengapa semboyan 'Indie voor Indiers' yang diusung oleh Indische Partij dianggap sangat berbahaya oleh pemerintah kolonial Belanda, dan apa kaitannya dengan lahirnya konsep nasionalisme Indonesia?",
-          keywords: ["radikal", "merdeka", "persatuan", "ras", "nasionalisme"],
-          sampleAnswer: "Semboyan 'Indie voor Indiers' (Hindia untuk orang Hindia) dianggap berbahaya karena secara terang-terangan menuntut kemerdekaan Hindia Belanda dan menolak dominasi penjajah. Kaitannya dengan nasionalisme adalah semboyan ini menanamkan kesadaran persatuan lintas suku, agama, dan ras bahwa semua orang yang lahir dan mencintai Hindia adalah satu bangsa yang berhak merdeka.",
-          explanation: "Poin penilaian: Tuntutan kemerdekaan politik secara radikal dan pengembangan nasionalisme inklusif lintas golongan."
-        },
-        {
-          type: "ur",
-          question: "Bandingkan strategi perjuangan Budi Utomo, Sarekat Islam, Indische Partij, dan PNI, lalu jelaskan strategi mana yang menurut Anda paling efektif dalam membangkitkan kesadaran berbangsa!",
-          keywords: ["kooperatif", "nonkooperatif", "moderat", "radikal", "massa"],
-          sampleAnswer: "Budi Utomo menggunakan strategi moderat-kooperatif di bidang pendidikan/budaya; Sarekat Islam menggunakan mobilisasi massa berbasis ekonomi dan agama; Indische Partij dan PNI menggunakan strategi nonkooperatif-radikal yang menuntut kemerdekaan penuh melalui aksi massa. Strategi nonkooperatif disertai mobilisasi massa (seperti PNI dan SI) sangat efektif membangkitkan kesadaran berbangsa karena menjangkau rakyat luas dan menanamkan keberanian menentukan nasib sendiri.",
-          explanation: "Poin penilaian: Ketepatan membandingkan strategi kooperatif/moderat vs nonkooperatif/radikal serta argumentasi logis."
-        },
-        {
-          type: "ur",
-          question: "Bayangkan Anda adalah pemuda terpelajar pada masa pergerakan nasional. Rancanglah sebuah organisasi perjuangan lengkap dengan: (a) Nama Organisasi, (b) Tujuan Utama, (c) Strategi Perjuangan, dan (d) Dua Program Kerja Nyata!",
-          keywords: ["nama", "tujuan", "strategi", "program", "merdeka"],
-          sampleAnswer: "(a) Nama: Perhimpunan Pemuda Nusantara (PPN); (b) Tujuan: Mencapai kemerdekaan Indonesia dan mencerdaskan kehidupan bangsa; (c) Strategi: Nonkooperatif dan diplomasi literasi; (d) Program Kerja: 1) Mendirikan taman bacaan dan sekolah rakyat bebas buta huruf di desa-desa; 2) Menerbitkan surat kabar kebangsaan untuk menyatukan pemuda antardaerah.",
-          explanation: "Poin penilaian: Kelengkapan 4 unsur rancangan organisasi (nama, tujuan, strategi, dan 2 program kerja yang relevan)."
-        }
+        { type: "bs", question: "Bangsa Spanyol merupakan bangsa Eropa pertama yang tiba di wilayah Nusantara pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque dan langsung mendirikan pusat kolonialisme di Maluku.", answer: false, explanation: "SALAH. Bangsa Eropa pertama yang berhasil tiba di Malaka pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque adalah bangsa Portugis, bukan Spanyol." },
+        { type: "bs", question: "Tujuan utama Belanda mendirikan VOC (Vereenigde Oostindische Compagnie) pada tahun 1602 adalah untuk menghindari persaingan tidak sehat antarpedagang Belanda serta memonopoli perdagangan rempah-rempah di Asia.", answer: true, explanation: "BENAR. VOC awalnya dibentuk sebagai kongsi dagang untuk menyatukan pedagang Belanda dan memonopoli perdagangan rempah-rempah." },
+        { type: "bs", question: "Proses masuk dan berkembangnya kekuasaan kolonialisme Barat di berbagai wilayah Indonesia berlangsung mulus dan damai karena penguasa kerajaan lokal menyambut baik kehadiran mereka tanpa perlawanan.", answer: false, explanation: "SALAH. Kedatangan bangsa Barat memicu perlawanan heroik di berbagai daerah seperti Ternate, Malaka, Mataram, Gowa-Tallo, Banten, dan lainnya." },
+        { type: "bs", question: "Organisasi Budi Utomo didirikan pada tanggal 20 Mei 1908 oleh para pelajar STOVIA dengan dr. Soetomo sebagai ketuanya, dan memfokuskan geraknya pada bidang sosial, pendidikan, serta kebudayaan Jawa.", answer: true, explanation: "BENAR. Budi Utomo berdiri 20 Mei 1908 atas gagasan dr. Wahidin Soedirohoesodo dan diketuai oleh dr. Soetomo." },
+        { type: "bs", question: "Sarekat Islam pada awal berdirinya tahun 1911 bernama Sarekat Dagang Islam (SDI) yang diprakarsai oleh H. Samanhudi dengan tujuan melindungi pedagang batik pribumi dari dominasi pedagang Tionghoa.", answer: true, explanation: "BENAR. SDI didirikan di Solo tahun 1911 oleh H. Samanhudi sebelum diubah menjadi Sarekat Islam oleh H.O.S. Tjokroaminoto." },
+        { type: "pg", question: "Sebuah perusahaan multinasional menanamkan modal besar di negara berkembang, menguasai konsesi tambang puluhan tahun, dan menentukan harga komoditas sehingga kebijakan ekonomi negara tersebut bergantung padanya tanpa pendudukan fisik militer. Fenomena ini merupakan wujud dari...", options: ["Kolonialisme klasik berbasis ekspansi wilayah", "Imperialisme modern berbasis dominasi ekonomi", "Merkantilisme abad ke-16", "Feodalisme agraris tradisional", "Politik pintu terbuka"], answer: 1, explanation: "Imperialisme modern menekankan penguasaan sektor ekonomi, modal, dan kebijakan tanpa harus menduduki wilayah secara fisik." },
+        { type: "pg", question: "Alasan historis yang melatarbelakangi kuatnya motivasi penyebaran agama (Gospel) saat bangsa Portugis dan Spanyol berlayar ke Timur adalah...", options: ["Keinginan menghapuskan seluruh kepercayaan lokal secara paksa", "Semangat melanjutkan Perang Salib (Reconquista) serta kewajiban melaksanakan mandat Paus (Perjanjian Tordesillas)", "Tuntutan pedagang rempah agar masyarakat Asia berbahasa sama", "Upaya menggantikan jalur darat yang dikuasai Tiongkok", "Kurangnya tenaga misionaris di Eropa Barat"], answer: 1, explanation: "Bangsa Iberia membawa misi Reconquista dan amanat Paus untuk menyebarkan agama Katolik ke wilayah baru." },
+        { type: "pg", question: "Konflik antara Spanyol dan Portugis di Maluku diselesaikan melalui Perjanjian Zaragoza pada tahun 1529 yang membawa konsekuensi bagi Spanyol berupa...", options: ["Spanyol berhak menguasai seluruh wilayah Maluku bagian utara", "Spanyol harus meninggalkan Maluku dan memusatkan kekuasaannya di Filipina", "Spanyol dan Portugis membagi wilayah perdagangan di Malaka", "Spanyol mendapatkan hak monopoli cengkih di Tidore selama 50 tahun", "Spanyol wajib membayar ganti rugi perang kepada Ternate"], answer: 1, explanation: "Perjanjian Zaragoza (1529) menetapkan Maluku berada di bawah pengaruh Portugis, sedangkan Spanyol mundur ke Filipina." },
+        { type: "pg", question: "Kedatangan bangsa Portugis ke Malaka (1511) dan Maluku membawa pengaruh besar terhadap dinamika perdagangan di Nusantara, yaitu...", options: ["Terbentuknya sistem perdagangan bebas", "Meningkatnya kesejahteraan petani rempah", "Terputusnya jaringan perdagangan tradisional Nusantara dan beralihnya jalur dagang ke pelabuhan alternatif akibat sistem monopoli", "Hilangnya peran pedagang Arab secara permanen", "Berakhirnya persaingan antar-kesultanan maritim"], answer: 2, explanation: "Monopoli Portugis di Malaka membuat pedagang muslim beralih ke pelabuhan alternatif seperti Aceh, Banten, dan Makassar." },
+        { type: "pg", question: "Dampak jangka panjang paling signifikan dari penerapan strategi divide et impera (politik adu domba) oleh VOC terhadap struktur politik kerajaan di Nusantara adalah...", options: ["Terciptanya aliansi pertahanan bersama", "Menguatnya otoritas absolut raja", "Terpecah-belahnya wilayah kerajaan menjadi negara-negara kecil yang lemah dan bergantung pada intervensi VOC", "Modernisasi sistem birokrasi kerajaan", "Meningkatnya solidaritas rakyat"], answer: 2, explanation: "Strategi divide et impera memecah kesatuan kerajaan sehingga mudah dikendalikan VOC." },
+        { type: "pg", question: "Keberhasilan Pangeran Diponegoro memperpanjang perlawanan selama lima tahun pada Perang Jawa (1825–1830) sangat didukung oleh penerapan taktik perang gerilya, yaitu dengan cara...", options: ["Membangun benteng permanen di pusat kota", "Menghadapi pasukan Belanda secara terbuka", "Memanfaatkan medan pegunungan dan hutan, menyerang pos Belanda secara mendadak, lalu menghilang dengan dukungan logistik rakyat", "Memblokade seluruh pelabuhan utara Jawa", "Melakukan perundingan damai setiap terdesak"], answer: 2, explanation: "Taktik gerilya Diponegoro mengandalkan mobilitas tinggi di medan pegunungan serta dukungan masyarakat pedesaan." },
+        { type: "pg", question: "Pelajaran penting yang dapat disimpulkan dari hubungan rakyat dan pemimpin pada masa Perang Diponegoro adalah...", options: ["Perjuangan bersenjata tidak butuh dukungan rakyat", "Persatuan antara pemimpin yang merakyat dan dukungan tulus masyarakat mampu menggoyahkan kekuatan militer kolonial yang modern", "Kemenangan hanya ditentukan kecanggihan senjata", "Golongan ulama tidak berpengaruh", "Perjanjian damai selalu menguntungkan"], answer: 1, explanation: "Dukungan lintas lapisan (petani, bangsawan, ulama) menjadi kekuatan utama Perang Diponegoro." },
+        { type: "pg", question: "Perang Padri di Sumatra Barat (1821–1837) awalnya merupakan konflik internal antara Kaum Padri dan Kaum Adat sebelum akhirnya bersatu. Analisis yang tepat mengenai fase awal Perang Padri adalah...", options: ["Perbedaan adat tidak bisa diselesaikan tanpa pihak asing", "Perpecahan internal antarelemen bangsa justru membuka celah bagi kekuatan kolonial Belanda untuk masuk dan mengintervensi", "Bantuan militer Belanda selalu efektif", "Kaum Adat lebih unggul persenjataannya", "Perjuangan daerah selalu gagal"], answer: 1, explanation: "Belanda memanfaatkan permintaan bantuan Kaum Adat untuk menancapkan kekuasaannya di Sumatra Barat." },
+        { type: "pg", question: "Kebijakan Politik Etis di bidang Edukasi secara tidak langsung menjadi 'senjata makan tuan' bagi pemerintah kolonial Belanda karena...", options: ["Sekolah Belanda mengajarkan teknik perang modern", "Melahirkan golongan terpelajar (elite modern) yang memiliki kesadaran nasional dan memimpin organisasi pergerakan kemerdekaan", "Menghapuskan feodalisme di pedesaan", "Membuat seluruh rakyat fasih bahasa Belanda", "Mendorong kemerdekaan penuh segera"], answer: 1, explanation: "Kaum terpelajar hasil edukasi Politik Etis menjadi pelopor organisasi pergerakan nasional sejak 1908." },
+        { type: "pg", question: "Hubungan antara gagasan dr. Wahidin Soedirohoesodo dengan berdirinya Budi Utomo pada tahun 1908 adalah...", options: ["dr. Wahidin memimpin aksi mogok buruh", "Gagasan dr. Wahidin tentang dana pelajar (studiefonds) menginspirasi dr. Soetomo dan mahasiswa STOVIA mendirikan organisasi modern", "dr. Wahidin mendanai pembelian senjata", "dr. Wahidin menolak pendidikan Barat", "dr. Wahidin menjadi ketua hingga 1920"], answer: 1, explanation: "Pertemuan dr. Wahidin dengan dr. Soetomo di STOVIA melahirkan kesepakatan mendirikan Budi Utomo." },
+        { type: "pg", question: "Buletin perjuangan yang diterbitkan oleh Perhimpunan Indonesia di Belanda sebagai media propaganda kemerdekaan ke dunia internasional adalah...", options: ["De Expres", "Oetoesan Hindia", "Indonesia Merdeka", "Medan Prijaji", "Darmo Kondo"], answer: 2, explanation: "Buletin Hindia Poetra diubah namanya menjadi 'Indonesia Merdeka' oleh Perhimpunan Indonesia pada tahun 1924." },
+        { type: "pg", question: "Tujuan utama didirikannya Budi Utomo pada fase awal perkembangannya (1908) adalah...", options: ["Menuntut kemerdekaan secara radikal", "Mencapai kemajuan yang harmonis bagi nusa dan bangsa terutama di bidang pengajaran, pertanian, peternakan, teknik, dan kebudayaan", "Menyatukan seluruh partai politik", "Menghapuskan tanam paksa di Sumatra", "Membentuk tentara rakyat"], answer: 1, explanation: "Pada awal berdirinya, Budi Utomo bergerak di bidang sosial, pendidikan, dan kebudayaan secara moderat." },
+        { type: "pg", question: "Makna utama dari semboyan 'Indie voor Indiers' (Hindia untuk orang Hindia) yang diusung oleh Indische Partij adalah...", options: ["Menuntut hak istimewa keturunan Indo-Eropa", "Mengajak seluruh penduduk yang menetap di Hindia Belanda tanpa memandang ras/suku untuk bersatu membangun tanah air merdeka", "Mengusir seluruh penduduk keturunan asing", "Mendukung asimilasi budaya Belanda", "Menjadikan Hindia provinsi Belanda"], answer: 1, explanation: "Indische Partij mengembangkan nasionalisme inklusif bagi semua golongan yang mencintai Hindia." },
+        { type: "pg", question: "Tujuan utama Perhimpunan Indonesia yang ditegaskan dalam Manifesto Politik tahun 1925 adalah...", options: ["Meminta penambahan kursi di Volksraad", "Indonesia merdeka penuh yang dicapai melalui aksi massa nasional berdasarkan kekuatan sendiri (self-help)", "Bekerja sama dalam bidang perdagangan", "Mengirim pelajar menjadi pegawai kolonial", "Mempertahankan sistem kerajaan tradisional"], answer: 1, explanation: "Manifesto 1925 menegaskan kemerdekaan Indonesia harus direbut dengan kekuatan sendiri dan persatuan nasional." },
+        { type: "pg", question: "Organisasi pergerakan Islam modern yang didirikan K.H. Ahmad Dahlan pada tahun 1912 dan tercatat sebagai organisasi pergerakan pertama yang memiliki sayap perempuan (Aisyiyah) adalah...", options: ["Nahdlatul Ulama", "Sarekat Islam", "Muhammadiyah", "Al-Irsyad", "Persatuan Islam"], answer: 2, explanation: "Muhammadiyah didirikan 18 November 1912 di Yogyakarta dan mendirikan bagian perempuan Aisyiyah pada tahun 1917." },
+        { type: "pgk", question: "Perhatikan pernyataan berikut terkait arti penting berdirinya Budi Utomo (1908)! Pilihlah pernyataan yang BENAR (lebih dari satu):", options: ["Dianggap sebagai tonggak Kebangkitan Nasional karena mempelopori perjuangan modern berbasis organisasi.", "Mengubah pola perlawanan yang semula bersifat kedaerahan dan mengandalkan kekuatan fisik menjadi lebih terorganisir.", "Langsung memimpin pemberontakan bersenjata di Batavia pada tahun 1908.", "Mendorong lahirnya berbagai organisasi pergerakan nasional lainnya di berbagai daerah."], answer: [0, 1, 3], explanation: "Budi Utomo tidak melakukan pemberontakan bersenjata, melainkan menjadi pelopor organisasi modern." },
+        { type: "pgk", question: "Manakah pernyataan yang TEPAT mengenai Perguruan Taman Siswa yang didirikan oleh Ki Hajar Dewantara pada 3 Juli 1922?", options: ["Menerapkan sistem Among dengan semboyan Ing Ngarso Sung Tulodo, Ing Madyo Mangun Karso, Tut Wuri Handayani.", "Menolak bantuan subsidi dari pemerintah kolonial Belanda agar tetap merdeka menentukan kurikulum nasional.", "Mewajibkan bahasa Belanda sebagai satu-satunya bahasa pengantar di kelas.", "Memadukan kecerdasan intelektual dengan pembentukan karakter dan budaya bangsa."], answer: [0, 1, 3], explanation: "Taman Siswa berdiri mandiri tanpa subsidi kolonial, menggunakan sistem Among, dan berakar pada budaya nasional." },
+        { type: "pgk", question: "Kiprah Tiga Serangkai melalui Indische Partij memiliki makna penting bagi perjuangan nasional, yaitu...", options: ["Menjadi organisasi politik pertama yang secara terang-terangan menuntut kemerdekaan Hindia Belanda.", "Menanamkan paham nasionalisme yang melampaui sekat suku, agama, dan ras.", "Berani mengkritik kebijakan kolonial secara tajam, seperti tulisan 'Als ik eens Nederlander was'.", "Menjadi organisasi yang paling disukai dan didanai oleh Gubernur Jenderal Belanda."], answer: [0, 1, 2], explanation: "Indische Partij bersifat radikal dan nonkooperatif sehingga dibubarkan pemerintah kolonial pada 1913." },
+        { type: "pgk", question: "Faktor-faktor yang membuat Sarekat Islam (SI) berkembang sangat pesat dan menjadi organisasi massa pertama di Hindia Belanda adalah...", options: ["Keanggotaannya terbuka bagi seluruh lapisan masyarakat pribumi tanpa memandang status sosial.", "Mengusung solidaritas keagamaan (Islam) serta membela hak-hak ekonomi rakyat kecil.", "Kepemimpinan H.O.S. Tjokroaminoto yang karismatik dan mampu menyuarakan aspirasi rakyat.", "Mendapatkan fasilitas gedung dan gaji bulanan dari pemerintah kolonial."], answer: [0, 1, 2], explanation: "Sifat terbuka, identitas Islam, pembelaan ekonomi rakyat, dan karisma Tjokroaminoto menarik ratusan ribu anggota." },
+        { type: "pgk", question: "Pilihlah pasangan organisasi pergerakan nasional dan strategi perjuangannya yang SESUAI:", options: ["Indische Partij — Nonkooperatif dan radikal menuntut kemerdekaan.", "Budi Utomo (awal) — Moderat dan kooperatif di bidang pendidikan/kebudayaan.", "Partai Nasional Indonesia (PNI) — Nonkooperatif dengan mobilisasi massa.", "Perhimpunan Indonesia — Kooperatif dengan menjadi bagian dari parlemen Belanda."], answer: [0, 1, 2], explanation: "Perhimpunan Indonesia juga bersifat nonkooperatif (self-help)." },
+        { type: "mj", question: "Jodohkan deskripsi berikut: Didirikan pada 20 Mei 1908 oleh dr. Soetomo dan para mahasiswa STOVIA atas gagasan dr. Wahidin Soedirohoesodo.", options: ["Budi Utomo", "Sarekat Islam", "Indische Partij", "Perhimpunan Indonesia", "Muhammadiyah"], answer: 0, explanation: "Budi Utomo didirikan 20 Mei 1908 oleh dr. Soetomo bersama pelajar STOVIA." },
+        { type: "mj", question: "Jodohkan deskripsi berikut: Awalnya bernama Sarekat Dagang Islam (SDI) yang didirikan oleh H. Samanhudi di Solo pada tahun 1911.", options: ["Budi Utomo", "Sarekat Islam", "Indische Partij", "Perhimpunan Indonesia", "Taman Siswa"], answer: 1, explanation: "Sarekat Islam berawal dari Sarekat Dagang Islam (SDI) yang didirikan H. Samanhudi." },
+        { type: "mj", question: "Jodohkan deskripsi berikut: Didirikan di Bandung pada 25 Desember 1912 oleh tokoh Tiga Serangkai.", options: ["Budi Utomo", "Sarekat Islam", "Indische Partij", "Perhimpunan Indonesia", "Partai Nasional Indonesia"], answer: 2, explanation: "Indische Partij didirikan oleh Tiga Serangkai pada 25 Desember 1912." },
+        { type: "mj", question: "Jodohkan deskripsi berikut: Gerakan pembaruan Islam dan perlawanan anti-kolonial di Surakarta yang dipelopori oleh Haji Misbach.", options: ["Budi Utomo", "Sarekat Islam Merah / Gerakan Islam-Komunis", "Indische Partij", "Taman Siswa", "Perhimpunan Indonesia"], answer: 1, explanation: "Haji Misbach dikenal sebagai tokoh Sarekat Islam Merah / gerakan Islam-komunis di Surakarta." },
+        { type: "mj", question: "Jodohkan deskripsi berikut: Didirikan di Belanda pada tahun 1908 dengan nama awal Indische Vereeniging.", options: ["Budi Utomo", "Sarekat Islam", "Indische Partij", "Perhimpunan Indonesia", "Muhammadiyah"], answer: 3, explanation: "Indische Vereeniging bertransformasi menjadi Perhimpunan Indonesia pada tahun 1925." },
+        { type: "ur", question: "Jelaskan mengapa berdirinya Budi Utomo pada tanggal 20 Mei 1908 dianggap sebagai tonggak Kebangkitan Nasional dan bagaimana perubahan pola perjuangan bangsa Indonesia setelah peristiwa tersebut!", keywords: ["modern", "organisasi", "kedaerahan", "pendidikan", "nasional"], sampleAnswer: "Budi Utomo dianggap sebagai tonggak Kebangkitan Nasional karena menandai peralihan strategi perjuangan bangsa Indonesia: dari perlawanan fisik/bersenjata yang bersifat kedaerahan menuju perjuangan modern melalui organisasi yang terstruktur, mengandalkan pendidikan, persatuan, dan kesadaran kebangsaan.", explanation: "Mencakup perubahan pola perjuangan dari fisik kedaerahan ke organisasi modern." },
+        { type: "ur", question: "Analisislah 3 faktor utama yang membuat Sarekat Islam (SI) cepat berkembang dan menarik perhatian masyarakat luas di Hindia Belanda!", keywords: ["terbuka", "islam", "ekonomi", "tjokroaminoto", "rakyat"], sampleAnswer: "1) Sifat keanggotaan terbuka bagi seluruh lapisan masyarakat; 2) Mengusung identitas agama Islam sebagai pemersatu; 3) Membela kepentingan ekonomi pedagang dan rakyat kecil serta kepemimpinan H.O.S. Tjokroaminoto yang karismatik.", explanation: "Keanggotaan inklusif, solidaritas Islam, pembelaan ekonomi rakyat, dan karisma pemimpin." },
+        { type: "ur", question: "Mengapa semboyan 'Indie voor Indiers' yang diusung oleh Indische Partij dianggap sangat berbahaya oleh pemerintah kolonial Belanda, dan apa kaitannya dengan lahirnya konsep nasionalisme Indonesia?", keywords: ["radikal", "merdeka", "persatuan", "ras", "nasionalisme"], sampleAnswer: "Semboyan 'Indie voor Indiers' dianggap berbahaya karena secara terang-terangan menuntut kemerdekaan Hindia Belanda dan menanamkan kesadaran persatuan lintas suku, agama, dan ras bahwa semua orang yang mencintai Hindia adalah satu bangsa.", explanation: "Tuntutan kemerdekaan politik radikal dan nasionalisme inklusif lintas golongan." },
+        { type: "ur", question: "Bandingkan strategi perjuangan Budi Utomo, Sarekat Islam, Indische Partij, dan PNI, lalu jelaskan strategi mana yang menurut Anda paling efektif dalam membangkitkan kesadaran berbangsa!", keywords: ["kooperatif", "nonkooperatif", "moderat", "radikal", "massa"], sampleAnswer: "Budi Utomo bersifat moderat-kooperatif; SI berbasis mobilisasi massa ekonomi-agama; Indische Partij dan PNI bersifat nonkooperatif-radikal menuntut kemerdekaan penuh. Strategi nonkooperatif disertai mobilisasi massa efektif menjangkau rakyat luas dan menanamkan keberanian menentukan nasib sendiri.", explanation: "Perbandingan strategi kooperatif/moderat vs nonkooperatif/radikal beserta argumentasi." },
+        { type: "ur", question: "Bayangkan Anda adalah pemuda terpelajar pada masa pergerakan nasional. Rancanglah sebuah organisasi perjuangan lengkap dengan: (a) Nama Organisasi, (b) Tujuan Utama, (c) Strategi Perjuangan, dan (d) Dua Program Kerja Nyata!", keywords: ["nama", "tujuan", "strategi", "program", "merdeka"], sampleAnswer: "(a) Nama: Perhimpunan Pemuda Nusantara; (b) Tujuan: Mencapai kemerdekaan Indonesia dan mencerdaskan bangsa; (c) Strategi: Nonkooperatif dan literasi kebangsaan; (d) Program Kerja: Mendirikan taman bacaan rakyat dan menerbitkan surat kabar pemuda.", explanation: "Kelengkapan 4 unsur rancangan organisasi." }
       ]
     };
 
-    // =========================================================
-    // HELPER TOAST & MODAL
-    // =========================================================
     window.showToast = function (message, type = "info") {
       const container = document.getElementById("toastContainer");
       const toast = document.createElement("div");
@@ -1278,36 +736,24 @@
       toast.className = `animate-slide-up pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-2xl shadow-xl border ${colors[type] || colors.info} text-xs font-semibold transition-all duration-300`;
       toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-base mt-0.5"></i><span class="leading-relaxed">${message}</span>`;
       container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = "0";
-        setTimeout(() => toast.remove(), 300);
-      }, 4500);
+      setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 300); }, 4500);
     };
 
     window.openModal = function (id) {
       const el = document.getElementById(id);
-      if (el) {
-        el.classList.remove("hidden", "pointer-events-none");
-      }
+      if (el) el.classList.remove("hidden", "pointer-events-none");
     };
 
     window.closeModal = function (id) {
       const el = document.getElementById(id);
-      if (el) {
-        el.classList.add("hidden", "pointer-events-none");
-      }
+      if (el) el.classList.add("hidden", "pointer-events-none");
     };
 
     window.togglePassword = function (inputId, btn) {
       const input = document.getElementById(inputId);
       const icon = btn.querySelector("i");
-      if (input.type === "password") {
-        input.type = "text";
-        icon.classList.replace("fa-eye", "fa-eye-slash");
-      } else {
-        input.type = "password";
-        icon.classList.replace("fa-eye-slash", "fa-eye");
-      }
+      if (input.type === "password") { input.type = "text"; icon.classList.replace("fa-eye", "fa-eye-slash"); }
+      else { input.type = "password"; icon.classList.replace("fa-eye-slash", "fa-eye"); }
     };
 
     window.switchAuthTab = function (tab) {
@@ -1350,7 +796,7 @@
     }
 
     // =========================================================
-    // AUTHENTICATION HANDLERS
+    // AUTHENTICATION HANDLERS (DENGAN PEMETAAN USERNAME TANGGUH)
     // =========================================================
     window.handleRegister = async function (e) {
       e.preventDefault();
@@ -1375,13 +821,18 @@
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...`;
 
       try {
-        const q = query(collection(db, "users"), where("username", "==", username));
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-          showToast("Username sudah digunakan. Silakan pilih username lain.", "error");
-          btn.disabled = false;
-          btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i> <span>Daftar Akun Baru</span>`;
-          return;
+        // Cek keunikan username (dibungkus try-catch agar tidak macet jika Firestore Rules ketat)
+        try {
+          const q = query(collection(db, "users"), where("username", "==", username));
+          const snap = await getDocs(q);
+          if (!snap.empty) {
+            showToast("Username sudah digunakan. Silakan pilih username lain.", "error");
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i> <span>Daftar Akun Baru</span>`;
+            return;
+          }
+        } catch (readErr) {
+          console.warn("Lewati cek username cloud:", readErr.message);
         }
 
         const isAdmin = checkReferralCode(referral);
@@ -1392,6 +843,9 @@
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(cred.user, { displayName: name });
 
+        // Simpan pemetaan username -> email di lokal & Firestore
+        saveLocalUsernameMap(username, email);
+
         const profileData = {
           uid: cred.user.uid,
           name,
@@ -1401,22 +855,24 @@
           createdAt: new Date().toISOString()
         };
 
-        await setDoc(doc(db, "users", cred.user.uid), profileData);
+        try {
+          await setDoc(doc(db, "users", cred.user.uid), profileData);
+          // Simpan juga dokumen lookup publik berdasarkan username
+          await setDoc(doc(db, "usernames", username), { email, uid: cred.user.uid });
+        } catch (writeErr) {
+          console.warn("Gagal menulis ke Firestore (cek Firestore Rules):", writeErr.message);
+        }
+
         showToast(
-          isAdmin
-            ? "Pendaftaran berhasil! Anda terdaftar sebagai ADMIN."
-            : "Pendaftaran berhasil! Selamat datang di CBT SAS.",
+          isAdmin ? "Pendaftaran berhasil! Anda terdaftar sebagai ADMIN." : "Pendaftaran berhasil! Selamat datang di CBT SAS.",
           "success"
         );
         await applyUserSession(profileData);
       } catch (err) {
         console.error(err);
         let msg = "Gagal mendaftar: " + err.message;
-        if (err.code === "auth/email-already-in-use") msg = "Email sudah terdaftar. Silakan masuk.";
+        if (err.code === "auth/email-already-in-use") msg = "Email sudah terdaftar. Silakan langsung masuk.";
         if (err.code === "auth/weak-password") msg = "Kata sandi terlalu lemah (minimal 6 karakter).";
-        if (err.code === "auth/operation-not-allowed") {
-          msg = "Metode Email/Password belum diaktifkan di Firebase Console > Authentication > Sign-in method.";
-        }
         showToast(msg, "error");
       } finally {
         btn.disabled = false;
@@ -1426,7 +882,7 @@
 
     window.handleLogin = async function (e) {
       e.preventDefault();
-      const identifier = document.getElementById("loginIdentifier").value.trim().toLowerCase();
+      const rawIdentifier = document.getElementById("loginIdentifier").value.trim().toLowerCase();
       const password = document.getElementById("loginPassword").value;
 
       const btn = document.getElementById("btnLoginSubmit");
@@ -1434,40 +890,73 @@
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses...`;
 
       try {
-        let emailToUse = identifier;
-        if (!identifier.includes("@")) {
-          const q = query(collection(db, "users"), where("username", "==", identifier));
-          const snap = await getDocs(q);
-          if (snap.empty) {
-            throw { code: "auth/user-not-found", message: "Username tidak ditemukan." };
+        let emailToUse = rawIdentifier;
+
+        // Jika input bukan email (tidak mengandung '@'), cari email terkait username
+        if (!rawIdentifier.includes("@")) {
+          let resolvedEmail = getLocalEmailByUsername(rawIdentifier);
+
+          if (!resolvedEmail) {
+            try {
+              const unameDoc = await getDoc(doc(db, "usernames", rawIdentifier));
+              if (unameDoc.exists()) {
+                resolvedEmail = unameDoc.data().email;
+              } else {
+                const q = query(collection(db, "users"), where("username", "==", rawIdentifier));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                  resolvedEmail = snap.docs[0].data().email;
+                }
+              }
+            } catch (fsErr) {
+              console.warn("Firestore lookup diblokir rules:", fsErr.message);
+              throw {
+                code: "auth/username-lookup-blocked",
+                message: "Login dengan username terblokir aturan Firestore. Silakan masuk menggunakan alamat EMAIL Anda!"
+              };
+            }
           }
-          emailToUse = snap.docs[0].data().email;
+
+          if (!resolvedEmail) {
+            throw {
+              code: "auth/user-not-found",
+              message: `Username "${rawIdentifier}" tidak ditemukan. Coba masuk menggunakan alamat EMAIL yang didaftarkan.`
+            };
+          }
+
+          emailToUse = resolvedEmail;
         }
 
         const cred = await signInWithEmailAndPassword(auth, emailToUse, password);
-        const userDoc = await getDoc(doc(db, "users", cred.user.uid));
-        let profileData;
-        if (userDoc.exists()) {
-          profileData = userDoc.data();
-        } else {
+        let profileData = null;
+
+        try {
+          const userDoc = await getDoc(doc(db, "users", cred.user.uid));
+          if (userDoc.exists()) {
+            profileData = userDoc.data();
+          }
+        } catch (_) {}
+
+        if (!profileData) {
           profileData = {
             uid: cred.user.uid,
             name: cred.user.displayName || emailToUse.split("@")[0],
-            username: emailToUse.split("@")[0],
+            username: rawIdentifier.includes("@") ? emailToUse.split("@")[0] : rawIdentifier,
             email: emailToUse,
             role: "user"
           };
-          await setDoc(doc(db, "users", cred.user.uid), profileData);
         }
 
+        saveLocalUsernameMap(profileData.username, profileData.email);
         showToast(`Selamat datang kembali, ${profileData.name}!`, "success");
         await applyUserSession(profileData);
       } catch (err) {
-        console.error(err);
-        let msg = "Gagal masuk. Periksa kembali username/email dan kata sandi.";
-        if (err.code === "auth/user-not-found") msg = "Akun tidak ditemukan. Silakan daftar terlebih dahulu.";
+        console.error("Login Error:", err);
+        let msg = err.message || "Gagal masuk. Periksa kembali username/email dan kata sandi.";
         if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
-          msg = "Username/email atau kata sandi salah.";
+          msg = "Kata sandi atau email salah. Pastikan huruf besar/kecil kata sandi sudah sesuai.";
+        } else if (err.code === "auth/user-not-found" && rawIdentifier.includes("@")) {
+          msg = "Email belum terdaftar. Silakan klik tab Daftar terlebih dahulu.";
         }
         showToast(msg, "error");
       } finally {
@@ -1498,12 +987,14 @@
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
         const userRef = doc(db, "users", user.uid);
-        const snap = await getDoc(userRef);
+        let profileData = null;
 
-        let profileData;
-        if (snap.exists()) {
-          profileData = snap.data();
-        } else {
+        try {
+          const snap = await getDoc(userRef);
+          if (snap.exists()) profileData = snap.data();
+        } catch (_) {}
+
+        if (!profileData) {
           profileData = {
             uid: user.uid,
             name: user.displayName || "Pengguna Google",
@@ -1512,21 +1003,14 @@
             role: "user",
             createdAt: new Date().toISOString()
           };
-          await setDoc(userRef, profileData);
+          try { await setDoc(userRef, profileData); } catch (_) {}
         }
 
+        saveLocalUsernameMap(profileData.username, profileData.email);
         showToast(`Berhasil masuk dengan Gmail (${profileData.email})`, "success");
         await applyUserSession(profileData);
       } catch (err) {
         console.warn("Google Sign-In fallback:", err.code, err.message);
-        const reasonEl = document.getElementById("gmailBlockReason");
-        if (err.code === "auth/operation-not-allowed") {
-          reasonEl.innerHTML = `<strong>Info Firebase:</strong> Provider <b>Google</b> belum diaktifkan (Enabled) di Firebase Console &gt; Authentication &gt; Sign-in method. Anda tetap dapat masuk menggunakan form Gmail di bawah ini:`;
-        } else if (err.code === "auth/unauthorized-domain") {
-          reasonEl.innerHTML = `<strong>Domain belum diotorisasi (${window.location.hostname || "file lokal"}):</strong> Jendela OAuth Google diblokir. Silakan lanjutkan menggunakan form Gmail di bawah ini:`;
-        } else {
-          reasonEl.innerHTML = `Pop-up Google OAuth ditutup atau diblokir oleh browser/iframe (${err.code || "popup-blocked"}). Silakan lengkapi detail Gmail di bawah ini untuk langsung masuk:`;
-        }
         openModal("gmailFallbackModal");
       } finally {
         btn.disabled = false;
@@ -1541,10 +1025,6 @@
       const refCode = document.getElementById("fbGmailReferral").value.trim();
 
       const isAdmin = checkReferralCode(refCode);
-      if (refCode && !isAdmin) {
-        showToast("Kode referral tidak sesuai. Masuk sebagai pengguna biasa.", "warning");
-      }
-
       const pseudoUid = "gmail_" + btoa(email).replace(/[^a-zA-Z0-9]/g, "").slice(0, 20);
       const profileData = {
         uid: pseudoUid,
@@ -1555,10 +1035,8 @@
         isLocalFallback: true
       };
 
-      try {
-        await setDoc(doc(db, "users", pseudoUid), profileData, { merge: true });
-      } catch (_) {}
-
+      try { await setDoc(doc(db, "users", pseudoUid), profileData, { merge: true }); } catch (_) {}
+      saveLocalUsernameMap(profileData.username, email);
       localStorage.setItem("cbt_session_user", JSON.stringify(profileData));
       closeModal("gmailFallbackModal");
       showToast(`Masuk sebagai ${name} (${isAdmin ? "Admin" : "Peserta"})`, "success");
@@ -1566,14 +1044,7 @@
     };
 
     window.enterGuestMode = async function () {
-      const guestProfile = {
-        uid: "guest_local",
-        name: "Peserta Tamu",
-        username: "tamu",
-        email: "tamu@cbt-lokal.id",
-        role: "user",
-        isGuest: true
-      };
+      const guestProfile = { uid: "guest_local", name: "Peserta Tamu", username: "tamu", email: "tamu@cbt-lokal.id", role: "user", isGuest: true };
       localStorage.setItem("cbt_session_user", JSON.stringify(guestProfile));
       showToast("Masuk dalam Mode Tamu.", "info");
       await applyUserSession(guestProfile);
@@ -1588,9 +1059,7 @@
       currentUserProfile.role = "admin";
       localStorage.setItem("cbt_session_user", JSON.stringify(currentUserProfile));
       if (currentUserProfile.uid && !currentUserProfile.isGuest) {
-        try {
-          await setDoc(doc(db, "users", currentUserProfile.uid), { role: "admin" }, { merge: true });
-        } catch (_) {}
+        try { await setDoc(doc(db, "users", currentUserProfile.uid), { role: "admin" }, { merge: true }); } catch (_) {}
       }
       updateUIForUser();
       closeModal("profileModal");
@@ -1598,9 +1067,7 @@
     };
 
     window.handleLogout = async function () {
-      try {
-        await signOut(auth);
-      } catch (_) {}
+      try { await signOut(auth); } catch (_) {}
       localStorage.removeItem("cbt_session_user");
       currentUserProfile = null;
       closeModal("profileModal");
@@ -1631,15 +1098,8 @@
         ? "px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-400 text-emeraldbrand-950"
         : "px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-emeraldbrand-700 text-white border border-emeraldbrand-500";
 
-      const navAdminBtn = document.getElementById("navAdminBtn");
-      const heroImportBtn = document.getElementById("heroImportBtn");
-      if (isAdmin) {
-        navAdminBtn.classList.remove("hidden");
-        heroImportBtn.classList.remove("hidden");
-      } else {
-        navAdminBtn.classList.add("hidden");
-        heroImportBtn.classList.add("hidden");
-      }
+      document.getElementById("navAdminBtn").classList.toggle("hidden", !isAdmin);
+      document.getElementById("heroImportBtn").classList.toggle("hidden", !isAdmin);
 
       document.getElementById("modalAvatar").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
       document.getElementById("modalUserName").textContent = currentUserProfile.name;
@@ -1648,26 +1108,18 @@
       document.getElementById("upgradeReferralBox").style.display = isAdmin ? "none" : "block";
     }
 
-    window.openProfileModal = function () {
-      updateUIForUser();
-      openModal("profileModal");
-    };
+    window.openProfileModal = function () { updateUIForUser(); openModal("profileModal"); };
 
     // =========================================================
-    // LOAD & RENDER PAKET SOAL (FIRESTORE + LOCAL STORAGE)
+    // PAKET SOAL & ENGINE CBT
     // =========================================================
     async function loadExamPackages() {
       const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
       let cloudPackages = [];
-
       try {
         const snap = await getDocs(collection(db, "exam_packages"));
-        snap.forEach((docSnap) => {
-          cloudPackages.push({ id: docSnap.id, ...docSnap.data() });
-        });
-      } catch (err) {
-        console.warn("Menggunakan paket lokal:", err.message);
-      }
+        snap.forEach((docSnap) => cloudPackages.push({ id: docSnap.id, ...docSnap.data() }));
+      } catch (_) {}
 
       const map = new Map();
       map.set(DEFAULT_SEJARAH_PACKAGE.id, DEFAULT_SEJARAH_PACKAGE);
@@ -1681,43 +1133,28 @@
     function renderPackagesGrid() {
       const grid = document.getElementById("examPackagesGrid");
       document.getElementById("packageCountBadge").textContent = `${examPackages.length} Paket Tersedia`;
-
-      grid.innerHTML = examPackages
-        .map((pkg) => {
-          const totalQ = pkg.questions ? pkg.questions.length : 0;
-          return `
-            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 border border-slate-200 dark:border-slate-800 hover:border-goldbrand-500 transition-all duration-300 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-2 mb-3">
-                  <span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-goldbrand-300 text-[11px] font-extrabold">
-                    ${pkg.subject || "Mata Pelajaran"}
-                  </span>
-                  <span class="text-xs font-bold text-slate-500 dark:text-slate-400">
-                    <i class="fa-regular fa-clock text-goldbrand-600 mr-1"></i>${pkg.duration || 60} Menit
-                  </span>
-                </div>
-                <h4 class="text-base font-extrabold text-slate-900 dark:text-white mb-2">${pkg.title}</h4>
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                  ${pkg.description || `Paket latihan soal CBT berisi ${totalQ} butir pertanyaan terstruktur.`}
-                </p>
+      grid.innerHTML = examPackages.map((pkg) => {
+        const totalQ = pkg.questions ? pkg.questions.length : 0;
+        return `
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 border border-slate-200 dark:border-slate-800 hover:border-goldbrand-500 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-goldbrand-300 text-[11px] font-extrabold">${pkg.subject || "Mata Pelajaran"}</span>
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-400"><i class="fa-regular fa-clock text-goldbrand-600 mr-1"></i>${pkg.duration || 60} Menit</span>
               </div>
-              <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <span class="text-xs font-extrabold text-emeraldbrand-800 dark:text-emeraldbrand-300">
-                  <i class="fa-solid fa-list-check mr-1 text-goldbrand-600"></i> ${totalQ} Soal
-                </span>
-                <button type="button" onclick="startExam('${pkg.id}')" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold shadow transition flex items-center gap-1.5">
-                  <span>Kerjakan</span> <i class="fa-solid fa-arrow-right text-goldbrand-400"></i>
-                </button>
-              </div>
+              <h4 class="text-base font-extrabold text-slate-900 dark:text-white mb-2">${pkg.title}</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">${pkg.description || `Paket latihan soal CBT berisi ${totalQ} butir pertanyaan.`}</p>
             </div>
-          `;
-        })
-        .join("");
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-extrabold text-emeraldbrand-800 dark:text-emeraldbrand-300"><i class="fa-solid fa-list-check mr-1 text-goldbrand-600"></i> ${totalQ} Soal</span>
+              <button type="button" onclick="startExam('${pkg.id}')" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold shadow transition flex items-center gap-1.5">
+                <span>Kerjakan</span> <i class="fa-solid fa-arrow-right text-goldbrand-400"></i>
+              </button>
+            </div>
+          </div>`;
+      }).join("");
     }
 
-    // =========================================================
-    // ENGINE CBT UJIAN
-    // =========================================================
     window.showDashboard = function () {
       clearInterval(timerInterval);
       document.getElementById("examView").classList.add("hidden");
@@ -1731,7 +1168,6 @@
         showToast("Paket soal kosong atau tidak ditemukan.", "error");
         return;
       }
-
       currentExam = pkg;
       currentQuestionIndex = 0;
       userAnswers = {};
@@ -1740,7 +1176,6 @@
 
       document.getElementById("examSubjectBadge").textContent = pkg.subject || "Evaluasi";
       document.getElementById("examTitleDisplay").textContent = pkg.title;
-
       document.getElementById("dashboardView").classList.add("hidden");
       document.getElementById("resultView").classList.add("hidden");
       document.getElementById("examView").classList.remove("hidden");
@@ -1758,7 +1193,7 @@
         updateTimerDisplay();
         if (timeRemainingSeconds <= 0) {
           clearInterval(timerInterval);
-          showToast("Waktu ujian telah habis! Jawaban dikumpulkan otomatis.", "warning");
+          showToast("Waktu ujian habis! Jawaban dikumpulkan otomatis.", "warning");
           finishAndGradeExam();
         }
       }, 1000);
@@ -1767,19 +1202,11 @@
     function updateTimerDisplay() {
       const mins = Math.floor(timeRemainingSeconds / 60);
       const secs = timeRemainingSeconds % 60;
-      document.getElementById("timerDisplay").textContent =
-        `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      document.getElementById("timerDisplay").textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
     }
 
     function getTypeLabel(type) {
-      const map = {
-        bs: "Benar / Salah",
-        pg: "Pilihan Ganda",
-        pgk: "Pilihan Ganda Kompleks (Pilih > 1)",
-        mj: "Menjodohkan",
-        ur: "Uraian / Esai"
-      };
-      return map[type] || "Pilihan Ganda";
+      return { bs: "Benar / Salah", pg: "Pilihan Ganda", pgk: "Pilihan Ganda Kompleks (Pilih > 1)", mj: "Menjodohkan", ur: "Uraian / Esai" }[type] || "Pilihan Ganda";
     }
 
     function isQuestionAnswered(idx) {
@@ -1793,61 +1220,30 @@
     function renderQuestionNavGrid() {
       const grid = document.getElementById("questionGridNav");
       let answeredCount = 0;
-
-      grid.innerHTML = currentExam.questions
-        .map((_, idx) => {
-          const answered = isQuestionAnswered(idx);
-          if (answered) answeredCount++;
-          const flagged = !!flaggedQuestions[idx];
-          const isCurrent = idx === currentQuestionIndex;
-
-          let cls = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700";
-          if (flagged) {
-            cls = "bg-amber-400 text-slate-950 font-extrabold border border-amber-500";
-          } else if (answered) {
-            cls = "bg-emeraldbrand-700 text-white font-extrabold border border-emeraldbrand-600";
-          }
-
-          if (isCurrent) {
-            cls += " ring-2 ring-goldbrand-500 ring-offset-2 dark:ring-offset-slate-900";
-          }
-
-          return `
-            <button type="button" onclick="jumpToQuestion(${idx})" class="h-10 rounded-xl text-xs font-bold transition ${cls}">
-              ${idx + 1}
-            </button>
-          `;
-        })
-        .join("");
-
-      document.getElementById("answeredCounterText").textContent =
-        `Terjawab: ${answeredCount} / ${currentExam.questions.length}`;
+      grid.innerHTML = currentExam.questions.map((_, idx) => {
+        const answered = isQuestionAnswered(idx);
+        if (answered) answeredCount++;
+        const flagged = !!flaggedQuestions[idx];
+        const isCurrent = idx === currentQuestionIndex;
+        let cls = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700";
+        if (flagged) cls = "bg-amber-400 text-slate-950 font-extrabold border border-amber-500";
+        else if (answered) cls = "bg-emeraldbrand-700 text-white font-extrabold border border-emeraldbrand-600";
+        if (isCurrent) cls += " ring-2 ring-goldbrand-500 ring-offset-2 dark:ring-offset-slate-900";
+        return `<button type="button" onclick="jumpToQuestion(${idx})" class="h-10 rounded-xl text-xs font-bold transition ${cls}">${idx + 1}</button>`;
+      }).join("");
+      document.getElementById("answeredCounterText").textContent = `Terjawab: ${answeredCount} / ${currentExam.questions.length}`;
     }
 
-    window.jumpToQuestion = function (idx) {
-      currentQuestionIndex = idx;
-      renderCurrentQuestion();
-      renderQuestionNavGrid();
-    };
-
+    window.jumpToQuestion = function (idx) { currentQuestionIndex = idx; renderCurrentQuestion(); renderQuestionNavGrid(); };
     window.navigateQuestion = function (step) {
       const next = currentQuestionIndex + step;
-      if (next >= 0 && next < currentExam.questions.length) {
-        currentQuestionIndex = next;
-        renderCurrentQuestion();
-        renderQuestionNavGrid();
-      }
+      if (next >= 0 && next < currentExam.questions.length) { currentQuestionIndex = next; renderCurrentQuestion(); renderQuestionNavGrid(); }
     };
-
-    window.toggleFlagCurrent = function () {
-      flaggedQuestions[currentQuestionIndex] = document.getElementById("flagCheckbox").checked;
-      renderQuestionNavGrid();
-    };
+    window.toggleFlagCurrent = function () { flaggedQuestions[currentQuestionIndex] = document.getElementById("flagCheckbox").checked; renderQuestionNavGrid(); };
 
     function renderCurrentQuestion() {
       const q = currentExam.questions[currentQuestionIndex];
       const total = currentExam.questions.length;
-
       document.getElementById("currentQNumBadge").textContent = `Soal No. ${currentQuestionIndex + 1} dari ${total}`;
       document.getElementById("currentQTypeBadge").textContent = getTypeLabel(q.type);
       document.getElementById("flagCheckbox").checked = !!flaggedQuestions[currentQuestionIndex];
@@ -1867,127 +1263,46 @@
       const currentAns = userAnswers[currentQuestionIndex];
 
       if (q.type === "bs") {
-        optContainer.innerHTML = [
-          { val: true, label: "BENAR", icon: "fa-circle-check" },
-          { val: false, label: "SALAH", icon: "fa-circle-xmark" }
-        ]
-          .map((item) => {
-            const selected = currentAns === item.val;
-            return `
-              <button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-3.5 ${
-                selected
-                  ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-900 dark:text-white font-extrabold"
-                  : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"
-              }">
-                <i class="fa-solid ${item.icon} text-lg ${selected ? "text-emeraldbrand-700 dark:text-goldbrand-400" : "text-slate-400"}"></i>
-                <span class="text-sm">${item.label}</span>
-              </button>
-            `;
-          })
-          .join("");
+        optContainer.innerHTML = [{ val: true, label: "BENAR", icon: "fa-circle-check" }, { val: false, label: "SALAH", icon: "fa-circle-xmark" }].map((item) => {
+          const selected = currentAns === item.val;
+          return `<button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-3.5 ${selected ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-900 dark:text-white font-extrabold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><i class="fa-solid ${item.icon} text-lg ${selected ? "text-emeraldbrand-700 dark:text-goldbrand-400" : "text-slate-400"}"></i><span class="text-sm">${item.label}</span></button>`;
+        }).join("");
       } else if (q.type === "pg" || q.type === "mj") {
         const letters = ["A", "B", "C", "D", "E"];
-        optContainer.innerHTML = q.options
-          .map((optText, i) => {
-            const selected = currentAns === i;
-            return `
-              <button type="button" onclick="selectSingleAnswer(${i})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${
-                selected
-                  ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-950 dark:text-white font-bold"
-                  : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"
-              }">
-                <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold ${
-                  selected
-                    ? "bg-emeraldbrand-800 text-goldbrand-400"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
-                }">
-                  ${letters[i] || i + 1}
-                </span>
-                <span class="text-sm pt-0.5 leading-relaxed">${optText}</span>
-              </button>
-            `;
-          })
-          .join("");
+        optContainer.innerHTML = q.options.map((optText, i) => {
+          const selected = currentAns === i;
+          return `<button type="button" onclick="selectSingleAnswer(${i})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${selected ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-950 dark:text-white font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold ${selected ? "bg-emeraldbrand-800 text-goldbrand-400" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"}">${letters[i] || i + 1}</span><span class="text-sm pt-0.5 leading-relaxed">${optText}</span></button>`;
+        }).join("");
       } else if (q.type === "pgk") {
         const selectedArr = Array.isArray(currentAns) ? currentAns : [];
-        optContainer.innerHTML =
-          `<p class="text-xs font-bold text-goldbrand-700 dark:text-goldbrand-400 mb-2"><i class="fa-solid fa-circle-info mr-1"></i> Centang semua pernyataan yang benar:</p>` +
-          q.options
-            .map((optText, i) => {
-              const checked = selectedArr.includes(i);
-              return `
-                <button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${
-                  checked
-                    ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-950 dark:text-white font-bold"
-                    : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"
-                }">
-                  <span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border ${
-                    checked
-                      ? "bg-emeraldbrand-800 border-emeraldbrand-800 text-goldbrand-400"
-                      : "border-slate-400 text-transparent"
-                  }">
-                    <i class="fa-solid fa-check"></i>
-                  </span>
-                  <span class="text-sm leading-relaxed">${optText}</span>
-                </button>
-              `;
-            })
-            .join("");
+        optContainer.innerHTML = `<p class="text-xs font-bold text-goldbrand-700 dark:text-goldbrand-400 mb-2"><i class="fa-solid fa-circle-info mr-1"></i> Centang semua pernyataan yang benar:</p>` +
+          q.options.map((optText, i) => {
+            const checked = selectedArr.includes(i);
+            return `<button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${checked ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-950 dark:text-white font-bold" : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"}"><span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border ${checked ? "bg-emeraldbrand-800 border-emeraldbrand-800 text-goldbrand-400" : "border-slate-400 text-transparent"}"><i class="fa-solid fa-check"></i></span><span class="text-sm leading-relaxed">${optText}</span></button>`;
+          }).join("");
       } else if (q.type === "ur") {
         const textVal = typeof currentAns === "string" ? currentAns : "";
-        optContainer.innerHTML = `
-          <div>
-            <label class="block text-xs font-bold text-slate-500 mb-2">Tuliskan jawaban uraian Anda secara lengkap dan jelas:</label>
-            <textarea
-              rows="5"
-              oninput="saveEssayAnswer(this.value)"
-              placeholder="Ketik jawaban uraian Anda di sini..."
-              class="w-full p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:border-emeraldbrand-700 outline-none"
-            >${textVal}</textarea>
-          </div>
-        `;
+        optContainer.innerHTML = `<div><label class="block text-xs font-bold text-slate-500 mb-2">Tuliskan jawaban uraian Anda secara lengkap:</label><textarea rows="5" oninput="saveEssayAnswer(this.value)" placeholder="Ketik jawaban uraian Anda di sini..." class="w-full p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:border-emeraldbrand-700 outline-none">${textVal}</textarea></div>`;
       }
     }
 
-    window.selectSingleAnswer = function (val) {
-      userAnswers[currentQuestionIndex] = val;
-      renderCurrentQuestion();
-      renderQuestionNavGrid();
-    };
-
+    window.selectSingleAnswer = function (val) { userAnswers[currentQuestionIndex] = val; renderCurrentQuestion(); renderQuestionNavGrid(); };
     window.toggleComplexAnswer = function (idx) {
       let arr = Array.isArray(userAnswers[currentQuestionIndex]) ? [...userAnswers[currentQuestionIndex]] : [];
-      if (arr.includes(idx)) {
-        arr = arr.filter((x) => x !== idx);
-      } else {
-        arr.push(idx);
-      }
+      arr = arr.includes(idx) ? arr.filter((x) => x !== idx) : [...arr, idx];
       userAnswers[currentQuestionIndex] = arr;
       renderCurrentQuestion();
       renderQuestionNavGrid();
     };
-
-    window.saveEssayAnswer = function (val) {
-      userAnswers[currentQuestionIndex] = val;
-      renderQuestionNavGrid();
-    };
+    window.saveEssayAnswer = function (val) { userAnswers[currentQuestionIndex] = val; renderQuestionNavGrid(); };
 
     window.confirmSubmitExam = function () {
       const unanswered = currentExam.questions.filter((_, i) => !isQuestionAnswered(i)).length;
-      const msg =
-        unanswered > 0
-          ? `Masih ada ${unanswered} soal yang belum dijawab. Yakin ingin mengumpulkan ujian sekarang?`
-          : "Semua soal sudah terjawab. Kumpulkan jawaban sekarang?";
-      if (confirm(msg)) {
+      if (confirm(unanswered > 0 ? `Masih ada ${unanswered} soal belum dijawab. Yakin kumpulkan sekarang?` : "Kumpulkan jawaban sekarang?")) {
         finishAndGradeExam();
       }
     };
-
-    window.retryCurrentExam = function () {
-      if (currentExam) {
-        startExam(currentExam.id);
-      }
-    };
+    window.retryCurrentExam = function () { if (currentExam) startExam(currentExam.id); };
 
     function finishAndGradeExam() {
       clearInterval(timerInterval);
@@ -1995,76 +1310,58 @@
       let correctCount = 0;
       const totalQ = currentExam.questions.length;
 
-      const reviewHtml = currentExam.questions
-        .map((q, idx) => {
-          const uAns = userAnswers[idx];
-          let isCorrect = false;
-          let userAnsText = "<em class='text-slate-400'>Tidak dijawab</em>";
-          let correctAnsText = "";
+      const reviewHtml = currentExam.questions.map((q, idx) => {
+        const uAns = userAnswers[idx];
+        let isCorrect = false;
+        let userAnsText = "<em class='text-slate-400'>Tidak dijawab</em>";
+        let correctAnsText = "";
 
-          if (q.type === "bs") {
-            isCorrect = uAns === q.answer;
-            if (uAns !== undefined) userAnsText = uAns ? "BENAR" : "SALAH";
-            correctAnsText = q.answer ? "BENAR" : "SALAH";
-          } else if (q.type === "pg" || q.type === "mj") {
-            isCorrect = uAns === q.answer;
-            if (uAns !== undefined && q.options[uAns]) userAnsText = q.options[uAns];
-            correctAnsText = q.options[q.answer] || "";
-          } else if (q.type === "pgk") {
-            const uArr = Array.isArray(uAns) ? [...uAns].sort() : [];
-            const cArr = Array.isArray(q.answer) ? [...q.answer].sort() : [];
-            isCorrect = uArr.length === cArr.length && uArr.every((v, i) => v === cArr[i]);
-            if (uArr.length > 0) userAnsText = uArr.map((i) => q.options[i]).join("; ");
-            correctAnsText = cArr.map((i) => q.options[i]).join("; ");
-          } else if (q.type === "ur") {
-            const text = (uAns || "").toLowerCase().trim();
-            if (text.length > 0) userAnsText = uAns;
-            correctAnsText = q.sampleAnswer || "Sesuai rubrik pembahasan.";
-            const kws = q.keywords || [];
-            if (kws.length > 0 && text.length >= 10) {
-              const matched = kws.filter((k) => text.includes(k.toLowerCase())).length;
-              isCorrect = matched >= Math.max(1, Math.floor(kws.length / 2));
-            } else {
-              isCorrect = text.length >= 25;
-            }
-          }
+        if (q.type === "bs") {
+          isCorrect = uAns === q.answer;
+          if (uAns !== undefined) userAnsText = uAns ? "BENAR" : "SALAH";
+          correctAnsText = q.answer ? "BENAR" : "SALAH";
+        } else if (q.type === "pg" || q.type === "mj") {
+          isCorrect = uAns === q.answer;
+          if (uAns !== undefined && q.options[uAns]) userAnsText = q.options[uAns];
+          correctAnsText = q.options[q.answer] || "";
+        } else if (q.type === "pgk") {
+          const uArr = Array.isArray(uAns) ? [...uAns].sort() : [];
+          const cArr = Array.isArray(q.answer) ? [...q.answer].sort() : [];
+          isCorrect = uArr.length === cArr.length && uArr.every((v, i) => v === cArr[i]);
+          if (uArr.length > 0) userAnsText = uArr.map((i) => q.options[i]).join("; ");
+          correctAnsText = cArr.map((i) => q.options[i]).join("; ");
+        } else if (q.type === "ur") {
+          const text = (uAns || "").toLowerCase().trim();
+          if (text.length > 0) userAnsText = uAns;
+          correctAnsText = q.sampleAnswer || "Sesuai rubrik pembahasan.";
+          const kws = q.keywords || [];
+          isCorrect = kws.length > 0 && text.length >= 10
+            ? kws.filter((k) => text.includes(k.toLowerCase())).length >= Math.max(1, Math.floor(kws.length / 2))
+            : text.length >= 25;
+        }
 
-          if (isCorrect) {
-            totalPoints += 1;
-            correctCount += 1;
-          }
+        if (isCorrect) { totalPoints++; correctCount++; }
 
-          return `
-            <div class="p-4 rounded-2xl border ${
-              isCorrect
-                ? "border-emeraldbrand-300 bg-emeraldbrand-50/50 dark:bg-emeraldbrand-950/30"
-                : "border-rose-300 bg-rose-50/40 dark:bg-rose-950/20"
-            }">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-md bg-slate-800 text-white">
-                  No. ${idx + 1} • ${getTypeLabel(q.type)}
-                </span>
-                <span class="text-xs font-extrabold ${isCorrect ? "text-emeraldbrand-700 dark:text-emeraldbrand-400" : "text-rose-600"}">
-                  <i class="fa-solid ${isCorrect ? "fa-circle-check" : "fa-circle-xmark"} mr-1"></i>
-                  ${isCorrect ? "Tepat" : "Perlu Evaluasi"}
-                </span>
-              </div>
-              <p class="text-sm font-bold text-slate-900 dark:text-white mb-2">${q.question}</p>
-              <div class="text-xs space-y-1 text-slate-700 dark:text-slate-300">
-                <p><strong>Jawaban Anda:</strong> ${userAnsText}</p>
-                <p class="text-emeraldbrand-800 dark:text-goldbrand-300"><strong>Kunci / Acuan Jawaban:</strong> ${correctAnsText}</p>
-                ${q.explanation ? `<p class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400"><strong>Pembahasan:</strong> ${q.explanation}</p>` : ""}
-              </div>
+        return `
+          <div class="p-4 rounded-2xl border ${isCorrect ? "border-emeraldbrand-300 bg-emeraldbrand-50/50 dark:bg-emeraldbrand-950/30" : "border-rose-300 bg-rose-50/40 dark:bg-rose-950/20"}">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-md bg-slate-800 text-white">No. ${idx + 1} • ${getTypeLabel(q.type)}</span>
+              <span class="text-xs font-extrabold ${isCorrect ? "text-emeraldbrand-700 dark:text-emeraldbrand-400" : "text-rose-600"}">
+                <i class="fa-solid ${isCorrect ? "fa-circle-check" : "fa-circle-xmark"} mr-1"></i>${isCorrect ? "Tepat" : "Perlu Evaluasi"}
+              </span>
             </div>
-          `;
-        })
-        .join("");
+            <p class="text-sm font-bold text-slate-900 dark:text-white mb-2">${q.question}</p>
+            <div class="text-xs space-y-1 text-slate-700 dark:text-slate-300">
+              <p><strong>Jawaban Anda:</strong> ${userAnsText}</p>
+              <p class="text-emeraldbrand-800 dark:text-goldbrand-300"><strong>Kunci / Acuan Jawaban:</strong> ${correctAnsText}</p>
+              ${q.explanation ? `<p class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400"><strong>Pembahasan:</strong> ${q.explanation}</p>` : ""}
+            </div>
+          </div>`;
+      }).join("");
 
-      const finalScore = Math.round((totalPoints / totalQ) * 100);
       document.getElementById("resultExamTitle").textContent = currentExam.title;
-      document.getElementById("finalScoreDisplay").textContent = finalScore;
-      document.getElementById("scoreDetailCounts").textContent =
-        `Benar: ${correctCount} | Kurang Tepat: ${totalQ - correctCount} (dari ${totalQ} soal)`;
+      document.getElementById("finalScoreDisplay").textContent = Math.round((totalPoints / totalQ) * 100);
+      document.getElementById("scoreDetailCounts").textContent = `Benar: ${correctCount} | Kurang Tepat: ${totalQ - correctCount} (dari ${totalQ} soal)`;
       document.getElementById("reviewListContainer").innerHTML = reviewHtml;
 
       document.getElementById("examView").classList.add("hidden");
@@ -2088,37 +1385,18 @@
       ["import", "manual", "manage"].forEach((t) => {
         document.getElementById(`admPane${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.toggle("hidden", t !== tab);
         const btn = document.getElementById(`admTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        if (t === tab) {
-          btn.className = "px-4 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500";
-        } else {
-          btn.className = "px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700";
-        }
+        btn.className = t === tab
+          ? "px-4 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500"
+          : "px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700";
       });
     };
 
     window.downloadTemplate = function (fmt) {
       if (fmt === "json") {
-        const sample = [
-          {
-            type: "pg",
-            question: "Contoh pertanyaan pilihan ganda?",
-            options: ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"],
-            answer: 0,
-            explanation: "Pilihan A benar karena..."
-          },
-          {
-            type: "bs",
-            question: "Contoh pernyataan Benar atau Salah.",
-            answer: true,
-            explanation: "Pernyataan ini bernilai benar."
-          }
-        ];
+        const sample = [{ type: "pg", question: "Contoh pertanyaan pilihan ganda?", options: ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"], answer: 0, explanation: "Pilihan A benar." }];
         triggerDownload("template-soal-cbt.json", JSON.stringify(sample, null, 2), "application/json");
       } else {
-        const csv =
-          `type,question,optA,optB,optC,optD,answer,explanation\n` +
-          `pg,"Ibu kota Provinsi Jawa Timur adalah...","Surabaya","Malang","Kediri","Sidoarjo",0,"Surabaya adalah ibu kota Jawa Timur."\n` +
-          `bs,"Budi Utomo berdiri pada tahun 1908.","BENAR","SALAH","","",0,"Budi Utomo berdiri 20 Mei 1908."`;
+        const csv = `type,question,optA,optB,optC,optD,answer,explanation\npg,"Ibu kota Provinsi Jawa Timur adalah...","Surabaya","Malang","Kediri","Sidoarjo",0,"Surabaya adalah ibu kota Jawa Timur."`;
         triggerDownload("template-soal-cbt.csv", csv, "text/csv");
       }
     };
@@ -2127,9 +1405,7 @@
       const blob = new Blob([content], { type: mime });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      a.click();
+      a.href = url; a.download = filename; a.click();
       URL.revokeObjectURL(url);
     }
 
@@ -2159,20 +1435,9 @@
         const clean = cols.map((c) => c.replace(/^"|"$/g, "").trim());
         const type = (clean[0] || "pg").toLowerCase();
         if (type === "bs") {
-          questions.push({
-            type: "bs",
-            question: clean[1] || "",
-            answer: Number(clean[6]) === 0 || String(clean[6]).toLowerCase() === "true",
-            explanation: clean[7] || ""
-          });
+          questions.push({ type: "bs", question: clean[1] || "", answer: Number(clean[6]) === 0 || String(clean[6]).toLowerCase() === "true", explanation: clean[7] || "" });
         } else {
-          questions.push({
-            type: "pg",
-            question: clean[1] || "",
-            options: [clean[2], clean[3], clean[4], clean[5]].filter(Boolean),
-            answer: Number(clean[6]) || 0,
-            explanation: clean[7] || ""
-          });
+          questions.push({ type: "pg", question: clean[1] || "", options: [clean[2], clean[3], clean[4], clean[5]].filter(Boolean), answer: Number(clean[6]) || 0, explanation: clean[7] || "" });
         }
       }
       return questions;
@@ -2184,28 +1449,13 @@
       const duration = parseInt(document.getElementById("importDuration").value, 10) || 60;
       const rawJson = document.getElementById("importJsonTextarea").value.trim();
 
-      if (!title || !rawJson) {
-        showToast("Judul paket dan data JSON soal wajib diisi!", "error");
-        return;
-      }
-
+      if (!title || !rawJson) { showToast("Judul paket dan data JSON soal wajib diisi!", "error"); return; }
       try {
         const parsed = JSON.parse(rawJson);
         const questions = Array.isArray(parsed) ? parsed : parsed.questions;
-        if (!Array.isArray(questions) || questions.length === 0) {
-          throw new Error("Format JSON harus berupa array soal.");
-        }
+        if (!Array.isArray(questions) || questions.length === 0) throw new Error("Format JSON harus berupa array soal.");
 
-        const newPkg = {
-          id: "pkg_" + Date.now(),
-          title,
-          subject,
-          duration,
-          description: `Paket soal import (${questions.length} butir soal).`,
-          questions,
-          createdAt: new Date().toISOString()
-        };
-
+        const newPkg = { id: "pkg_" + Date.now(), title, subject, duration, description: `Paket soal import (${questions.length} butir soal).`, questions, createdAt: new Date().toISOString() };
         await savePackageToStorageAndCloud(newPkg);
         document.getElementById("importTitle").value = "";
         document.getElementById("importJsonTextarea").value = "";
@@ -2218,19 +1468,10 @@
 
     window.addManualQuestionToDraft = function () {
       const question = document.getElementById("manQuestion").value.trim();
-      const opts = [
-        document.getElementById("manOpt0").value.trim(),
-        document.getElementById("manOpt1").value.trim(),
-        document.getElementById("manOpt2").value.trim(),
-        document.getElementById("manOpt3").value.trim()
-      ];
+      const opts = [0, 1, 2, 3].map((i) => document.getElementById(`manOpt${i}`).value.trim());
       const answer = parseInt(document.getElementById("manCorrect").value, 10);
       const explanation = document.getElementById("manExplanation").value.trim();
-
-      if (!question || opts.some((o) => !o)) {
-        showToast("Pertanyaan dan keempat opsi jawaban wajib diisi.", "error");
-        return;
-      }
+      if (!question || opts.some((o) => !o)) { showToast("Pertanyaan dan keempat opsi jawaban wajib diisi.", "error"); return; }
 
       manualDraftQuestions.push({ type: "pg", question, options: opts, answer, explanation });
       document.getElementById("manualDraftCount").textContent = `Draft: ${manualDraftQuestions.length} soal`;
@@ -2242,21 +1483,9 @@
     window.saveManualPackage = async function () {
       const title = document.getElementById("manPkgTitle").value.trim();
       const subject = document.getElementById("manPkgSubject").value.trim() || "Umum";
-      if (!title || manualDraftQuestions.length === 0) {
-        showToast("Isi judul paket dan minimal 1 soal di draft.", "error");
-        return;
-      }
+      if (!title || manualDraftQuestions.length === 0) { showToast("Isi judul paket dan minimal 1 soal di draft.", "error"); return; }
 
-      const newPkg = {
-        id: "pkg_" + Date.now(),
-        title,
-        subject,
-        duration: 45,
-        description: `Paket soal buatan admin (${manualDraftQuestions.length} soal).`,
-        questions: [...manualDraftQuestions],
-        createdAt: new Date().toISOString()
-      };
-
+      const newPkg = { id: "pkg_" + Date.now(), title, subject, duration: 45, description: `Paket soal buatan admin (${manualDraftQuestions.length} soal).`, questions: [...manualDraftQuestions], createdAt: new Date().toISOString() };
       await savePackageToStorageAndCloud(newPkg);
       manualDraftQuestions = [];
       document.getElementById("manualDraftCount").textContent = "Draft: 0 soal";
@@ -2269,51 +1498,28 @@
       const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
       localCustom.push(pkg);
       localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
-
-      try {
-        await setDoc(doc(db, "exam_packages", pkg.id), pkg);
-      } catch (err) {
-        console.warn("Disimpan secara lokal:", err.message);
-      }
+      try { await setDoc(doc(db, "exam_packages", pkg.id), pkg); } catch (_) {}
       await loadExamPackages();
     }
 
     function renderAdminManageList() {
-      const container = document.getElementById("adminManageList");
-      container.innerHTML = examPackages
-        .map(
-          (p) => `
-          <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
-            <div>
-              <p class="text-xs font-extrabold">${p.title}</p>
-              <p class="text-[11px] text-slate-500">${p.subject} • ${p.questions.length} Soal</p>
-            </div>
-            ${
-              p.isDefault
-                ? `<span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">Bawaan</span>`
-                : `<button type="button" onclick="deleteCustomPackage('${p.id}')" class="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700">Hapus</button>`
-            }
-          </div>
-        `
-        )
-        .join("");
+      document.getElementById("adminManageList").innerHTML = examPackages.map((p) => `
+        <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
+          <div><p class="text-xs font-extrabold">${p.title}</p><p class="text-[11px] text-slate-500">${p.subject} • ${p.questions.length} Soal</p></div>
+          ${p.isDefault ? `<span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">Bawaan</span>` : `<button type="button" onclick="deleteCustomPackage('${p.id}')" class="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700">Hapus</button>`}
+        </div>`).join("");
     }
 
     window.deleteCustomPackage = async function (pkgId) {
       if (!confirm("Hapus paket soal ini?")) return;
       const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]").filter((p) => p.id !== pkgId);
       localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
-      try {
-        await deleteDoc(doc(db, "exam_packages", pkgId));
-      } catch (_) {}
+      try { await deleteDoc(doc(db, "exam_packages", pkgId)); } catch (_) {}
       await loadExamPackages();
       renderAdminManageList();
       showToast("Paket soal dihapus.", "info");
     };
 
-    // =========================================================
-    // DARK MODE & INIT SESSION
-    // =========================================================
     window.toggleDarkMode = function () {
       const html = document.documentElement;
       html.classList.toggle("dark");
@@ -2329,19 +1535,14 @@
 
     const savedSession = localStorage.getItem("cbt_session_user");
     if (savedSession) {
-      try {
-        const parsed = JSON.parse(savedSession);
-        applyUserSession(parsed);
-      } catch (_) {}
+      try { applyUserSession(JSON.parse(savedSession)); } catch (_) {}
     }
 
     onAuthStateChanged(auth, async (user) => {
       if (user && !currentUserProfile) {
         try {
           const snap = await getDoc(doc(db, "users", user.uid));
-          if (snap.exists()) {
-            await applyUserSession(snap.data());
-          }
+          if (snap.exists()) await applyUserSession(snap.data());
         } catch (_) {}
       }
     });
