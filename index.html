@@ -3,925 +3,804 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HistoriCBT SMAN 14 Surabaya — Platform Latihan SAS & Bank Soal Interaktif</title>
-  
-  <!-- Tailwind CSS CDN -->
+  <title>CBT SAS Sejarah Kelas XI - SMAN 14 Surabaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
           },
           colors: {
-            forest: {
-              950: '#022c22',
-              900: '#04392c',
-              850: '#064e3b',
-              800: '#065f46',
+            emeraldbrand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              500: '#10b981',
+              600: '#059669',
               700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22',
             },
-            gold: {
+            goldbrand: {
+              300: '#fcd34d',
               400: '#fbbf24',
               500: '#f59e0b',
               600: '#d97706',
+              700: '#b45309',
             }
           }
         }
       }
-    }
+    };
   </script>
-
   <style>
-    /* Custom Scrollbar bernuansa Hijau Zamrud & Emas */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .gold-ring {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #047857 100%);
+      padding: 3px;
+    }
+    /* Custom scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: rgba(6, 78, 59, 0.08);
+      background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(4, 120, 87, 0.45);
+      background: #059669;
       border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(217, 119, 6, 0.8);
-    }
-
-    /* Glassmorphism utilities */
-    .glass-card {
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-
-    /* Smooth fade animation */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fadeIn 0.28s ease-out forwards;
     }
   </style>
 </head>
-<body class="bg-[#f8faf9] text-slate-800 dark:bg-forest-950 dark:text-emerald-50 min-h-screen font-sans transition-colors duration-300 selection:bg-amber-500 selection:text-forest-950">
+<body class="bg-[#f4f8f6] text-slate-800 dark:bg-emeraldbrand-950 dark:text-slate-100 min-h-screen transition-colors duration-200">
 
-  <!-- TOAST / NOTIFICATION BANNER (Pengganti alert()) -->
-  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full"></div>
 
-  <!-- MODAL KONFIRMASI CUSTOM (Pengganti confirm()) -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/75 backdrop-blur-sm p-4">
-    <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
-      <div class="flex items-center gap-3 mb-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <h3 id="confirm-title" class="text-lg font-bold text-forest-900 dark:text-white">Konfirmasi Tindakan</h3>
-      </div>
-      <p id="confirm-message" class="text-sm text-slate-600 dark:text-emerald-100/80 mb-6 leading-relaxed"></p>
-      <div class="flex justify-end gap-3">
-        <button id="confirm-cancel-btn" class="px-4 py-2.5 rounded-xl text-sm font-medium bg-emerald-50 dark:bg-forest-800 text-forest-800 dark:text-emerald-100 hover:bg-emerald-100 dark:hover:bg-forest-700 transition">
-          Batal
-        </button>
-        <button id="confirm-ok-btn" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white border border-amber-400/40 shadow-lg shadow-emerald-900/20 transition">
-          Ya, Lanjutkan
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- =========================================================
+       VIEW 1: AUTHENTICATION (MASUK / DAFTAR / LUPA SANDI)
+  ========================================================== -->
+  <section id="authSection" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-emeraldbrand-950 via-emeraldbrand-900 to-emeraldbrand-800 relative overflow-hidden">
+    <!-- Decorative accents -->
+    <div class="absolute -top-24 -left-24 w-72 h-72 bg-goldbrand-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-emeraldbrand-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-  <!-- ===================================================================== -->
-  <!-- VIEW 1: HALAMAN LOGIN, DAFTAR & LUPA SANDI (TEMA HIJAU ZAMRUD & EMAS) -->
-  <!-- ===================================================================== -->
-  <section id="auth-view" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-[#ecfdf5] via-[#f8faf9] to-amber-50/60 dark:from-forest-950 dark:via-forest-900 dark:to-forest-950">
-    <!-- Decorative Background Glows -->
-    <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
-
-    <div class="max-w-md w-full bg-white/95 dark:bg-forest-900/95 glass-card border border-emerald-200/90 dark:border-forest-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-emerald-950/10 relative z-10 animate-fade-in">
-      <!-- Top Bar Theme Toggle & Institution Tag -->
-      <div class="flex justify-between items-center mb-3">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-forest-850 border border-emerald-200 dark:border-forest-700 text-[11px] font-bold text-forest-850 dark:text-amber-400">
-          <i class="fa-solid fa-shield-halved text-amber-500"></i> SMAN 14 SURABAYA
-        </span>
-        <button onclick="toggleTheme()" class="p-2 rounded-xl bg-emerald-50 dark:bg-forest-850 border border-emerald-200 dark:border-forest-700 text-forest-850 dark:text-amber-400 hover:scale-105 transition" title="Ganti Mode Terang / Gelap">
-          <i class="fa-solid fa-circle-half-stroke"></i>
-        </button>
-      </div>
-
-      <!-- Logo Resmi Institusi di Tengah Atas Judul -->
-      <div class="flex flex-col items-center text-center mb-6">
-        <div class="relative mb-3">
-          <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-br from-amber-400 via-amber-500 to-forest-850 shadow-xl shadow-emerald-900/20">
-            <img 
-              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" 
-              alt="Logo Resmi SMAN 14 Surabaya" 
-              onerror="this.onerror=null; this.src='https://placehold.co/160x160/064e3b/fbbf24?text=SMAN+14';"
-              class="w-full h-full rounded-full object-cover bg-white"
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-goldbrand-500/30 overflow-hidden relative z-10">
+      <!-- Header Brand -->
+      <div class="bg-gradient-to-r from-emeraldbrand-900 to-emeraldbrand-800 p-6 text-center text-white border-b-4 border-goldbrand-500">
+        <div class="w-20 h-20 mx-auto rounded-full gold-ring shadow-lg mb-3">
+          <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
+            <img
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+              alt="Logo Institusi"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
             />
+            <div class="hidden w-full h-full items-center justify-center bg-emeraldbrand-900 text-goldbrand-400 font-extrabold text-xl">
+              CBT
+            </div>
           </div>
-          <span class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-forest-850 border-2 border-amber-400 text-amber-400 flex items-center justify-center text-xs shadow-md" title="Terverifikasi">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </span>
         </div>
-        <span class="font-extrabold text-xl tracking-tight text-forest-900 dark:text-white">
-          Histori<span class="text-amber-600 dark:text-amber-400">CBT</span>
-        </span>
-        <p class="text-xs text-slate-500 dark:text-emerald-200/75 mt-0.5">Portal Evaluasi & Bank Soal Open Learning</p>
+        <h1 class="text-xl font-extrabold tracking-tight text-white">Portal Evaluasi & CBT</h1>
+        <p class="text-xs text-goldbrand-300 font-medium mt-0.5">Latihan Sumatif Akhir Semester (SAS)</p>
       </div>
 
-      <!-- Tab Switcher: Masuk / Daftar -->
-      <div id="auth-tabs-header" class="grid grid-cols-2 p-1 rounded-2xl bg-emerald-50/90 dark:bg-forest-950 border border-emerald-200/80 dark:border-forest-800 mb-6">
-        <button type="button" id="tab-btn-login" onclick="switchAuthMode('login')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-forest-850 text-white shadow-md shadow-emerald-900/20 transition">
+      <!-- Auth Tabs -->
+      <div id="authTabs" class="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60">
+        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="py-3.5 text-sm font-bold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500 transition">
           Masuk
         </button>
-        <button type="button" id="tab-btn-register" onclick="switchAuthMode('register')" class="py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-forest-850 dark:text-emerald-200/75 hover:text-forest-950 dark:hover:text-white transition">
-          Daftar Akun
+        <button type="button" id="tabRegisterBtn" onclick="switchAuthTab('register')" class="py-3.5 text-sm font-semibold text-slate-500 hover:text-emeraldbrand-700 dark:text-slate-400 transition">
+          Daftar
         </button>
       </div>
 
-      <!-- ================================================================= -->
-      <!-- MODE 1: FORM MASUK (USERNAME / EMAIL & PASSWORD)                  -->
-      <!-- ================================================================= -->
-      <form id="form-login" onsubmit="handleStandardLogin(event)" class="space-y-4 animate-fade-in">
-        <div class="text-center sm:text-left">
-          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-forest-900 dark:text-white">Masuk ke Akun Anda</h1>
-          <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-0.5">Gunakan username atau alamat email yang telah terdaftar.</p>
-        </div>
+      <div class="p-6">
+        <!-- FORM MASUK (LOGIN) -->
+        <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off" class="space-y-4">
+          <!-- Dummy hidden inputs to prevent browser autofill -->
+          <input type="text" style="display:none" aria-hidden="true" />
+          <input type="password" style="display:none" aria-hidden="true" />
 
-        <div>
-          <label for="login-identifier" class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Username atau Email</label>
-          <div class="relative">
-            <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-            <input 
-              type="text" 
-              id="login-identifier" 
-              required
-              placeholder="Contoh: budi_xi atau budi@gmail.com" 
-              class="w-full pl-10 pr-4 py-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-            />
-          </div>
-        </div>
-
-        <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <label for="login-password" class="block text-xs font-bold text-forest-900 dark:text-emerald-100">Kata Sandi</label>
-            <button type="button" onclick="switchAuthMode('forgot')" class="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline">
-              Lupa sandi?
-            </button>
-          </div>
-          <div class="relative">
-            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-            <input 
-              type="password" 
-              id="login-password" 
-              required
-              placeholder="Masukkan kata sandi..." 
-              class="w-full pl-10 pr-11 py-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-            />
-            <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-600 transition" title="Tampilkan/Sembunyikan Sandi">
-              <i class="fa-regular fa-eye text-sm"></i>
-            </button>
-          </div>
-        </div>
-
-        <button 
-          type="submit" 
-          id="btn-submit-login"
-          class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-forest-850 via-forest-800 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-extrabold text-sm border border-amber-400/40 shadow-xl shadow-emerald-950/20 flex items-center justify-center gap-2 transition transform active:scale-[0.99]"
-        >
-          <i class="fa-solid fa-right-to-bracket text-amber-400"></i>
-          <span>Masuk</span>
-        </button>
-
-        <p class="text-center text-xs text-slate-500 dark:text-emerald-200/70 pt-1">
-          Belum punya akun? 
-          <button type="button" onclick="switchAuthMode('register')" class="font-bold text-amber-600 dark:text-amber-400 hover:underline">Daftar sekarang</button>
-        </p>
-      </form>
-
-      <!-- ================================================================= -->
-      <!-- MODE 2: FORM DAFTAR (REGISTER + USERNAME + KODE REFERRAL ADMIN)   -->
-      <!-- ================================================================= -->
-      <form id="form-register" onsubmit="handleStandardRegister(event)" class="hidden space-y-3.5 animate-fade-in">
-        <div>
-          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-forest-900 dark:text-white">Buat Akun Baru</h1>
-          <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-0.5">Lengkapi data diri Anda untuk mulai mengerjakan latihan.</p>
-        </div>
-
-        <div>
-          <label for="reg-fullname" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Nama Lengkap *</label>
-          <div class="relative">
-            <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-            <input type="text" id="reg-fullname" required placeholder="Nama lengkap siswa / guru" class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label for="reg-username" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Username *</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Username atau Email</label>
             <div class="relative">
-              <i class="fa-solid fa-at absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-              <input type="text" id="reg-username" required minlength="4" placeholder="username_unik" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 lowercase" />
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-emeraldbrand-700 dark:text-goldbrand-400">
+                <i class="fa-solid fa-user"></i>
+              </span>
+              <input
+                type="text"
+                id="loginIdentifier"
+                name="cbt_user_ident_x1"
+                autocomplete="off"
+                required
+                placeholder="Masukkan username atau email"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none"
+              />
             </div>
           </div>
 
           <div>
-            <label for="reg-email" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Email *</label>
-            <div class="relative">
-              <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-              <input type="email" id="reg-email" required placeholder="nama@gmail.com" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Kata Sandi</label>
+              <button type="button" onclick="switchAuthTab('forgot')" class="text-xs font-semibold text-emeraldbrand-700 dark:text-goldbrand-400 hover:underline">
+                Lupa sandi?
+              </button>
             </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label for="reg-password" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Kata Sandi *</label>
             <div class="relative">
-              <input type="password" id="reg-password" required minlength="6" placeholder="Min. 6 karakter" class="w-full pl-3.5 pr-9 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-              <button type="button" onclick="togglePasswordVisibility('reg-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-600">
-                <i class="fa-regular fa-eye text-xs"></i>
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-emeraldbrand-700 dark:text-goldbrand-400">
+                <i class="fa-solid fa-lock"></i>
+              </span>
+              <input
+                type="password"
+                id="loginPassword"
+                name="cbt_user_pass_x1"
+                autocomplete="new-password"
+                required
+                placeholder="Masukkan kata sandi"
+                class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 focus:border-emeraldbrand-700 outline-none"
+              />
+              <button type="button" onclick="togglePassword('loginPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-eye"></i>
               </button>
             </div>
           </div>
 
+          <button type="submit" id="btnLoginSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg shadow-emeraldbrand-900/20 border border-goldbrand-500/40 transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-right-to-bracket text-goldbrand-400"></i>
+            <span>Masuk ke CBT</span>
+          </button>
+        </form>
+
+        <!-- FORM DAFTAR (REGISTER) -->
+        <form id="registerForm" onsubmit="handleRegister(event)" autocomplete="off" class="space-y-3.5 hidden">
           <div>
-            <label for="reg-confirm-password" class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Konfirmasi Sandi *</label>
-            <div class="relative">
-              <input type="password" id="reg-confirm-password" required minlength="6" placeholder="Ulangi sandi" class="w-full pl-3.5 pr-9 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-              <button type="button" onclick="togglePasswordVisibility('reg-confirm-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-600">
-                <i class="fa-regular fa-eye text-xs"></i>
-              </button>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Nama Lengkap</label>
+            <input
+              type="text"
+              id="regName"
+              autocomplete="off"
+              required
+              placeholder="Contoh: Ahmad Fauzan"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Username</label>
+              <input
+                type="text"
+                id="regUsername"
+                autocomplete="off"
+                required
+                placeholder="username_anda"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Email (Gmail)</label>
+              <input
+                type="email"
+                id="regEmail"
+                autocomplete="off"
+                required
+                placeholder="nama@gmail.com"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+              />
             </div>
           </div>
-        </div>
 
-        <!-- Kode Referral Opsional untuk Admin (Tanpa bocoran kode di UI) -->
-        <div class="p-3 rounded-2xl bg-emerald-50/80 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
-          <div class="flex items-center justify-between mb-1">
-            <label for="reg-referral" class="text-[11px] font-bold uppercase tracking-wider text-forest-900 dark:text-emerald-100 flex items-center gap-1">
-              <i class="fa-solid fa-key text-amber-500"></i> Kode Referral Admin (Opsional)
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Kata Sandi</label>
+              <input
+                type="password"
+                id="regPassword"
+                autocomplete="new-password"
+                required
+                minlength="6"
+                placeholder="Min. 6 karakter"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Ulangi Sandi</label>
+              <input
+                type="password"
+                id="regConfirmPassword"
+                autocomplete="new-password"
+                required
+                minlength="6"
+                placeholder="Konfirmasi sandi"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Kode Referral (Tanpa menampilkan kode) -->
+          <div class="p-3 rounded-xl bg-emeraldbrand-50/70 dark:bg-emeraldbrand-900/30 border border-emeraldbrand-200 dark:border-emeraldbrand-800">
+            <label class="block text-xs font-bold text-emeraldbrand-900 dark:text-goldbrand-300 mb-1">
+              <i class="fa-solid fa-key mr-1 text-goldbrand-600"></i> Kode Referral (Opsional)
             </label>
-            <span class="text-[10px] text-slate-500 dark:text-emerald-300/60">Opsional</span>
+            <input
+              type="text"
+              id="regReferral"
+              autocomplete="off"
+              placeholder="Masukkan kode referral jika ada"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
+            />
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+              Kosongkan untuk mendaftar sebagai peserta ujian biasa.
+            </p>
           </div>
-          <input 
-            type="text" 
-            id="reg-referral" 
-            placeholder="Masukkan kode referral jika ada" 
-            class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase font-mono"
-          />
-          <p class="text-[10px] text-slate-600 dark:text-emerald-200/70 mt-1.5 leading-relaxed">
-            Kosongkan jika mendaftar sebagai <strong>Pengguna Biasa (Siswa)</strong>. Isi kode khusus apabila Anda adalah <strong>Administrator / Guru</strong>.
-          </p>
-        </div>
 
-        <button 
-          type="submit" 
-          id="btn-submit-register"
-          class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-forest-850 via-forest-800 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-extrabold text-sm border border-amber-400/40 shadow-xl shadow-emerald-950/20 flex items-center justify-center gap-2 transition"
-        >
-          <i class="fa-solid fa-user-plus text-amber-400"></i>
-          <span>Daftar Sekarang</span>
-        </button>
+          <button type="submit" id="btnRegisterSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 hover:from-emeraldbrand-900 hover:to-emeraldbrand-800 text-white font-bold text-sm shadow-lg border border-goldbrand-500/40 transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-user-plus text-goldbrand-400"></i>
+            <span>Daftar Akun Baru</span>
+          </button>
+        </form>
 
-        <p class="text-center text-xs text-slate-500 dark:text-emerald-200/70">
-          Sudah memiliki akun? 
-          <button type="button" onclick="switchAuthMode('login')" class="font-bold text-amber-600 dark:text-amber-400 hover:underline">Masuk di sini</button>
-        </p>
-      </form>
+        <!-- FORM LUPA SANDI -->
+        <form id="forgotForm" onsubmit="handleForgotPassword(event)" autocomplete="off" class="space-y-4 hidden">
+          <div class="text-center mb-2">
+            <div class="w-12 h-12 rounded-full bg-goldbrand-500/15 text-goldbrand-600 flex items-center justify-center mx-auto mb-2 text-lg">
+              <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <h2 class="text-base font-bold text-slate-800 dark:text-white">Reset Kata Sandi</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Masukkan alamat email akun Anda untuk menerima tautan pemulihan sandi.</p>
+          </div>
 
-      <!-- ================================================================= -->
-      <!-- MODE 3: FORM LUPA SANDI (RESET PASSWORD VIA EMAIL)                -->
-      <!-- ================================================================= -->
-      <form id="form-forgot" onsubmit="handleForgotPassword(event)" class="hidden space-y-4 animate-fade-in">
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl mb-1">
-          <i class="fa-solid fa-key"></i>
-        </div>
-        <div>
-          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-forest-900 dark:text-white">Lupa Kata Sandi?</h1>
-          <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-1 leading-relaxed">
-            Masukkan alamat email yang terdaftar pada akun Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.
-          </p>
-        </div>
-
-        <div>
-          <label for="forgot-email" class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Alamat Email Terdaftar</label>
-          <div class="relative">
-            <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-            <input 
-              type="email" 
-              id="forgot-email" 
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Email Terdaftar</label>
+            <input
+              type="email"
+              id="forgotEmail"
+              autocomplete="off"
               required
-              placeholder="nama@gmail.com" 
-              class="w-full pl-10 pr-4 py-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+              placeholder="nama@gmail.com"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-goldbrand-500 outline-none"
             />
           </div>
-        </div>
 
-        <button 
-          type="submit" 
-          id="btn-submit-forgot"
-          class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-extrabold text-sm border border-amber-400/40 shadow-xl shadow-emerald-950/20 flex items-center justify-center gap-2 transition"
-        >
-          <i class="fa-solid fa-paper-plane text-amber-400"></i>
-          <span>Kirim Tautan Reset Sandi</span>
-        </button>
-
-        <button 
-          type="button" 
-          onclick="switchAuthMode('login')" 
-          class="w-full py-2.5 px-4 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 text-xs font-bold text-forest-900 dark:text-emerald-100 flex items-center justify-center gap-2 transition"
-        >
-          <i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Masuk
-        </button>
-      </form>
-
-      <!-- ================================================================= -->
-      <!-- OPSI SEKUNDER: PEMISAH "ATAU" + GOOGLE & MODE TAMU / LOKAL        -->
-      <!-- ================================================================= -->
-      <div id="secondary-auth-options" class="mt-6">
-        <div class="relative flex py-2 items-center mb-4">
-          <div class="flex-grow border-t border-emerald-200/80 dark:border-forest-800"></div>
-          <span class="flex-shrink mx-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">atau</span>
-          <div class="flex-grow border-t border-emerald-200/80 dark:border-forest-800"></div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <button 
-            type="button"
-            id="google-login-btn" 
-            onclick="handleGoogleLogin()" 
-            class="py-2.5 px-3 rounded-xl bg-white dark:bg-forest-950 hover:bg-emerald-50 dark:hover:bg-forest-850 text-forest-900 dark:text-emerald-100 font-semibold text-xs border border-emerald-200 dark:border-forest-700 flex items-center justify-center gap-2 transition shadow-sm"
-          >
-            <i class="fa-brands fa-google text-amber-500"></i>
-            <span>Masuk dengan Google</span>
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-goldbrand-600 hover:bg-goldbrand-700 text-white font-bold text-sm shadow transition">
+            Kirim Tautan Reset Sandi
           </button>
 
-          <button 
-            type="button"
-            onclick="handleDemoLogin()" 
-            class="py-2.5 px-3 rounded-xl bg-emerald-50/90 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 font-semibold text-xs border border-emerald-200 dark:border-forest-700 flex items-center justify-center gap-2 transition"
-          >
-            <i class="fa-solid fa-user-clock text-emerald-600 dark:text-amber-400"></i>
-            <span>Mode Tamu / Lokal</span>
+          <button type="button" onclick="switchAuthTab('login')" class="w-full py-2 text-xs font-bold text-emeraldbrand-700 dark:text-goldbrand-400 hover:underline">
+            <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke halaman Masuk
           </button>
-        </div>
-      </div>
+        </form>
 
-      <div class="mt-6 pt-4 border-t border-emerald-200/80 dark:border-forest-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-emerald-300/70">
-        <span><i class="fa-solid fa-database text-emerald-600 dark:text-emerald-400 mr-1"></i> Firebase Auth & Firestore</span>
-        <span>35 Butir Soal SAS Terpadu</span>
+        <!-- DIVIDER -->
+        <div id="socialAuthBlock" class="mt-5">
+          <div class="relative flex py-2 items-center">
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+            <span class="flex-shrink mx-3 text-xs font-semibold text-slate-400 uppercase">atau</span>
+            <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2">
+            <button type="button" onclick="handleGoogleSignIn()" class="py-2.5 px-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 transition shadow-sm">
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-4 h-4" />
+              <span>Masuk Gmail</span>
+            </button>
+
+            <button type="button" onclick="enterGuestMode()" class="py-2.5 px-3 rounded-xl border border-emeraldbrand-200 dark:border-emeraldbrand-800 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 hover:bg-emeraldbrand-100 text-xs font-bold text-emeraldbrand-800 dark:text-emeraldbrand-300 flex items-center justify-center gap-2 transition">
+              <i class="fa-solid fa-bolt text-goldbrand-600"></i>
+              <span>Mode Tamu</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- VIEW 2: DASHBOARD UTAMA (SETELAH LOGIN)                               -->
-  <!-- ===================================================================== -->
-  <div id="app-shell" class="hidden min-h-screen flex flex-col">
-    
-    <!-- NAVBAR ATAS (HIJAU ZAMRUD RESMI & AKSEN EMAS) -->
-    <header class="sticky top-0 z-30 bg-forest-850 text-white border-b-2 border-amber-500/80 shadow-lg shadow-emerald-950/15">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-        <!-- Brand & Logo Resmi -->
-        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('dashboard')">
-          <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-br from-amber-300 via-amber-500 to-amber-600 shadow-md shrink-0">
-            <img 
-              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" 
-              alt="Logo SMAN 14 Surabaya" 
-              onerror="this.onerror=null; this.src='https://placehold.co/80x80/064e3b/fbbf24?text=14';"
-              class="w-full h-full rounded-full object-cover bg-white"
-            />
+  <!-- =========================================================
+       VIEW 2: MAIN APPLICATION SHELL
+  ========================================================== -->
+  <div id="appShell" class="hidden min-h-screen flex flex-col">
+    <!-- TOP NAVBAR -->
+    <header class="sticky top-0 z-30 bg-emeraldbrand-900 text-white border-b-2 border-goldbrand-500 shadow-md">
+      <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+        <!-- Brand -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full gold-ring shrink-0">
+            <div class="w-full h-full rounded-full bg-white overflow-hidden flex items-center justify-center">
+              <img
+                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                alt="Logo"
+                class="w-full h-full object-cover"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              />
+              <div class="hidden w-full h-full items-center justify-center bg-emeraldbrand-900 text-goldbrand-400 font-bold text-xs">CBT</div>
+            </div>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-extrabold text-base sm:text-lg tracking-tight text-white">Histori<span class="text-amber-400">CBT</span></span>
-              <span class="hidden md:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-forest-950/70 text-amber-300 border border-amber-400/30">SMAN 14 Surabaya</span>
+              <span class="font-extrabold text-sm sm:text-base tracking-tight">CBT SAS Online</span>
+              <span id="roleBadgeHeader" class="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-500 text-emeraldbrand-950">
+                Siswa
+              </span>
             </div>
-            <p class="hidden sm:block text-[10px] text-emerald-200/80 -mt-0.5">Open Learning & Bank Soal Evaluasi</p>
+            <p class="text-[11px] text-emeraldbrand-200 hidden sm:block">Sistem Latihan Ujian Berbasis Komputer</p>
           </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <nav class="flex items-center gap-1 sm:gap-2">
-          <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 bg-amber-400 text-forest-950 shadow-sm">
-            <i class="fa-solid fa-layer-group"></i>
-            <span class="hidden sm:inline">Paket Ulangan</span>
-          </button>
-          <button onclick="switchTab('history')" id="nav-history" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-emerald-100/85 hover:bg-forest-800 hover:text-white">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span class="hidden sm:inline">Riwayat Nilai</span>
-          </button>
-          <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn hidden px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-emerald-100/85 hover:bg-forest-800 hover:text-white">
-            <i class="fa-solid fa-file-import text-amber-400"></i>
-            <span>Import & Kelola Soal</span>
-          </button>
-        </nav>
-
-        <!-- User Profile & Actions -->
+        <!-- Nav Actions -->
         <div class="flex items-center gap-2 sm:gap-3">
-          <button onclick="toggleTheme()" class="p-2 rounded-xl bg-forest-900/80 border border-forest-700 text-amber-400 hover:bg-forest-800 transition" title="Ganti Mode Terang / Gelap">
-            <i class="fa-solid fa-circle-half-stroke"></i>
+          <button type="button" onclick="showDashboard()" class="px-3 py-1.5 rounded-lg bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-xs font-semibold flex items-center gap-1.5 border border-emeraldbrand-700 transition">
+            <i class="fa-solid fa-house text-goldbrand-400"></i>
+            <span class="hidden sm:inline">Beranda</span>
           </button>
 
-          <!-- User Badge Button -->
-          <button onclick="openProfileModal()" class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-2xl bg-forest-900/90 border border-forest-700 hover:border-amber-400/70 transition text-left">
-            <img id="user-avatar" src="https://placehold.co/64x64/f59e0b/022c22?text=U" alt="Avatar" class="w-7 h-7 rounded-full object-cover border border-amber-400" />
-            <div class="hidden md:block">
-              <p id="user-display-name" class="text-xs font-bold leading-tight truncate max-w-[120px] text-white">Pengguna</p>
-              <span id="user-role-badge" class="inline-block text-[10px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded bg-forest-700 text-emerald-100">USER</span>
+          <button type="button" id="navAdminBtn" onclick="openAdminModal()" class="hidden px-3 py-1.5 rounded-lg bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 text-xs font-extrabold flex items-center gap-1.5 shadow transition">
+            <i class="fa-solid fa-file-import"></i>
+            <span>Kelola / Import Soal</span>
+          </button>
+
+          <button type="button" onclick="toggleDarkMode()" title="Ganti Tema" class="w-9 h-9 rounded-lg bg-emeraldbrand-800 hover:bg-emeraldbrand-700 flex items-center justify-center text-goldbrand-300 border border-emeraldbrand-700 transition">
+            <i id="darkIcon" class="fa-solid fa-moon"></i>
+          </button>
+
+          <button type="button" onclick="openProfileModal()" class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-emeraldbrand-950/60 hover:bg-emeraldbrand-950 border border-goldbrand-500/40 transition">
+            <div id="userAvatarInitial" class="w-7 h-7 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xs flex items-center justify-center">
+              U
             </div>
-          </button>
-
-          <button onclick="handleLogout()" class="p-2 rounded-xl bg-rose-500/20 border border-rose-400/30 text-rose-200 hover:bg-rose-500 hover:text-white transition" title="Keluar">
-            <i class="fa-solid fa-right-from-bracket"></i>
+            <span id="headerUserName" class="text-xs font-bold max-w-[90px] truncate hidden md:inline">Pengguna</span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- KONTEN UTAMA -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
 
-      <!-- ================================================================= -->
-      <!-- TAB 1: DAFTAR PAKET ULANGAN                                       -->
-      <!-- ================================================================= -->
-      <div id="tab-dashboard" class="animate-fade-in">
+      <!-- =====================================
+           SUB-VIEW A: DASHBOARD PAKET UJIAN
+      ====================================== -->
+      <div id="dashboardView" class="space-y-6">
         <!-- Hero Banner -->
-        <div class="rounded-3xl bg-gradient-to-br from-forest-900 via-forest-850 to-forest-700 border border-emerald-700/80 p-6 sm:p-8 text-white mb-8 relative overflow-hidden shadow-xl shadow-emerald-950/15">
-          <div class="absolute right-0 top-0 w-72 h-72 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="absolute -bottom-16 -left-16 w-64 h-64 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none"></div>
-          <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div class="max-w-2xl">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-bold mb-3">
-                <i class="fa-solid fa-award"></i> Kisi-Kisi Terpadu SAS • SMAN 14 Surabaya
-              </div>
-              <h2 class="text-2xl sm:text-3xl font-extrabold mb-2 tracking-tight">Siap Menghadapi Sumatif Akhir Semester?</h2>
-              <p class="text-sm text-emerald-100/90 leading-relaxed">
-                Pilih paket latihan di bawah ini. Paket utama mencakup <strong>35 butir soal terpadu</strong> (Benar/Salah, Pilihan Ganda, Pilihan Ganda Kompleks, Menjodohkan, dan Uraian) lengkap dengan timer, pembahasan otomatis, dan penyimpanan skor ke Cloud.
-              </p>
-            </div>
+        <div class="rounded-3xl bg-gradient-to-r from-emeraldbrand-900 via-emeraldbrand-800 to-emeraldbrand-900 text-white p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 relative overflow-hidden">
+          <div class="relative z-10 max-w-2xl">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-goldbrand-500/20 border border-goldbrand-400/40 text-goldbrand-300 text-xs font-bold mb-3">
+              <i class="fa-solid fa-graduation-cap"></i> Semester Ganjil 2026/2027
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
+              Siap Menghadapi Sumatif Akhir Semester?
+            </h2>
+            <p class="text-sm text-emeraldbrand-100 leading-relaxed mb-5">
+              Pilih paket latihan di bawah ini untuk menguji pemahaman Anda dengan sistem penilaian otomatis, timer ujian, serta kunci jawaban dan pembahasan lengkap.
+            </p>
             <div class="flex flex-wrap gap-3">
-              <button onclick="startExam('default-sas-sejarah-xi')" class="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-forest-950 font-extrabold text-sm shadow-lg shadow-amber-500/25 flex items-center gap-2 transition">
+              <button type="button" onclick="startExam('sas-sejarah-xi')" class="px-5 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-sm shadow-lg transition flex items-center gap-2">
                 <i class="fa-solid fa-play"></i> Mulai SAS Sejarah XI (35 Soal)
               </button>
-              <button id="hero-import-btn" onclick="switchTab('admin')" class="hidden px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-amber-300/30 text-white font-semibold text-sm flex items-center gap-2 transition">
-                <i class="fa-solid fa-file-import text-amber-300"></i> Import Paket Soal Lain
+              <button type="button" id="heroImportBtn" onclick="openAdminModal()" class="hidden px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 transition flex items-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-up text-goldbrand-400"></i> Import Paket Soal Baru
               </button>
             </div>
           </div>
+          <i class="fa-solid fa-landmark text-[150px] text-white/5 absolute -right-4 -bottom-6 pointer-events-none"></i>
         </div>
 
-        <!-- Filter & Header Paket Soal -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
-          <div>
-            <h3 class="text-lg sm:text-xl font-extrabold text-forest-900 dark:text-white flex items-center gap-2">
-              <i class="fa-solid fa-book-open text-forest-700 dark:text-amber-400"></i> Daftar Paket Soal Tersedia
+        <!-- Daftar Paket Soal -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-extrabold text-emeraldbrand-950 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-layer-group text-goldbrand-600"></i> Daftar Paket Latihan Soal
             </h3>
-            <p class="text-xs text-slate-500 dark:text-emerald-200/70">Paket soal bawaan & paket soal hasil import admin dari Firebase</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="relative flex-1 sm:w-64">
-              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-forest-700 dark:text-amber-400 text-xs"></i>
-              <input type="text" id="search-package" oninput="renderPackages()" placeholder="Cari mata pelajaran / judul..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Grid Paket Soal -->
-        <div id="packages-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- Diisi dinamis oleh JS -->
-        </div>
-      </div>
-
-      <!-- ================================================================= -->
-      <!-- TAB 2: RIWAYAT NILAI & STATISTIK                                  -->
-      <!-- ================================================================= -->
-      <div id="tab-history" class="hidden animate-fade-in">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h2 class="text-xl sm:text-2xl font-extrabold text-forest-900 dark:text-white flex items-center gap-2">
-              <i class="fa-solid fa-chart-line text-forest-700 dark:text-amber-400"></i> Riwayat Pengerjaan & Skor
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-500 dark:text-emerald-200/70">Rekapitulasi nilai latihan Anda yang tersimpan di Firebase & penyimpanan lokal.</p>
-          </div>
-          <button onclick="loadHistoryData()" class="px-4 py-2 rounded-xl bg-emerald-100 dark:bg-forest-850 hover:bg-emerald-200 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 text-xs font-bold flex items-center gap-2 self-start border border-emerald-200 dark:border-forest-700">
-            <i class="fa-solid fa-rotate text-amber-600 dark:text-amber-400"></i> Segarkan Data
-          </button>
-        </div>
-
-        <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl overflow-hidden shadow-lg">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="border-b border-emerald-200 dark:border-forest-800 bg-emerald-50/80 dark:bg-forest-950 text-xs uppercase tracking-wider text-forest-850 dark:text-amber-400 font-bold">
-                  <th class="py-3.5 px-5">Waktu</th>
-                  <th class="py-3.5 px-5">Peserta</th>
-                  <th class="py-3.5 px-5">Paket Ulangan</th>
-                  <th class="py-3.5 px-5 text-center">Benar</th>
-                  <th class="py-3.5 px-5 text-center">Skor Akhir</th>
-                </tr>
-              </thead>
-              <tbody id="history-table-body" class="divide-y divide-emerald-100 dark:divide-forest-800 text-sm">
-                <!-- Diisi dinamis -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================================================================= -->
-      <!-- TAB 3: PANEL ADMIN — IMPORT & MANAJEMEN SOAL ULANGAN              -->
-      <!-- ================================================================= -->
-      <div id="tab-admin" class="hidden animate-fade-in">
-        <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400 mb-1">
-              <i class="fa-solid fa-crown"></i> ADMINISTRATOR PANEL
+            <span id="packageCountBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-emeraldbrand-200">
+              1 Paket Tersedia
             </span>
-            <h2 class="text-xl sm:text-2xl font-extrabold text-forest-900 dark:text-white">Import & Manajemen Bank Soal</h2>
-            <p class="text-xs sm:text-sm text-slate-500 dark:text-emerald-200/70">Tambahkan paket ulangan mata pelajaran lain via JSON, CSV, atau input manual ke Cloud Firestore.</p>
           </div>
 
-          <!-- Pengaturan Kode Referral Admin -->
-          <div class="p-3.5 rounded-2xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 flex flex-wrap items-center gap-2 shadow-sm">
-            <span class="text-xs font-semibold text-forest-900 dark:text-emerald-100"><i class="fa-solid fa-key text-amber-500 mr-1"></i>Kode Referral Aktif:</span>
-            <input type="password" id="admin-referral-setting" placeholder="Kode referral..." class="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-xs font-mono font-bold uppercase w-36" />
-            <button onclick="saveReferralCode()" class="px-3 py-1.5 rounded-lg bg-forest-850 hover:bg-forest-700 text-white text-xs font-bold border border-amber-400/40 transition">Simpan</button>
-          </div>
-        </div>
-
-        <!-- Sub-tabs metode import -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
-          <!-- KOLOM KIRI: IMPORT FILE JSON / CSV -->
-          <div class="lg:col-span-5 space-y-6">
-            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 shadow-lg">
-              <h3 class="text-base font-bold text-forest-900 dark:text-white mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-file-arrow-up text-amber-500"></i> Import File Soal (.JSON / .CSV)
-              </h3>
-              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-4">Unggah file paket ulangan baru untuk langsung dipublikasikan ke semua siswa.</p>
-
-              <!-- Download Template -->
-              <div class="grid grid-cols-2 gap-2.5 mb-5">
-                <button onclick="downloadTemplateJSON()" class="py-2.5 px-3 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 border border-emerald-200 dark:border-forest-700 text-forest-900 dark:text-emerald-100 text-xs font-semibold flex items-center justify-center gap-2 transition">
-                  <i class="fa-solid fa-file-code text-amber-500"></i> Template JSON
-                </button>
-                <button onclick="downloadTemplateCSV()" class="py-2.5 px-3 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 border border-emerald-200 dark:border-forest-700 text-forest-900 dark:text-emerald-100 text-xs font-semibold flex items-center justify-center gap-2 transition">
-                  <i class="fa-solid fa-file-csv text-emerald-600 dark:text-emerald-400"></i> Template CSV
-                </button>
-              </div>
-
-              <!-- Dropzone Upload -->
-              <label for="file-import-input" class="block border-2 border-dashed border-emerald-300 dark:border-forest-700 hover:border-amber-500 rounded-2xl p-6 text-center cursor-pointer transition bg-emerald-50/40 dark:bg-forest-950/60 mb-4">
-                <i class="fa-solid fa-cloud-arrow-up text-3xl text-forest-700 dark:text-amber-400 mb-2"></i>
-                <p class="text-sm font-bold text-forest-900 dark:text-white">Klik untuk pilih file JSON atau CSV</p>
-                <p class="text-xs text-slate-500 dark:text-emerald-200/70 mt-1">Mendukung soal Benar/Salah, PG, PG Kompleks, Menjodohkan & Uraian</p>
-                <input type="file" id="file-import-input" accept=".json,.csv" class="hidden" onchange="handleFileUpload(event)" />
-              </label>
-
-              <!-- Atau Paste JSON langsung -->
-              <div>
-                <label class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Atau Tempel (Paste) Kode JSON Paket Soal:</label>
-                <textarea id="json-paste-area" rows="6" placeholder='{"title": "Ulangan Sejarah Bab 2", "subject": "Sejarah", "duration": 45, "questions": [...]}' class="w-full p-3 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 mb-3"></textarea>
-                <button onclick="importFromPastedJSON()" class="w-full py-3 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-bold text-xs sm:text-sm border border-amber-400/40 shadow-lg transition">
-                  <i class="fa-solid fa-upload text-amber-400 mr-1.5"></i> Proses & Simpan Paket JSON
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- KOLOM KANAN: FORM BUAT PAKET SOAL MANUAL -->
-          <div class="lg:col-span-7">
-            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 shadow-lg">
-              <h3 class="text-base font-bold text-forest-900 dark:text-white mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-pen-to-square text-amber-500"></i> Buat Paket Ulangan Baru (Manual)
-              </h3>
-              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-5">Susun paket soal baru butir demi butir secara interaktif.</p>
-
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                <div class="sm:col-span-2">
-                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Judul Paket Ulangan *</label>
-                  <input type="text" id="manual-title" placeholder="Contoh: Latihan PH Sejarah Pergerakan Nasional" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
-                </div>
-                <div>
-                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Durasi (Menit) *</label>
-                  <input type="number" id="manual-duration" value="45" min="5" max="180" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-                <div>
-                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Mata Pelajaran</label>
-                  <input type="text" id="manual-subject" placeholder="Sejarah / Ekonomi / Umum" value="Sejarah" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
-                </div>
-                <div>
-                  <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Deskripsi Singkat</label>
-                  <input type="text" id="manual-desc" placeholder="Keterangan singkat materi ujian..." class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm" />
-                </div>
-              </div>
-
-              <!-- Builder Tambah 1 Soal -->
-              <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800 mb-4">
-                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-                  <span class="text-xs font-extrabold uppercase tracking-wider text-forest-850 dark:text-amber-400">+ Tambah Butir Soal ke Draft</span>
-                  <select id="builder-type" onchange="renderBuilderFields()" class="px-3 py-1.5 rounded-lg bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs font-semibold">
-                    <option value="pg">Pilihan Ganda (1 Jawaban)</option>
-                    <option value="bs">Benar / Salah</option>
-                    <option value="pgk">Pilihan Ganda Kompleks (Multi-Select)</option>
-                    <option value="matching">Menjodohkan</option>
-                    <option value="essay">Uraian / Esai</option>
-                  </select>
-                </div>
-
-                <div class="mb-3">
-                  <label class="block text-xs font-semibold mb-1">Pertanyaan / Pernyataan Soal *</label>
-                  <textarea id="builder-question" rows="2" placeholder="Tuliskan teks soal di sini..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-sm"></textarea>
-                </div>
-
-                <!-- Dynamic Fields sesuai Tipe Soal -->
-                <div id="builder-dynamic-fields" class="space-y-2.5 mb-3"></div>
-
-                <div class="mb-3">
-                  <label class="block text-xs font-semibold mb-1">Pembahasan Singkat (Opsional)</label>
-                  <input type="text" id="builder-explanation" placeholder="Penjelasan jawaban benar..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 text-xs" />
-                </div>
-
-                <button onclick="addQuestionToDraft()" class="px-4 py-2 rounded-xl bg-forest-800 hover:bg-forest-700 text-white text-xs font-bold transition">
-                  <i class="fa-solid fa-plus text-amber-400 mr-1"></i> Masukkan ke Daftar Soal Draft (<span id="draft-count">0</span>)
-                </button>
-              </div>
-
-              <!-- Preview Draft Soal -->
-              <div id="draft-list-preview" class="space-y-2 max-h-48 overflow-y-auto mb-4"></div>
-
-              <button onclick="publishManualPackage()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-forest-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 transition">
-                <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Simpan & Publikasikan Paket Ulangan
-              </button>
-            </div>
+          <div id="examPackagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Diisi otomatis via JavaScript -->
           </div>
         </div>
       </div>
 
-      <!-- ================================================================= -->
-      <!-- TAB 4: ARENA UJIAN CBT INTERAKTIF                                 -->
-      <!-- ================================================================= -->
-      <div id="tab-exam" class="hidden animate-fade-in">
-        <!-- Header Ujian -->
-        <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-2xl p-4 mb-5 flex flex-wrap items-center justify-between gap-4 shadow-md">
+      <!-- =====================================
+           SUB-VIEW B: HALAMAN PENGERJAAN UJIAN
+      ====================================== -->
+      <div id="examView" class="hidden">
+        <!-- Exam Top Info Bar -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span id="exam-category-badge" class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider bg-forest-850 text-amber-300 mb-1">BAGIAN A • BENAR/SALAH</span>
-            <h2 id="exam-title-display" class="text-base sm:text-lg font-extrabold text-forest-900 dark:text-white">Judul Ujian</h2>
+            <span id="examSubjectBadge" class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emeraldbrand-100 text-emeraldbrand-800 dark:bg-emeraldbrand-900 dark:text-goldbrand-300">
+              Sejarah Kelas XI
+            </span>
+            <h2 id="examTitleDisplay" class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
+              Sumatif Akhir Semester (SAS) Sejarah
+            </h2>
           </div>
 
           <div class="flex items-center gap-3">
             <!-- Timer -->
-            <div class="px-4 py-2 rounded-xl bg-emerald-50 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 flex items-center gap-2">
-              <i class="fa-regular fa-clock text-amber-600 dark:text-amber-400"></i>
-              <span id="exam-timer" class="font-mono font-extrabold text-base sm:text-lg text-forest-900 dark:text-white">60:00</span>
+            <div class="px-4 py-2 rounded-xl bg-emeraldbrand-950 text-goldbrand-400 font-mono font-extrabold text-base flex items-center gap-2 border border-goldbrand-500/40">
+              <i class="fa-regular fa-clock"></i>
+              <span id="timerDisplay">60:00</span>
             </div>
 
-            <button onclick="confirmFinishExam()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white font-bold text-xs sm:text-sm border border-amber-400/50 shadow-lg transition">
-              <i class="fa-solid fa-check-double text-amber-400 mr-1"></i> Selesai & Nilai
+            <button type="button" onclick="confirmSubmitExam()" class="px-4 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs sm:text-sm shadow transition flex items-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i> Selesai & Kumpulkan
             </button>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <!-- Area Soal Utama -->
-          <div class="lg:col-span-8">
-            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 sm:p-8 shadow-xl min-h-[420px] flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-2 pb-4 mb-5 border-b border-emerald-100 dark:border-forest-800">
-                  <span class="text-sm font-extrabold text-forest-850 dark:text-amber-400">Soal Nomor <span id="current-q-num">1</span> dari <span id="total-q-num">35</span></span>
-                  <button onclick="toggleFlagQuestion()" id="flag-btn" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-forest-850 text-forest-900 dark:text-emerald-100 hover:border-amber-500 border border-emerald-200 dark:border-forest-700 transition">
-                    <i class="fa-regular fa-flag mr-1"></i> Tandai Ragu-ragu
-                  </button>
+          <!-- Kolom Soal (8 Kolom) -->
+          <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between min-h-[430px]">
+            <div>
+              <!-- Header Nomor & Tipe Soal -->
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-2.5">
+                  <span id="currentQNumBadge" class="px-3.5 py-1.5 rounded-xl bg-emeraldbrand-800 text-white font-extrabold text-sm">
+                    Soal No. 1
+                  </span>
+                  <span id="currentQTypeBadge" class="px-3 py-1 rounded-lg bg-goldbrand-500/15 text-goldbrand-700 dark:text-goldbrand-300 font-bold text-xs border border-goldbrand-500/30">
+                    Benar / Salah
+                  </span>
                 </div>
 
-                <!-- Teks Pertanyaan -->
-                <div id="question-text" class="text-base sm:text-lg font-semibold leading-relaxed mb-6 text-slate-900 dark:text-white"></div>
-
-                <!-- Area Opsi Jawaban Dinamis -->
-                <div id="answer-options-area" class="space-y-3"></div>
+                <label class="inline-flex items-center gap-2 cursor-pointer select-none px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs font-bold text-amber-800 dark:text-amber-300">
+                  <input type="checkbox" id="flagCheckbox" onchange="toggleFlagCurrent()" class="rounded text-amber-600 focus:ring-amber-500" />
+                  <span>Ragu-ragu</span>
+                </label>
               </div>
 
-              <!-- Navigasi Prev / Next -->
-              <div class="flex items-center justify-between pt-6 mt-8 border-t border-emerald-100 dark:border-forest-800">
-                <button id="prev-q-btn" onclick="navigateQuestion(-1)" class="px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-forest-850 hover:bg-emerald-100 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 text-xs sm:text-sm font-bold flex items-center gap-2 border border-emerald-200 dark:border-forest-700 transition disabled:opacity-40">
-                  <i class="fa-solid fa-arrow-left"></i> Sebelumnya
-                </button>
-                <button id="next-q-btn" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-forest-950 text-xs sm:text-sm font-extrabold flex items-center gap-2 shadow-md transition">
-                  Selanjutnya <i class="fa-solid fa-arrow-right"></i>
-                </button>
+              <!-- Teks Pertanyaan -->
+              <div id="questionPromptArea" class="text-base sm:text-[17px] leading-relaxed font-medium text-slate-800 dark:text-slate-100 mb-6">
+                <!-- Diisi JS -->
               </div>
+
+              <!-- Area Pilihan Jawaban (Dinamis sesuai tipe soal) -->
+              <div id="questionOptionsArea" class="space-y-3">
+                <!-- Diisi JS -->
+              </div>
+            </div>
+
+            <!-- Navigasi Bawah -->
+            <div class="pt-6 mt-8 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+              <button type="button" id="btnPrevQ" onclick="navigateQuestion(-1)" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs sm:text-sm font-bold flex items-center gap-2 transition disabled:opacity-40">
+                <i class="fa-solid fa-chevron-left"></i> Sebelumnya
+              </button>
+
+              <span id="answeredCounterText" class="text-xs font-bold text-slate-500 dark:text-slate-400">
+                Terjawab: 0 / 35
+              </span>
+
+              <button type="button" id="btnNextQ" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition">
+                <span>Selanjutnya</span> <i class="fa-solid fa-chevron-right"></i>
+              </button>
             </div>
           </div>
 
-          <!-- Navigasi Nomor Soal (Sidebar) -->
-          <div class="lg:col-span-4">
-            <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-5 shadow-xl sticky top-20">
-              <h3 class="text-sm font-bold text-forest-900 dark:text-white mb-3 flex items-center justify-between">
-                <span>Navigasi Nomor Soal</span>
-                <span id="answered-counter" class="text-xs text-forest-700 dark:text-amber-400 font-mono font-bold">0/35 Terjawab</span>
-              </h3>
+          <!-- Kolom Navigasi Nomor Soal (4 Kolom) -->
+          <div class="lg:col-span-4 bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 h-fit">
+            <h3 class="text-sm font-extrabold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-grip text-goldbrand-600"></i> Navigasi Nomor Soal
+            </h3>
 
-              <!-- Legenda -->
-              <div class="flex flex-wrap gap-3 text-[11px] text-slate-500 dark:text-emerald-200/75 mb-4 pb-3 border-b border-emerald-100 dark:border-forest-800">
-                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-forest-700 inline-block"></span> Dijawab</span>
-                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> Ragu</span>
-                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-50 dark:bg-forest-850 border border-emerald-200 dark:border-forest-700 inline-block"></span> Belum</span>
+            <div id="questionGridNav" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 mb-5">
+              <!-- Diisi tombol nomor 1..N -->
+            </div>
+
+            <!-- Legenda Warna -->
+            <div class="space-y-1.5 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded bg-emeraldbrand-700 inline-block"></span>
+                <span>Sudah dijawab</span>
               </div>
-
-              <div id="question-nav-grid" class="grid grid-cols-5 sm:grid-cols-7 lg:grid-cols-5 gap-2 max-h-80 overflow-y-auto pr-1">
-                <!-- Tombol nomor di-render JS -->
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded bg-amber-400 inline-block"></span>
+                <span>Ditandai ragu-ragu</span>
               </div>
-
-              <button onclick="exitExamConfirm()" class="w-full mt-5 py-2.5 rounded-xl border border-rose-500/30 text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs font-semibold transition">
-                Batalkan & Kembali ke Beranda
-              </button>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded border-2 border-goldbrand-500 bg-white dark:bg-slate-800 inline-block"></span>
+                <span>Soal aktif saat ini</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 inline-block"></span>
+                <span>Belum dijawab</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ================================================================= -->
-      <!-- TAB 5: HASIL UJIAN & PEMBAHASAN LENGKAP                           -->
-      <!-- ================================================================= -->
-      <div id="tab-result" class="hidden animate-fade-in">
-        <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-800 rounded-3xl p-6 sm:p-8 shadow-xl mb-8 text-center relative overflow-hidden">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-forest-850 text-amber-400 border-2 border-amber-400 text-3xl mb-4 shadow-lg">
-            <i class="fa-solid fa-trophy"></i>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 dark:text-white mb-1">Latihan Selesai!</h2>
-          <p id="result-exam-title" class="text-sm text-slate-500 dark:text-emerald-200/75 mb-6">SAS Sejarah Kelas XI</p>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mb-6">
-            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
-              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Skor Akhir</p>
-              <p id="result-score" class="text-3xl font-extrabold text-amber-600 dark:text-amber-400">0</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
-              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Jawaban Benar</p>
-              <p id="result-correct" class="text-2xl font-extrabold text-forest-700 dark:text-emerald-400">0</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
-              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Kurang Tepat</p>
-              <p id="result-wrong" class="text-2xl font-extrabold text-rose-500">0</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-emerald-50/70 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800">
-              <p class="text-xs text-slate-500 dark:text-emerald-200/70 mb-1">Predikat</p>
-              <p id="result-grade" class="text-xl font-extrabold text-forest-900 dark:text-amber-300">-</p>
+      <!-- =====================================
+           SUB-VIEW C: HASIL & PEMBAHASAN UJIAN
+      ====================================== -->
+      <div id="resultView" class="hidden space-y-6">
+        <div class="bg-gradient-to-br from-emeraldbrand-900 to-emeraldbrand-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-goldbrand-500/40 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <span class="px-3 py-1 rounded-full bg-goldbrand-500 text-emeraldbrand-950 text-xs font-extrabold uppercase">
+              Hasil Evaluasi Ujian
+            </span>
+            <h2 id="resultExamTitle" class="text-2xl font-extrabold mt-2">SAS Sejarah Kelas XI</h2>
+            <p id="resultSummaryText" class="text-sm text-emeraldbrand-100 mt-1">
+              Anda telah menyelesaikan latihan soal. Periksa pembahasan setiap butir di bawah ini.
+            </p>
+            <div class="flex flex-wrap gap-3 mt-5">
+              <button type="button" onclick="retryCurrentExam()" class="px-4 py-2.5 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-xs sm:text-sm transition">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Ujian
+              </button>
+              <button type="button" onclick="showDashboard()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition">
+                <i class="fa-solid fa-house mr-1"></i> Kembali ke Beranda
+              </button>
             </div>
           </div>
 
-          <div class="flex flex-wrap justify-center gap-3">
-            <button onclick="switchTab('dashboard')" class="px-5 py-3 rounded-xl bg-emerald-100 dark:bg-forest-850 hover:bg-emerald-200 dark:hover:bg-forest-800 text-forest-900 dark:text-emerald-100 text-sm font-bold border border-emerald-200 dark:border-forest-700 transition">
-              <i class="fa-solid fa-house mr-1.5"></i> Kembali ke Beranda
-            </button>
-            <button onclick="retakeCurrentExam()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 hover:from-forest-800 hover:to-emerald-600 text-white text-sm font-bold border border-amber-400/50 shadow-lg transition">
-              <i class="fa-solid fa-rotate-right text-amber-400 mr-1.5"></i> Ulangi Paket Ini
-            </button>
+          <!-- Score Card -->
+          <div class="bg-emeraldbrand-950/80 border-2 border-goldbrand-400 rounded-2xl p-5 text-center min-w-[180px]">
+            <p class="text-xs uppercase tracking-wider text-goldbrand-300 font-bold">Skor Akhir</p>
+            <div id="finalScoreDisplay" class="text-5xl font-extrabold text-white my-1">0</div>
+            <p id="scoreDetailCounts" class="text-xs text-emeraldbrand-200">Benar: 0 | Salah: 0</p>
           </div>
         </div>
 
-        <!-- Review Pembahasan Tiap Soal -->
-        <h3 class="text-lg font-extrabold text-forest-900 dark:text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-amber-500"></i> Pembahasan & Kunci Jawaban
-        </h3>
-        <div id="result-review-list" class="space-y-4"></div>
+        <!-- Review Pembahasan -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-check text-emeraldbrand-700"></i> Kunci Jawaban & Pembahasan Lengkap
+          </h3>
+          <div id="reviewListContainer" class="space-y-4">
+            <!-- Diisi JS -->
+          </div>
+        </div>
       </div>
 
     </main>
   </div>
 
-  <!-- MODAL PROFIL & UPGRADE REFERRAL USER -->
-  <div id="profile-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/75 backdrop-blur-sm p-4">
-    <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 rounded-3xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-forest-900 dark:text-white">Profil Pengguna & Hak Akses</h3>
-        <button onclick="closeProfileModal()" class="p-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-forest-800">
+  <!-- =========================================================
+       MODAL 1: ADMIN IMPORT & BUAT PAKET SOAL
+  ========================================================== -->
+  <div id="adminModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
+        <div class="flex items-center gap-2.5">
+          <i class="fa-solid fa-toolbox text-goldbrand-400 text-lg"></i>
+          <h3 class="font-extrabold text-base">Panel Admin: Import & Tambah Paket Soal</h3>
+        </div>
+        <button type="button" onclick="closeModal('adminModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-forest-950 border border-emerald-200 dark:border-forest-800 mb-4">
-        <img id="modal-avatar" src="https://placehold.co/64x64/f59e0b/022c22?text=U" alt="Avatar" class="w-12 h-12 rounded-full border-2 border-amber-400" />
-        <div>
-          <p id="modal-name" class="font-bold text-sm text-forest-900 dark:text-white">Nama Pengguna</p>
-          <p id="modal-email" class="text-xs text-slate-500 dark:text-emerald-200/70">email@gmail.com</p>
-          <span id="modal-role-pill" class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-forest-850 text-amber-300">ROLE</span>
-        </div>
+      <!-- Modal Tabs -->
+      <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4">
+        <button type="button" onclick="switchAdminTab('import')" id="admTabImport" class="px-4 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500">
+          Import File (JSON / CSV)
+        </button>
+        <button type="button" onclick="switchAdminTab('manual')" id="admTabManual" class="px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700">
+          Buat Manual Cepat
+        </button>
+        <button type="button" onclick="switchAdminTab('manage')" id="admTabManage" class="px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700">
+          Kelola Paket
+        </button>
       </div>
 
-      <div id="upgrade-role-section" class="p-4 rounded-2xl border border-emerald-200 dark:border-forest-700 mb-5">
-        <label class="block text-xs font-bold mb-1.5 text-forest-900 dark:text-emerald-100">Aktivasi Kode Referral Admin</label>
-        <div class="flex gap-2">
-          <input type="text" id="modal-referral-input" placeholder="Masukkan kode referral jika ada" class="flex-1 px-3 py-2 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-xs uppercase font-mono" />
-          <button onclick="upgradeRoleWithReferral()" class="px-4 py-2 rounded-xl bg-forest-850 hover:bg-forest-700 text-white text-xs font-bold border border-amber-400/40">Aktivasi</button>
-        </div>
-        <p class="text-[11px] text-slate-500 dark:text-emerald-200/70 mt-1.5">Masukkan kode khusus Admin jika Anda memiliki akses pengelola soal.</p>
-      </div>
+      <div class="p-6 overflow-y-auto space-y-5 flex-1">
+        <!-- TAB 1: IMPORT JSON / CSV -->
+        <div id="admPaneImport" class="space-y-4">
+          <div class="p-4 rounded-2xl bg-emeraldbrand-50 dark:bg-emeraldbrand-950/60 border border-emeraldbrand-200 dark:border-emeraldbrand-800 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h4 class="text-xs font-extrabold text-emeraldbrand-900 dark:text-goldbrand-300">Unduh Contoh Format Import</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400">Gunakan template JSON atau CSV agar struktur soal terbaca otomatis.</p>
+            </div>
+            <div class="flex gap-2">
+              <button type="button" onclick="downloadTemplate('json')" class="px-3 py-1.5 rounded-lg bg-emeraldbrand-800 text-white text-xs font-bold hover:bg-emeraldbrand-700">
+                <i class="fa-solid fa-download mr-1"></i> Template JSON
+              </button>
+              <button type="button" onclick="downloadTemplate('csv')" class="px-3 py-1.5 rounded-lg bg-goldbrand-600 text-white text-xs font-bold hover:bg-goldbrand-500">
+                <i class="fa-solid fa-file-csv mr-1"></i> Template CSV
+              </button>
+            </div>
+          </div>
 
-      <div class="flex justify-end">
-        <button onclick="closeProfileModal()" class="px-5 py-2.5 rounded-xl bg-emerald-100 dark:bg-forest-800 text-forest-900 dark:text-emerald-100 text-xs font-bold">Tutup</button>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold mb-1">Judul Paket Soal</label>
+              <input type="text" id="importTitle" placeholder="Misal: SAS Geografi Kelas XI" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Mata Pelajaran & Durasi (Menit)</label>
+              <div class="flex gap-2">
+                <input type="text" id="importSubject" placeholder="Geografi" class="w-2/3 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
+                <input type="number" id="importDuration" value="60" min="5" class="w-1/3 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold mb-1.5">Pilih File (.json atau .csv)</label>
+            <input type="file" id="importFileInput" accept=".json,.csv" onchange="handleFileUpload(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emeraldbrand-800 file:text-white hover:file:bg-emeraldbrand-700 cursor-pointer" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold mb-1">Atau Tempel (Paste) Kode JSON Soal di Sini</label>
+            <textarea id="importJsonTextarea" rows="5" placeholder='[{"type":"pg","question":"Ibu kota Indonesia adalah...","options":["Jakarta","Bandung","Surabaya","Medan"],"answer":0,"explanation":"Jakarta adalah ibu kota negara."}]' class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono text-xs"></textarea>
+          </div>
+
+          <button type="button" onclick="processImportPackage()" class="w-full py-3 rounded-xl bg-gradient-to-r from-emeraldbrand-800 to-emeraldbrand-700 text-white font-extrabold text-sm shadow hover:opacity-95 transition">
+            <i class="fa-solid fa-cloud-arrow-up mr-1.5 text-goldbrand-400"></i> Simpan & Publikasikan Paket Soal
+          </button>
+        </div>
+
+        <!-- TAB 2: BUAT MANUAL CEPAT -->
+        <div id="admPaneManual" class="hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold mb-1">Judul Paket Baru</label>
+              <input type="text" id="manPkgTitle" placeholder="Latihan Harian Bab 1" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Mata Pelajaran</label>
+              <input type="text" id="manPkgSubject" placeholder="Sejarah / Umum" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400">Tambah Butir Soal Pilihan Ganda</span>
+              <span id="manualDraftCount" class="text-xs font-bold text-slate-500">Draft: 0 soal</span>
+            </div>
+            <textarea id="manQuestion" rows="2" placeholder="Tulis pertanyaan di sini..." class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"></textarea>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input type="text" id="manOpt0" placeholder="Opsi A" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+              <input type="text" id="manOpt1" placeholder="Opsi B" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+              <input type="text" id="manOpt2" placeholder="Opsi C" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+              <input type="text" id="manOpt3" placeholder="Opsi D" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <select id="manCorrect" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold">
+                <option value="0">Kunci Jawaban: Opsi A</option>
+                <option value="1">Kunci Jawaban: Opsi B</option>
+                <option value="2">Kunci Jawaban: Opsi C</option>
+                <option value="3">Kunci Jawaban: Opsi D</option>
+              </select>
+              <input type="text" id="manExplanation" placeholder="Pembahasan singkat (opsional)" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+            </div>
+            <button type="button" onclick="addManualQuestionToDraft()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 text-white text-xs font-bold hover:bg-emeraldbrand-700">
+              + Tambahkan ke Draft
+            </button>
+          </div>
+
+          <button type="button" onclick="saveManualPackage()" class="w-full py-3 rounded-xl bg-goldbrand-500 hover:bg-goldbrand-400 text-emeraldbrand-950 font-extrabold text-sm shadow">
+            Simpan Paket Soal Manual
+          </button>
+        </div>
+
+        <!-- TAB 3: KELOLA PAKET -->
+        <div id="admPaneManage" class="hidden space-y-3">
+          <p class="text-xs text-slate-500">Daftar paket soal yang tersimpan di sistem:</p>
+          <div id="adminManageList" class="space-y-2"></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL FALLBACK LOGIN GMAIL (SAAT DOMAIN PRATINJAU / POP-UP DIBLOKIR) -->
-  <div id="google-fallback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-forest-950/75 backdrop-blur-sm p-4">
-    <div class="bg-white dark:bg-forest-900 border border-emerald-200 dark:border-forest-700 rounded-3xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
-      <div class="flex items-center justify-between mb-3">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-base">
-            <i class="fa-brands fa-google"></i>
-          </div>
-          <div>
-            <h3 class="text-base font-extrabold text-forest-900 dark:text-white">Lanjutkan dengan Akun Gmail</h3>
-            <p class="text-[11px] text-slate-500 dark:text-emerald-200/70">Autentikasi Cepat Sesi Pratinjau</p>
-          </div>
-        </div>
-        <button onclick="closeGoogleFallbackModal()" class="p-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-forest-800">
+  <!-- =========================================================
+       MODAL 2: PROFIL PENGGUNA & UPGRADE REFERRAL
+  ========================================================== -->
+  <div id="profileModal" class="hidden pointer-events-none fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
+      <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
+        <h3 class="font-extrabold text-base">Profil Akun</h3>
+        <button type="button" onclick="closeModal('profileModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
+      <div class="p-6 space-y-4">
+        <div class="flex items-center gap-3.5">
+          <div id="modalAvatar" class="w-14 h-14 rounded-full bg-goldbrand-500 text-emeraldbrand-950 font-extrabold text-xl flex items-center justify-center">
+            U
+          </div>
+          <div>
+            <h4 id="modalUserName" class="font-extrabold text-base text-slate-900 dark:text-white">Nama Pengguna</h4>
+            <p id="modalUserEmail" class="text-xs text-slate-500">email@contoh.com</p>
+            <span id="modalUserRole" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emeraldbrand-100 text-emeraldbrand-800">
+              Peserta Biasa
+            </span>
+          </div>
+        </div>
 
-      <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-400/30 text-[11px] text-amber-800 dark:text-amber-200 mb-4 leading-relaxed">
-        <i class="fa-solid fa-circle-info mr-1"></i>
-        Pop-up OAuth Google dibatasi pada domain pratinjau/iframe ini (<code class="font-mono font-bold">${window.location.hostname || 'sandbox'}</code>). Silakan masukkan identitas Gmail Anda di bawah untuk melanjutkan masuk, atau tambahkan domain ini ke <strong>Firebase Console &rarr; Authentication &rarr; Settings &rarr; Authorized domains</strong> saat di-hosting.
+        <!-- Aktivasi Kode Referral dari Profil -->
+        <div id="upgradeReferralBox" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Aktivasi Kode Referral Admin</label>
+          <div class="flex gap-2">
+            <input type="text" id="profileReferralInput" autocomplete="off" placeholder="Masukkan kode referral" class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs" />
+            <button type="button" onclick="applyReferralFromProfile()" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold">
+              Aktivasi
+            </button>
+          </div>
+        </div>
+
+        <button type="button" onclick="handleLogout()" class="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition">
+          <i class="fa-solid fa-right-from-bracket"></i> Keluar dari Akun
+        </button>
       </div>
+    </div>
+  </div>
 
-      <form onsubmit="submitGoogleFallbackLogin(event)" class="space-y-3">
+  <!-- =========================================================
+       MODAL 3: GMAIL FALLBACK DIALOG (JIKA POPUP / DOMAIN DIBLOKIR)
+  ========================================================== -->
+  <div id="gmailFallbackModal" class="hidden pointer-events-none fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-goldbrand-500/40 overflow-hidden">
+      <div class="bg-emeraldbrand-900 text-white px-6 py-4 flex items-center justify-between border-b-2 border-goldbrand-500">
+        <div class="flex items-center gap-2">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-5 h-5 bg-white rounded-full p-0.5" />
+          <h3 class="font-extrabold text-sm">Lanjutkan dengan Akun Gmail</h3>
+        </div>
+        <button type="button" onclick="closeModal('gmailFallbackModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form onsubmit="submitGmailFallback(event)" autocomplete="off" class="p-6 space-y-3.5">
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          Pop-up Google OAuth diblokir oleh lingkungan pratinjau/browser Anda. Silakan masukkan detail Gmail Anda di bawah ini untuk tetap masuk dan menyinkronkan data:
+        </p>
         <div>
-          <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Nama Lengkap *</label>
-          <input type="text" id="g-fallback-name" required placeholder="Nama lengkap Anda" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+          <label class="block text-xs font-bold mb-1">Nama Lengkap</label>
+          <input type="text" id="fbGmailName" required placeholder="Nama Anda" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Alamat Email Gmail *</label>
-          <input type="email" id="g-fallback-email" required placeholder="nama@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+          <label class="block text-xs font-bold mb-1">Alamat Gmail</label>
+          <input type="email" id="fbGmailEmail" required placeholder="nama@gmail.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1 text-forest-900 dark:text-emerald-100">Kode Referral Admin (Opsional)</label>
-          <input type="text" id="g-fallback-referral" placeholder="Masukkan kode referral jika ada" class="w-full px-3.5 py-2 rounded-xl bg-emerald-50/40 dark:bg-forest-950 border border-emerald-200 dark:border-forest-700 text-xs uppercase font-mono focus:outline-none focus:ring-2 focus:ring-amber-500" />
+          <label class="block text-xs font-bold mb-1">Kode Referral (Opsional)</label>
+          <input type="text" id="fbGmailReferral" autocomplete="off" placeholder="Masukkan kode referral jika ada" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" />
         </div>
-        <div class="flex justify-end gap-2 pt-2">
-          <button type="button" onclick="closeGoogleFallbackModal()" class="px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-forest-850 text-forest-900 dark:text-emerald-100 text-xs font-bold">Batal</button>
-          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-forest-850 to-forest-700 text-white text-xs font-extrabold border border-amber-400/40 shadow-md">
-            <i class="fa-brands fa-google text-amber-400 mr-1.5"></i> Masuk Sekarang
-          </button>
-        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white font-bold text-sm shadow">
+          Masuk Sekarang
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- JAVASCRIPT & FIREBASE MODULAR SDK                                     -->
-  <!-- ===================================================================== -->
+  <!-- =========================================================
+       FIREBASE & APPLICATION LOGIC
+  ========================================================== -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-      getAuth, 
-      GoogleAuthProvider, 
-      signInWithPopup, 
-      signInWithRedirect,
-      getRedirectResult,
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
       sendPasswordResetEmail,
-      updateProfile,
-      signOut, 
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      getDoc, 
-      setDoc, 
-      updateDoc, 
-      collection, 
-      getDocs, 
-      addDoc, 
-      deleteDoc, 
-      serverTimestamp,
+      GoogleAuthProvider,
+      signInWithPopup,
+      onAuthStateChanged,
+      signOut,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      getDocs,
+      collection,
       query,
-      where
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+      where,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // Konfigurasi Firebase dari User
+    // Konfigurasi Firebase Anda
     const firebaseConfig = {
       apiKey: "AIzaSyA4D-ChK7m1UiQejvWRkk-9sSZcmKO9SjM",
       authDomain: "aplikasi-open-learning-daa29.firebaseapp.com",
@@ -932,223 +811,1514 @@
       measurementId: "G-J16BX351L0"
     };
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-    // =========================================================================
-    // STATE GLOBAL APLIKASI
-// ... existing code ... -->
-      const adminRefInput = document.getElementById('admin-referral-setting');
-      if (adminRefInput) adminRefInput.value = '';
-    }
+    // Kode Referral Admin (disimpan di logika, tidak ditampilkan di UI)
+    const VALID_REFERRAL_CODES = ["ADMIN2026", "SEJARAHXI14"];
 
-    function checkReferralValid(code) {
-      if (!code) return false;
-      const clean = code.trim().toUpperCase();
-      return validReferralCodes.includes(clean);
-    }
+    // State Aplikasi
+    let currentUserProfile = null;
+    let examPackages = [];
+    let currentExam = null;
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let flaggedQuestions = {};
+    let timerInterval = null;
+    let timeRemainingSeconds = 3600;
+    let manualDraftQuestions = [];
 
-    // 1. HANDLER LOGIN STANDAR (USERNAME ATAU EMAIL + PASSWORD)
-    window.handleStandardLogin = async function(e) {
-      e.preventDefault();
-      const identifier = document.getElementById('login-identifier').value.trim();
-      const password = document.getElementById('login-password').value;
-      const btn = document.getElementById('btn-submit-login');
+    // =========================================================
+    // PAKET SOAL BAWAAN: SAS SEJARAH KELAS XI (35 BUTIR LENGKAP)
+    // =========================================================
+    const DEFAULT_SEJARAH_PACKAGE = {
+      id: "sas-sejarah-xi",
+      title: "SAS Sejarah Kelas XI (Paket Terpadu 35 Soal)",
+      subject: "Sejarah - Fase F",
+      duration: 60,
+      isDefault: true,
+      description: "Mencakup 5 Benar/Salah, 15 Pilihan Ganda, 5 Pilihan Ganda Kompleks, 5 Menjodohkan, dan 5 Uraian sesuai Kisi-Kisi SAS.",
+      questions: [
+        // --- BAGIAN 1: BENAR / SALAH (5 Soal) ---
+        {
+          type: "bs",
+          question: "Bangsa Spanyol merupakan bangsa Eropa pertama yang tiba di wilayah Nusantara pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque dan langsung mendirikan pusat kolonialisme di Maluku.",
+          answer: false,
+          explanation: "SALAH. Bangsa Eropa pertama yang berhasil tiba di Malaka pada tahun 1511 di bawah pimpinan Alfonso de Albuquerque adalah bangsa Portugis, bukan Spanyol."
+        },
+        {
+          type: "bs",
+          question: "Tujuan utama Belanda mendirikan VOC (Vereenigde Oostindische Compagnie) pada tahun 1602 adalah untuk menghindari persaingan tidak sehat antarpedagang Belanda serta memonopoli perdagangan rempah-rempah di Asia.",
+          answer: true,
+          explanation: "BENAR. VOC awalnya dibentuk sebagai kongsi dagang untuk menyatukan pedagang Belanda dan memonopoli perdagangan rempah-rempah."
+        },
+        {
+          type: "bs",
+          question: "Proses masuk dan berkembangnya kekuasaan kolonialisme Barat di berbagai wilayah Indonesia berlangsung mulus dan damai karena penguasa kerajaan lokal menyambut baik kehadiran mereka tanpa perlawanan.",
+          answer: false,
+          explanation: "SALAH. Kedatangan bangsa Barat memicu perlawanan heroik di berbagai daerah seperti Ternate, Malaka, Mataram, Gowa-Tallo, Banten, dan lainnya."
+        },
+        {
+          type: "bs",
+          question: "Organisasi Budi Utomo didirikan pada tanggal 20 Mei 1908 oleh para pelajar STOVIA dengan dr. Soetomo sebagai ketuanya, dan memfokuskan geraknya pada bidang sosial, pendidikan, serta kebudayaan Jawa.",
+          answer: true,
+          explanation: "BENAR. Budi Utomo berdiri 20 Mei 1908 atas gagasan dr. Wahidin Soedirohoesodo dan diketuai oleh dr. Soetomo."
+        },
+        {
+          type: "bs",
+          question: "Sarekat Islam pada awal berdirinya tahun 1911 bernama Sarekat Dagang Islam (SDI) yang diprakarsai oleh H. Samanhudi dengan tujuan melindungi pedagang batik pribumi dari dominasi pedagang Tionghoa.",
+          answer: true,
+          explanation: "BENAR. SDI didirikan di Solo tahun 1911 oleh H. Samanhudi sebelum diubah menjadi Sarekat Islam oleh H.O.S. Tjokroaminoto."
+        },
 
-      if (!identifier || !password) return;
+        // --- BAGIAN 2: PILIHAN GANDA (15 Soal) ---
+        {
+          type: "pg",
+          question: "Sebuah perusahaan multinasional menanamkan modal besar di negara berkembang, menguasai konsesi tambang puluhan tahun, dan menentukan harga komoditas sehingga kebijakan ekonomi negara tersebut bergantung padanya tanpa pendudukan fisik militer. Fenomena ini merupakan wujud dari...",
+          options: [
+            "Kolonialisme klasik berbasis ekspansi wilayah",
+            "Imperialisme modern berbasis dominasi ekonomi",
+            "Merkantilisme abad ke-16",
+            "Feodalisme agraris tradisional",
+            "Politik pintu terbuka"
+          ],
+          answer: 1,
+          explanation: "Imperialisme modern menekankan penguasaan sektor ekonomi, modal, dan kebijakan tanpa harus menduduki wilayah secara fisik."
+        },
+        {
+          type: "pg",
+          question: "Alasan historis yang melatarbelakangi kuatnya motivasi penyebaran agama (Gospel) saat bangsa Portugis dan Spanyol berlayar ke Timur adalah...",
+          options: [
+            "Keinginan menghapuskan seluruh kepercayaan lokal secara paksa",
+            "Semangat melanjutkan Perang Salib (Reconquista) serta kewajiban melaksanakan mandat Paus (Perjanjian Tordesillas)",
+            "Tuntutan pedagang rempah agar masyarakat Asia berbahasa sama",
+            "Upaya menggantikan jalur darat yang dikuasai Tiongkok",
+            "Kurangnya tenaga misionaris di Eropa Barat"
+          ],
+          answer: 1,
+          explanation: "Bangsa Iberia (Portugis & Spanyol) membawa misi Reconquista dan amanat Paus untuk menyebarkan agama Katolik ke wilayah baru."
+        },
+        {
+          type: "pg",
+          question: "Konflik antara Spanyol dan Portugis di Maluku diselesaikan melalui Perjanjian Zaragoza pada tahun 1529 yang membawa konsekuensi bagi Spanyol berupa...",
+          options: [
+            "Spanyol berhak menguasai seluruh wilayah Maluku bagian utara",
+            "Spanyol harus meninggalkan Maluku dan memusatkan kekuasaannya di Filipina",
+            "Spanyol dan Portugis membagi wilayah perdagangan di Malaka",
+            "Spanyol mendapatkan hak monopoli cengkih di Tidore selama 50 tahun",
+            "Spanyol wajib membayar ganti rugi perang kepada Ternate"
+          ],
+          answer: 1,
+          explanation: "Perjanjian Zaragoza (1529) menetapkan Maluku berada di bawah pengaruh Portugis, sedangkan Spanyol harus mundur ke Filipina."
+        },
+        {
+          type: "pg",
+          question: "Kedatangan bangsa Portugis ke Malaka (1511) dan Maluku membawa pengaruh besar terhadap dinamika perdagangan di Nusantara, yaitu...",
+          options: [
+            "Terbentuknya sistem perdagangan bebas yang menguntungkan pedagang Asia",
+            "Meningkatnya kesejahteraan petani rempah karena harga stabil",
+            "Terputusnya jaringan perdagangan tradisional Nusantara dan beralihnya jalur dagang ke pelabuhan alternatif akibat sistem monopoli",
+            "Hilangnya peran pedagang Arab dan Gujarat secara permanen dari Asia",
+            "Berakhirnya persaingan antar-kesultanan maritim di pesisir Jawa"
+          ],
+          answer: 2,
+          explanation: "Monopoli Portugis di Malaka membuat pedagang muslim beralih ke pelabuhan alternatif seperti Aceh, Banten, dan Makassar."
+        },
+        {
+          type: "pg",
+          question: "Dampak jangka panjang paling signifikan dari penerapan strategi divide et impera (politik adu domba) oleh VOC terhadap struktur politik kerajaan di Nusantara adalah...",
+          options: [
+            "Terciptanya aliansi pertahanan bersama antar-kerajaan",
+            "Menguatnya otoritas absolut raja terhadap kaum bangsawan",
+            "Terpecah-belahnya wilayah kerajaan menjadi negara-negara kecil yang lemah dan bergantung pada intervensi VOC",
+            "Modernisasi sistem birokrasi kerajaan mengikuti standar Eropa",
+            "Meningkatnya solidaritas rakyat dalam satu kepemimpinan nasional"
+          ],
+          answer: 2,
+          explanation: "Strategi divide et impera memecah kesatuan kerajaan (seperti Perjanjian Giyanti di Mataram) sehingga mudah dikendalikan VOC."
+        },
+        {
+          type: "pg",
+          question: "Keberhasilan Pangeran Diponegoro memperpanjang perlawanan selama lima tahun pada Perang Jawa (1825–1830) sangat didukung oleh penerapan taktik perang gerilya, yaitu dengan cara...",
+          options: [
+            "Membangun benteng pertahanan permanen di pusat kota Yogyakarta",
+            "Menghadapi pasukan Belanda secara terbuka di medan luas",
+            "Memanfaatkan medan pegunungan dan hutan, menyerang pos Belanda secara mendadak, lalu menghilang dengan dukungan logistik rakyat",
+            "Memblokade seluruh pelabuhan di pesisir utara Jawa",
+            "Melakukan perundingan damai setiap kali terdesak"
+          ],
+          answer: 2,
+          explanation: "Taktik gerilya Diponegoro mengandalkan mobilitas tinggi di medan pegunungan/goa serta dukungan penuh masyarakat pedesaan."
+        },
+        {
+          type: "pg",
+          question: "Pelajaran penting yang dapat disimpulkan dari hubungan rakyat dan pemimpin pada masa Perang Diponegoro adalah...",
+          options: [
+            "Perjuangan bersenjata tidak membutuhkan dukungan logistik rakyat",
+            "Persatuan antara pemimpin yang merakyat dan dukungan tulus masyarakat mampu menggoyahkan kekuatan militer kolonial yang modern",
+            "Kemenangan perang hanya ditentukan oleh kecanggihan senjata api",
+            "Golongan ulama tidak memiliki pengaruh dalam mobilisasi massa",
+            "Perjanjian damai dengan kolonial selalu menguntungkan pribumi"
+          ],
+          answer: 1,
+          explanation: "Dukungan lintas lapisan (petani, bangsawan, dan ulama seperti Kyai Mojo) menjadi kekuatan utama Perang Diponegoro."
+        },
+        {
+          type: "pg",
+          question: "Perang Padri di Sumatra Barat (1821–1837) awalnya merupakan konflik internal antara Kaum Padri dan Kaum Adat sebelum akhirnya bersatu. Analisis yang tepat mengenai fase awal Perang Padri adalah...",
+          options: [
+            "Perbedaan pandangan adat tidak mungkin diselesaikan tanpa pihak asing",
+            "Perpecahan internal antarelemen bangsa justru membuka celah bagi kekuatan kolonial Belanda untuk masuk dan mengintervensi",
+            "Bantuan militer Belanda selalu efektif menyelesaikan konflik sipil",
+            "Kaum Adat memiliki persenjataan lebih unggul dari Belanda",
+            "Perjuangan daerah selalu gagal jika dipimpin pemuka agama"
+          ],
+          answer: 1,
+          explanation: "Belanda memanfaatkan permintaan bantuan Kaum Adat untuk menancapkan kekuasaannya di Sumatra Barat."
+        },
+        {
+          type: "pg",
+          question: "Kebijakan Politik Etis di bidang Edukasi secara tidak langsung menjadi 'senjata makan tuan' bagi pemerintah kolonial Belanda karena...",
+          options: [
+            "Sekolah Belanda mengajarkan teknik perang modern kepada pribumi",
+            "Melahirkan golongan terpelajar (elite modern) yang memiliki kesadaran nasional dan memimpin organisasi pergerakan kemerdekaan",
+            "Menghapuskan seluruh sistem feodalisme di pedesaan",
+            "Membuat seluruh rakyat fasih berbahasa Belanda dalam waktu singkat",
+            "Mendorong Belanda segera memberikan kemerdekaan penuh"
+          ],
+          answer: 1,
+          explanation: "Kaum terpelajar hasil edukasi Politik Etis menjadi pelopor lahirnya organisasi pergerakan nasional sejak 1908."
+        },
+        {
+          type: "pg",
+          question: "Hubungan antara gagasan dr. Wahidin Soedirohoesodo dengan berdirinya Budi Utomo pada tahun 1908 adalah...",
+          options: [
+            "dr. Wahidin memimpin langsung aksi mogok buruh di Batavia",
+            "Gagasan dr. Wahidin tentang dana pelajar (studiefonds) menginspirasi dr. Soetomo dan mahasiswa STOVIA mendirikan organisasi modern",
+            "dr. Wahidin mendanai pembelian senjata bagi anggota Budi Utomo",
+            "Gagasan dr. Wahidin menolak seluruh bentuk pendidikan Barat",
+            "dr. Wahidin menjadi ketua pertama Budi Utomo hingga 1920"
+          ],
+          answer: 1,
+          explanation: "Pertemuan dr. Wahidin dengan dr. Soetomo di STOVIA melahirkan kesepakatan mendirikan Budi Utomo untuk memajukan pendidikan."
+        },
+        {
+          type: "pg",
+          question: "Buletin perjuangan yang diterbitkan oleh Perhimpunan Indonesia di Belanda sebagai media propaganda kemerdekaan ke dunia internasional adalah...",
+          options: [
+            "De Expres",
+            "Oetoesan Hindia",
+            "Indonesia Merdeka",
+            "Medan Prijaji",
+            "Darmo Kondo"
+          ],
+          answer: 2,
+          explanation: "Buletin Hindia Poetra diubah namanya menjadi 'Indonesia Merdeka' oleh Perhimpunan Indonesia pada tahun 1924."
+        },
+        {
+          type: "pg",
+          question: "Tujuan utama didirikannya Budi Utomo pada fase awal perkembangannya (1908) adalah...",
+          options: [
+            "Menuntut kemerdekaan Indonesia secara radikal melalui jalur politik",
+            "Mencapai kemajuan yang harmonis bagi nusa dan bangsa terutama di bidang pengajaran, pertanian, peternakan, teknik, dan kebudayaan",
+            "Menyatukan seluruh partai politik di Hindia Belanda dalam satu federasi",
+            "Menghapuskan sistem tanam paksa di seluruh wilayah Sumatra",
+            "Membentuk tentara rakyat untuk melawan pemerintah kolonial"
+          ],
+          answer: 1,
+          explanation: "Pada awal berdirinya, Budi Utomo bergerak di bidang sosial, pendidikan, dan kebudayaan secara moderat."
+        },
+        {
+          type: "pg",
+          question: "Makna utama dari semboyan 'Indie voor Indiers' (Hindia untuk orang Hindia) yang diusung oleh Indische Partij adalah...",
+          options: [
+            "Menuntut hak istimewa hanya bagi keturunan Indo-Eropa",
+            "Mengajak seluruh penduduk yang menetap di Hindia Belanda tanpa memandang ras/suku untuk bersatu membangun tanah air merdeka",
+            "Mengusir seluruh penduduk keturunan asing keluar dari Nusantara",
+            "Mendukung asimilasi budaya Belanda ke dalam masyarakat pribumi",
+            "Menjadikan Hindia Belanda sebagai provinsi Kerajaan Belanda"
+          ],
+          answer: 1,
+          explanation: "Indische Partij mengembangkan nasionalisme inklusif (Indische Nationalisme) bagi semua golongan yang mencintai Hindia."
+        },
+        {
+          type: "pg",
+          question: "Tujuan utama Perhimpunan Indonesia yang ditegaskan dalam Manifesto Politik tahun 1925 adalah...",
+          options: [
+            "Meminta penambahan kursi anggota pribumi di Volksraad",
+            "Indonesia merdeka penuh yang dicapai melalui aksi massa nasional berdasarkan kekuatan sendiri (self-help)",
+            "Bekerja sama dengan pemerintah Belanda dalam bidang perdagangan",
+            "Mengirimkan pelajar Indonesia untuk menjadi pegawai kolonial",
+            "Mempertahankan sistem pemerintahan kerajaan tradisional"
+          ],
+          answer: 1,
+          explanation: "Manifesto 1925 menegaskan kemerdekaan Indonesia harus direbut dengan kekuatan sendiri dan persatuan nasional."
+        },
+        {
+          type: "pg",
+          question: "Organisasi pergerakan Islam modern yang didirikan K.H. Ahmad Dahlan pada tahun 1912 dan tercatat sebagai organisasi pergerakan pertama yang memiliki sayap perempuan (Aisyiyah) adalah...",
+          options: [
+            "Nahdlatul Ulama",
+            "Sarekat Islam",
+            "Muhammadiyah",
+            "Al-Irsyad",
+            "Persatuan Islam"
+          ],
+          answer: 2,
+          explanation: "Muhammadiyah didirikan 18 November 1912 di Yogyakarta dan mendirikan bagian perempuan Aisyiyah pada tahun 1917."
+        },
 
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> <span>Memverifikasi...</span>`;
+        // --- BAGIAN 3: PILIHAN GANDA KOMPLEKS (5 Soal) ---
+        {
+          type: "pgk",
+          question: "Perhatikan pernyataan berikut terkait arti penting berdirinya Budi Utomo (1908)! Pilihlah pernyataan yang BENAR (lebih dari satu):",
+          options: [
+            "Dianggap sebagai tonggak Kebangkitan Nasional karena mempelopori perjuangan modern berbasis organisasi.",
+            "Mengubah pola perlawanan yang semula bersifat kedaerahan dan mengandalkan kekuatan fisik menjadi lebih terorganisir.",
+            "Langsung memimpin pemberontakan bersenjata di Batavia pada tahun 1908.",
+            "Mendorong lahirnya berbagai organisasi pergerakan nasional lainnya di berbagai daerah."
+          ],
+          answer: [0, 1, 3],
+          explanation: "Budi Utomo tidak melakukan pemberontakan bersenjata, melainkan menjadi pelopor organisasi modern yang menginspirasi kebangkitan nasional."
+        },
+        {
+          type: "pgk",
+          question: "Manakah pernyataan yang TEPAT mengenai Perguruan Taman Siswa yang didirikan oleh Ki Hajar Dewantara pada 3 Juli 1922?",
+          options: [
+            "Menerapkan sistem Among dengan semboyan Ing Ngarso Sung Tulodo, Ing Madyo Mangun Karso, Tut Wuri Handayani.",
+            "Menolak bantuan subsidi dari pemerintah kolonial Belanda agar tetap merdeka menentukan kurikulum nasional.",
+            "Mewajibkan bahasa Belanda sebagai satu-satunya bahasa pengantar di kelas.",
+            "Memadukan kecerdasan intelektual dengan pembentukan karakter dan budaya bangsa."
+          ],
+          answer: [0, 1, 3],
+          explanation: "Taman Siswa berdiri mandiri tanpa subsidi kolonial, menggunakan sistem Among, dan berakar pada budaya nasional."
+        },
+        {
+          type: "pgk",
+          question: "Kiprah Tiga Serangkai (Douwes Dekker, Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat) melalui Indische Partij memiliki makna penting bagi perjuangan nasional, yaitu...",
+          options: [
+            "Menjadi organisasi politik pertama yang secara terang-terangan menuntut kemerdekaan Hindia Belanda.",
+            "Menanamkan paham nasionalisme yang melampaui sekat suku, agama, dan ras.",
+            "Berani mengkritik kebijakan kolonial secara tajam, seperti tulisan 'Als ik eens Nederlander was'.",
+            "Menjadi organisasi yang paling disukai dan didanai oleh Gubernur Jenderal Belanda."
+          ],
+          answer: [0, 1, 2],
+          explanation: "Indische Partij bersifat radikal dan nonkooperatif sehingga dibubarkan pemerintah kolonial pada 1913 dan Tiga Serangkai diasingkan."
+        },
+        {
+          type: "pgk",
+          question: "Faktor-faktor yang membuat Sarekat Islam (SI) berkembang sangat pesat dan menjadi organisasi massa pertama di Hindia Belanda adalah...",
+          options: [
+            "Keanggotaannya terbuka bagi seluruh lapisan masyarakat pribumi tanpa memandang status sosial.",
+            "Mengusung solidaritas keagamaan (Islam) serta membela hak-hak ekonomi rakyat kecil.",
+            "Kepemimpinan H.O.S. Tjokroaminoto yang karismatik dan mampu menyuarakan aspirasi rakyat.",
+            "Mendapatkan fasilitas gedung dan gaji bulanan dari pemerintah kolonial."
+          ],
+          answer: [0, 1, 2],
+          explanation: "Sifat terbuka, identitas Islam, pembelaan ekonomi rakyat, dan karisma Tjokroaminoto membuat SI menarik ratusan ribu anggota."
+        },
+        {
+          type: "pgk",
+          question: "Pilihlah pasangan organisasi pergerakan nasional dan strategi perjuangannya yang SESUAI:",
+          options: [
+            "Indische Partij — Nonkooperatif dan radikal menuntut kemerdekaan.",
+            "Budi Utomo (awal) — Moderat dan kooperatif di bidang pendidikan/kebudayaan.",
+            "Partai Nasional Indonesia (PNI) — Nonkooperatif dengan mobilisasi massa.",
+            "Perhimpunan Indonesia — Kooperatif dengan menjadi bagian dari parlemen Belanda."
+          ],
+          answer: [0, 1, 2],
+          explanation: "Perhimpunan Indonesia juga bersifat nonkooperatif (self-help), bukan bagian dari parlemen Belanda."
+        },
 
-      try {
-        await loadReferralCodesFromFirestore();
-        let targetEmail = identifier;
+        // --- BAGIAN 4: MENJODOHKAN (5 Soal) ---
+        {
+          type: "mj",
+          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Didirikan pada 20 Mei 1908 oleh dr. Soetomo dan para mahasiswa STOVIA atas gagasan dr. Wahidin Soedirohoesodo.",
+          options: [
+            "Budi Utomo",
+            "Sarekat Islam",
+            "Indische Partij",
+            "Perhimpunan Indonesia",
+            "Muhammadiyah"
+          ],
+          answer: 0,
+          explanation: "Budi Utomo didirikan 20 Mei 1908 oleh dr. Soetomo bersama pelajar STOVIA."
+        },
+        {
+          type: "mj",
+          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Awalnya bernama Sarekat Dagang Islam (SDI) yang didirikan oleh H. Samanhudi di Solo pada tahun 1911.",
+          options: [
+            "Budi Utomo",
+            "Sarekat Islam",
+            "Indische Partij",
+            "Perhimpunan Indonesia",
+            "Taman Siswa"
+          ],
+          answer: 1,
+          explanation: "Sarekat Islam berawal dari Sarekat Dagang Islam (SDI) yang didirikan H. Samanhudi."
+        },
+        {
+          type: "mj",
+          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Didirikan di Bandung pada 25 Desember 1912 oleh tokoh Tiga Serangkai (Douwes Dekker, dr. Tjipto Mangoenkoesoemo, dan Suwardi Suryaningrat).",
+          options: [
+            "Budi Utomo",
+            "Sarekat Islam",
+            "Indische Partij",
+            "Perhimpunan Indonesia",
+            "Partai Nasional Indonesia"
+          ],
+          answer: 2,
+          explanation: "Indische Partij didirikan oleh Tiga Serangkai pada 25 Desember 1912."
+        },
+        {
+          type: "mj",
+          question: "Jodohkan deskripsi berikut dengan tokoh/organisasi yang sesuai: Gerakan pembaruan Islam dan perlawanan anti-kolonial di Surakarta yang dipelopori oleh Haji Misbach ('Haji Merah').",
+          options: [
+            "Budi Utomo",
+            "Sarekat Islam Merah / Gerakan Islam-Komunis",
+            "Indische Partij",
+            "Taman Siswa",
+            "Perhimpunan Indonesia"
+          ],
+          answer: 1,
+          explanation: "Haji Misbach dikenal sebagai tokoh Sarekat Islam Merah / gerakan Islam-komunis di Surakarta."
+        },
+        {
+          type: "mj",
+          question: "Jodohkan deskripsi berikut dengan Organisasi Pergerakan Nasional yang tepat: Didirikan di Belanda pada tahun 1908 dengan nama awal Indische Vereeniging oleh Soetan Kasajangan Soripada dan R.M. Noto Soeroto.",
+          options: [
+            "Budi Utomo",
+            "Sarekat Islam",
+            "Indische Partij",
+            "Perhimpunan Indonesia",
+            "Muhammadiyah"
+          ],
+          answer: 3,
+          explanation: "Indische Vereeniging bertransformasi menjadi Perhimpunan Indonesia pada tahun 1925."
+        },
 
-        if (!identifier.includes('@')) {
-          const unameLower = identifier.toLowerCase();
-          let foundEmail = null;
-
-          try {
-            const q = query(collection(db, 'users'), where('username', '==', unameLower));
-            const snap = await getDocs(q);
-            if (!snap.empty) {
-              foundEmail = snap.docs[0].data().email;
-            }
-          } catch (fsErr) {
-            console.warn('Pencarian username Firestore:', fsErr.message);
-          }
-
-          if (!foundEmail) {
-            const localUsers = JSON.parse(localStorage.getItem('historicbt_local_users') || '[]');
-            const matched = localUsers.find(u => u.username === unameLower);
-            if (matched) foundEmail = matched.email;
-          }
-
-          if (!foundEmail) {
-            throw { customMessage: `Username "${identifier}" tidak ditemukan. Pastikan sudah terdaftar atau masuk menggunakan Email.` };
-          }
-          targetEmail = foundEmail;
+        // --- BAGIAN 5: URAIAN / ESAI (5 Soal) ---
+        {
+          type: "ur",
+          question: "Jelaskan mengapa berdirinya Budi Utomo pada tanggal 20 Mei 1908 dianggap sebagai tonggak Kebangkitan Nasional dan bagaimana perubahan pola perjuangan bangsa Indonesia setelah peristiwa tersebut!",
+          keywords: ["modern", "organisasi", "kedaerahan", "pendidikan", "nasional"],
+          sampleAnswer: "Budi Utomo dianggap sebagai tonggak Kebangkitan Nasional karena menandai peralihan strategi perjuangan bangsa Indonesia: dari perlawanan fisik/bersenjata yang bersifat kedaerahan dan bergantung pada satu pemimpin karismatik, menuju perjuangan modern melalui organisasi yang terstruktur, mengandalkan pendidikan, persatuan, dan kesadaran kebangsaan.",
+          explanation: "Poin penilaian: (1) Perubahan dari perjuangan fisik kedaerahan menjadi perjuangan modern berorganisasi, (2) Peran pendidikan/kaum terpelajar, (3) Menginspirasi lahirnya organisasi pergerakan nasional lainnya."
+        },
+        {
+          type: "ur",
+          question: "Analisislah 3 faktor utama yang membuat Sarekat Islam (SI) cepat berkembang dan menarik perhatian masyarakat luas di Hindia Belanda!",
+          keywords: ["terbuka", "islam", "ekonomi", "tjokroaminoto", "rakyat"],
+          sampleAnswer: "1) Sifat keanggotaan yang terbuka dan demokratis bagi seluruh lapisan masyarakat (rakyat jelata maupun terpelajar); 2) Mengusung identitas agama Islam yang menjadi pemersatu mayoritas penduduk pribumi; 3) Membela kepentingan ekonomi pedagang dan rakyat kecil dari penindasan kolonial serta kepemimpinan H.O.S. Tjokroaminoto yang karismatik.",
+          explanation: "Poin penilaian: Keanggotaan inklusif/terbuka, solidaritas Islam, pembelaan ekonomi rakyat kecil, dan peran kepemimpinan H.O.S. Tjokroaminoto."
+        },
+        {
+          type: "ur",
+          question: "Mengapa semboyan 'Indie voor Indiers' yang diusung oleh Indische Partij dianggap sangat berbahaya oleh pemerintah kolonial Belanda, dan apa kaitannya dengan lahirnya konsep nasionalisme Indonesia?",
+          keywords: ["radikal", "merdeka", "persatuan", "ras", "nasionalisme"],
+          sampleAnswer: "Semboyan 'Indie voor Indiers' (Hindia untuk orang Hindia) dianggap berbahaya karena secara terang-terangan menuntut kemerdekaan Hindia Belanda dan menolak dominasi penjajah. Kaitannya dengan nasionalisme adalah semboyan ini menanamkan kesadaran persatuan lintas suku, agama, dan ras bahwa semua orang yang lahir dan mencintai Hindia adalah satu bangsa yang berhak merdeka.",
+          explanation: "Poin penilaian: Tuntutan kemerdekaan politik secara radikal dan pengembangan nasionalisme inklusif lintas golongan."
+        },
+        {
+          type: "ur",
+          question: "Bandingkan strategi perjuangan Budi Utomo, Sarekat Islam, Indische Partij, dan PNI, lalu jelaskan strategi mana yang menurut Anda paling efektif dalam membangkitkan kesadaran berbangsa!",
+          keywords: ["kooperatif", "nonkooperatif", "moderat", "radikal", "massa"],
+          sampleAnswer: "Budi Utomo menggunakan strategi moderat-kooperatif di bidang pendidikan/budaya; Sarekat Islam menggunakan mobilisasi massa berbasis ekonomi dan agama; Indische Partij dan PNI menggunakan strategi nonkooperatif-radikal yang menuntut kemerdekaan penuh melalui aksi massa. Strategi nonkooperatif disertai mobilisasi massa (seperti PNI dan SI) sangat efektif membangkitkan kesadaran berbangsa karena menjangkau rakyat luas dan menanamkan keberanian menentukan nasib sendiri.",
+          explanation: "Poin penilaian: Ketepatan membandingkan strategi kooperatif/moderat vs nonkooperatif/radikal serta argumentasi logis."
+        },
+        {
+          type: "ur",
+          question: "Bayangkan Anda adalah pemuda terpelajar pada masa pergerakan nasional. Rancanglah sebuah organisasi perjuangan lengkap dengan: (a) Nama Organisasi, (b) Tujuan Utama, (c) Strategi Perjuangan, dan (d) Dua Program Kerja Nyata!",
+          keywords: ["nama", "tujuan", "strategi", "program", "merdeka"],
+          sampleAnswer: "(a) Nama: Perhimpunan Pemuda Nusantara (PPN); (b) Tujuan: Mencapai kemerdekaan Indonesia dan mencerdaskan kehidupan bangsa; (c) Strategi: Nonkooperatif dan diplomasi literasi; (d) Program Kerja: 1) Mendirikan taman bacaan dan sekolah rakyat bebas buta huruf di desa-desa; 2) Menerbitkan surat kabar kebangsaan untuk menyatukan pemuda antardaerah.",
+          explanation: "Poin penilaian: Kelengkapan 4 unsur rancangan organisasi (nama, tujuan, strategi, dan 2 program kerja yang relevan)."
         }
+      ]
+    };
 
-        const cred = await signInWithEmailAndPassword(auth, targetEmail, password);
-        await processUserLogin(cred.user, '');
-      } catch (err) {
-        console.error('Login error:', err);
-        const msg = err.customMessage || mapFirebaseAuthError(err.code);
-        showToast(msg, 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-right-to-bracket text-amber-400"></i> <span>Masuk</span>`;
+    // =========================================================
+    // HELPER TOAST & MODAL
+    // =========================================================
+    window.showToast = function (message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      const colors = {
+        success: "bg-emeraldbrand-800 border-goldbrand-400 text-white",
+        error: "bg-rose-700 border-rose-400 text-white",
+        warning: "bg-amber-600 border-amber-300 text-white",
+        info: "bg-slate-900 border-goldbrand-500 text-white"
+      };
+      const icons = {
+        success: "fa-circle-check text-goldbrand-400",
+        error: "fa-circle-exclamation text-rose-200",
+        warning: "fa-triangle-exclamation text-amber-200",
+        info: "fa-circle-info text-goldbrand-400"
+      };
+      toast.className = `pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-2xl shadow-xl border ${colors[type] || colors.info} text-xs font-semibold transition-all duration-300`;
+      toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-base mt-0.5"></i><span class="leading-relaxed">${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.remove(), 300);
+      }, 4200);
+    };
+
+    window.openModal = function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove("hidden", "pointer-events-none");
       }
     };
 
-    // Opsi Sekunder: Login Google dengan Popup, Otomatis Redirect di HP, & Diagnosa Error Spesifik
-    window.handleGoogleLogin = async function() {
-      await loadReferralCodesFromFirestore();
+    window.closeModal = function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add("hidden", "pointer-events-none");
+      }
+    };
 
-      const btn = document.getElementById('google-login-btn');
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Menghubungkan...</span>`;
+    window.togglePassword = function (inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector("i");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    };
 
-      // Cek protokol file:// yang pasti ditolak oleh Google OAuth
-      if (window.location.protocol === 'file:') {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-brands fa-google text-amber-500"></i> <span>Masuk dengan Google</span>`;
-        showToast('Google Login tidak berjalan dari file:// lokal. Upload ke hosting/Live Server atau lanjutkan via Gmail di bawah.', 'warning');
-        openGoogleFallbackModal();
+    window.switchAuthTab = function (tab) {
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const forgotForm = document.getElementById("forgotForm");
+      const authTabs = document.getElementById("authTabs");
+      const socialBlock = document.getElementById("socialAuthBlock");
+      const tabLoginBtn = document.getElementById("tabLoginBtn");
+      const tabRegisterBtn = document.getElementById("tabRegisterBtn");
+
+      loginForm.classList.add("hidden");
+      registerForm.classList.add("hidden");
+      forgotForm.classList.add("hidden");
+
+      if (tab === "forgot") {
+        authTabs.classList.add("hidden");
+        socialBlock.classList.add("hidden");
+        forgotForm.classList.remove("hidden");
         return;
       }
 
-      const isMobileOrInApp = /Android|iPhone|iPad|iPod|FBAN|FBAV|Instagram|Line|WhatsApp/i.test(navigator.userAgent);
+      authTabs.classList.remove("hidden");
+      socialBlock.classList.remove("hidden");
 
-      try {
-        if (isMobileOrInApp) {
-          // Pada browser HP / WebView, gunakan metode Redirect satu-tab agar tidak langsung ter-close
-          sessionStorage.setItem('historicbt_pending_redirect', '1');
-          await signInWithRedirect(auth, googleProvider);
-          return;
-        }
-
-        const result = await signInWithPopup(auth, googleProvider);
-        await processUserLogin(result.user, '');
-      } catch (error) {
-        console.error('Google Sign-In Error:', error.code, error.message);
-
-        if (
-          error.code === 'auth/popup-blocked' ||
-          error.code === 'auth/cancelled-popup-request' ||
-          error.code === 'auth/operation-not-supported-in-this-environment'
-        ) {
-          // Alihkan otomatis ke mode Redirect satu-tab jika pop-up ditutup/diblokir browser
-          showToast('Pop-up diblokir browser. Mengalihkan ke halaman masuk Google satu tab...', 'info');
-          try {
-            sessionStorage.setItem('historicbt_pending_redirect', '1');
-            await signInWithRedirect(auth, googleProvider);
-            return;
-          } catch (redirErr) {
-            console.error('Redirect Sign-In Error:', redirErr.code, redirErr.message);
-            showToast(`Gagal mengalihkan Google (${redirErr.code || 'error'}). Gunakan form Gmail di bawah.`, 'warning');
-            openGoogleFallbackModal();
-          }
-        } else if (error.code === 'auth/operation-not-allowed') {
-          showToast('Provider Google BELUM DIAKTIFKAN! Buka Firebase Console > Authentication > Sign-in method > Enable Google.', 'error');
-        } else if (error.code === 'auth/unauthorized-domain') {
-          const host = window.location.hostname || 'domain-ini';
-          showToast(`Domain "${host}" belum terdaftar di Authorized domains Firebase. Gunakan form Gmail cepat di bawah.`, 'warning');
-          openGoogleFallbackModal();
-        } else if (error.code === 'auth/popup-closed-by-user') {
-          showToast('Jendela login Google tertutup (auth/popup-closed-by-user). Pastikan Google Sign-in sudah Enabled di Firebase Console.', 'warning');
-        } else {
-          showToast(`Gagal masuk Google [${error.code || 'unknown'}]: ${error.message}`, 'error');
-          openGoogleFallbackModal();
-        }
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-brands fa-google text-amber-500"></i> <span>Masuk dengan Google</span>`;
+      if (tab === "login") {
+        loginForm.classList.remove("hidden");
+        tabLoginBtn.className = "py-3.5 text-sm font-bold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500 transition";
+        tabRegisterBtn.className = "py-3.5 text-sm font-semibold text-slate-500 hover:text-emeraldbrand-700 dark:text-slate-400 transition";
+      } else {
+        registerForm.classList.remove("hidden");
+        tabRegisterBtn.className = "py-3.5 text-sm font-bold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500 transition";
+        tabLoginBtn.className = "py-3.5 text-sm font-semibold text-slate-500 hover:text-emeraldbrand-700 dark:text-slate-400 transition";
       }
     };
 
-    window.openGoogleFallbackModal = function() {
-      const m = document.getElementById('google-fallback-modal');
-      m.classList.remove('hidden');
-      m.classList.add('flex');
-    };
-// ... existing code ... -->
-    // 3. HANDLER LUPA SANDI (RESET PASSWORD)
-    window.handleForgotPassword = async function(e) {
+    function checkReferralCode(code) {
+      if (!code) return false;
+      return VALID_REFERRAL_CODES.includes(code.trim().toUpperCase());
+    }
+
+    // =========================================================
+    // AUTHENTICATION HANDLERS
+    // =========================================================
+    window.handleRegister = async function (e) {
       e.preventDefault();
-      const email = document.getElementById('forgot-email').value.trim();
-      const btn = document.getElementById('btn-submit-forgot');
+      const name = document.getElementById("regName").value.trim();
+      const username = document.getElementById("regUsername").value.trim().toLowerCase();
+      const email = document.getElementById("regEmail").value.trim().toLowerCase();
+      const password = document.getElementById("regPassword").value;
+      const confirmPass = document.getElementById("regConfirmPassword").value;
+      const referral = document.getElementById("regReferral").value.trim();
 
-      if (!email) return;
+      if (password !== confirmPass) {
+        showToast("Konfirmasi kata sandi tidak cocok!", "error");
+        return;
+      }
+      if (username.length < 3 || /\s/.test(username)) {
+        showToast("Username minimal 3 karakter dan tanpa spasi.", "error");
+        return;
+      }
 
+      const btn = document.getElementById("btnRegisterSubmit");
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> <span>Mengirim Tautan...</span>`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...`;
 
+      try {
+        // Cek keunikan username di Firestore
+        const q = query(collection(db, "users"), where("username", "==", username));
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          showToast("Username sudah digunakan. Silakan pilih username lain.", "error");
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i> <span>Daftar Akun Baru</span>`;
+          return;
+        }
+
+        const isAdmin = checkReferralCode(referral);
+        if (referral && !isAdmin) {
+          showToast("Kode referral tidak valid. Akun tetap didaftarkan sebagai peserta biasa.", "warning");
+        }
+
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(cred.user, { displayName: name });
+
+        const profileData = {
+          uid: cred.user.uid,
+          name,
+          username,
+          email,
+          role: isAdmin ? "admin" : "user",
+          createdAt: new Date().toISOString()
+        };
+
+        await setDoc(doc(db, "users", cred.user.uid), profileData);
+        showToast(
+          isAdmin
+            ? "Pendaftaran berhasil! Anda terdaftar sebagai ADMIN."
+            : "Pendaftaran berhasil! Selamat datang di CBT SAS.",
+          "success"
+        );
+        await applyUserSession(profileData);
+      } catch (err) {
+        console.error(err);
+        let msg = "Gagal mendaftar: " + err.message;
+        if (err.code === "auth/email-already-in-use") msg = "Email sudah terdaftar. Silakan masuk.";
+        if (err.code === "auth/weak-password") msg = "Kata sandi terlalu lemah (minimal 6 karakter).";
+        showToast(msg, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-user-plus text-goldbrand-400"></i> <span>Daftar Akun Baru</span>`;
+      }
+    };
+
+    window.handleLogin = async function (e) {
+      e.preventDefault();
+      const identifier = document.getElementById("loginIdentifier").value.trim().toLowerCase();
+      const password = document.getElementById("loginPassword").value;
+
+      const btn = document.getElementById("btnLoginSubmit");
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses...`;
+
+      try {
+        let emailToUse = identifier;
+        // Jika bukan format email, cari email berdasarkan username di Firestore
+        if (!identifier.includes("@")) {
+          const q = query(collection(db, "users"), where("username", "==", identifier));
+          const snap = await getDocs(q);
+          if (snap.empty) {
+            throw { code: "auth/user-not-found", message: "Username tidak ditemukan." };
+          }
+          emailToUse = snap.docs[0].data().email;
+        }
+
+        const cred = await signInWithEmailAndPassword(auth, emailToUse, password);
+        const userDoc = await getDoc(doc(db, "users", cred.user.uid));
+        let profileData;
+        if (userDoc.exists()) {
+          profileData = userDoc.data();
+        } else {
+          profileData = {
+            uid: cred.user.uid,
+            name: cred.user.displayName || emailToUse.split("@")[0],
+            username: emailToUse.split("@")[0],
+            email: emailToUse,
+            role: "user"
+          };
+          await setDoc(doc(db, "users", cred.user.uid), profileData);
+        }
+
+        showToast(`Selamat datang kembali, ${profileData.name}!`, "success");
+        await applyUserSession(profileData);
+      } catch (err) {
+        console.error(err);
+        let msg = "Gagal masuk. Periksa kembali username/email dan kata sandi.";
+        if (err.code === "auth/user-not-found") msg = "Akun tidak ditemukan. Silakan daftar terlebih dahulu.";
+        if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
+          msg = "Username/email atau kata sandi salah.";
+        }
+        showToast(msg, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-right-to-bracket text-goldbrand-400"></i> <span>Masuk ke CBT</span>`;
+      }
+    };
+
+    window.handleForgotPassword = async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("forgotEmail").value.trim();
       try {
         await sendPasswordResetEmail(auth, email);
-        showToast(`Tautan reset kata sandi telah dikirim ke ${email}. Periksa kotak masuk atau folder Spam Anda.`, 'success');
-        document.getElementById('forgot-email').value = '';
-        switchAuthMode('login');
+        showToast("Tautan reset kata sandi telah dikirim ke email Anda. Cek kotak masuk atau folder spam.", "success");
+        switchAuthTab("login");
       } catch (err) {
-        console.error('Forgot password error:', err);
-        showToast(mapFirebaseAuthError(err.code), 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane text-amber-400"></i> <span>Kirim Tautan Reset Sandi</span>`;
+        showToast("Gagal mengirim email reset: " + err.message, "error");
       }
     };
 
-    // Opsi Sekunder: Mode Tamu / Lokal (Sandbox)
-    window.handleDemoLogin = async function() {
-// ... existing code ... -->
-    // Cek sesi tersimpan & tangkap hasil redirect Google saat reload
-    onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser && !currentUser) {
-        await loadReferralCodesFromFirestore();
-        await processUserLogin(firebaseUser, '');
-      }
-    });
-
-    window.addEventListener('DOMContentLoaded', async () => {
-      await loadReferralCodesFromFirestore();
-
-      // Tangkap hasil dari signInWithRedirect jika pengguna baru saja kembali dari halaman OAuth Google
+    window.handleGoogleSignIn = async function () {
       try {
-        const redirectRes = await getRedirectResult(auth);
-        sessionStorage.removeItem('historicbt_pending_redirect');
-        if (redirectRes && redirectRes.user) {
-          await processUserLogin(redirectRes.user, '');
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        const userRef = doc(db, "users", user.uid);
+        const snap = await getDoc(userRef);
+
+        let profileData;
+        if (snap.exists()) {
+          profileData = snap.data();
+        } else {
+          profileData = {
+            uid: user.uid,
+            name: user.displayName || "Pengguna Google",
+            username: (user.email || "user").split("@")[0],
+            email: user.email,
+            role: "user",
+            createdAt: new Date().toISOString()
+          };
+          await setDoc(userRef, profileData);
+        }
+
+        showToast(`Berhasil masuk dengan Gmail (${profileData.email})`, "success");
+        await applyUserSession(profileData);
+      } catch (err) {
+        console.warn("Google Sign-In fallback triggered:", err.code, err.message);
+        if (err.code === "auth/operation-not-allowed") {
+          showToast("Provider Google belum diaktifkan di Firebase Console > Authentication > Sign-in method.", "error");
           return;
         }
-      } catch (redirErr) {
-        sessionStorage.removeItem('historicbt_pending_redirect');
-        console.error('Redirect result error:', redirErr.code, redirErr.message);
-        if (redirErr.code === 'auth/operation-not-allowed') {
-          showToast('Provider Google belum diaktifkan di Firebase Console > Authentication > Sign-in method.', 'error');
-        } else if (redirErr.code === 'auth/unauthorized-domain') {
-          showToast(`Domain "${window.location.hostname}" belum diotorisasi di Firebase Console.`, 'warning');
-          openGoogleFallbackModal();
-        } else if (redirErr.code) {
-          showToast(`Autentikasi Google gagal [${redirErr.code}]. Silakan coba lagi atau gunakan form Masuk.`, 'error');
-        }
+        // Jika popup diblokir browser/WebView atau domain pratinjau, buka modal Gmail Fallback
+        openModal("gmailFallbackModal");
+      }
+    };
+
+    window.submitGmailFallback = async function (e) {
+      e.preventDefault();
+      const name = document.getElementById("fbGmailName").value.trim();
+      const email = document.getElementById("fbGmailEmail").value.trim().toLowerCase();
+      const refCode = document.getElementById("fbGmailReferral").value.trim();
+
+      const isAdmin = checkReferralCode(refCode);
+      if (refCode && !isAdmin) {
+        showToast("Kode referral tidak sesuai. Masuk sebagai pengguna biasa.", "warning");
       }
 
-      const savedSession = localStorage.getItem('historicbt_session');
-      if (savedSession && !currentUser) {
-        const parsed = JSON.parse(savedSession);
-        if (parsed.isDemo || (parsed.uid && parsed.uid.startsWith('gmail-'))) {
-          currentUser = parsed;
-          userRole = parsed.role || 'user';
-          enterAppShell();
+      const pseudoUid = "gmail_" + btoa(email).replace(/[^a-zA-Z0-9]/g, "").slice(0, 20);
+      const profileData = {
+        uid: pseudoUid,
+        name,
+        username: email.split("@")[0],
+        email,
+        role: isAdmin ? "admin" : "user",
+        isLocalFallback: true
+      };
+
+      try {
+        await setDoc(doc(db, "users", pseudoUid), profileData, { merge: true });
+      } catch (_) {}
+
+      localStorage.setItem("cbt_session_user", JSON.stringify(profileData));
+      closeModal("gmailFallbackModal");
+      showToast(`Masuk sebagai ${name} (${isAdmin ? "Admin" : "Peserta"})`, "success");
+      await applyUserSession(profileData);
+    };
+
+    window.enterGuestMode = async function () {
+      const guestProfile = {
+        uid: "guest_local",
+        name: "Peserta Tamu",
+        username: "tamu",
+        email: "tamu@cbt-lokal.id",
+        role: "user",
+        isGuest: true
+      };
+      localStorage.setItem("cbt_session_user", JSON.stringify(guestProfile));
+      showToast("Masuk dalam Mode Tamu.", "info");
+      await applyUserSession(guestProfile);
+    };
+
+    window.applyReferralFromProfile = async function () {
+      const code = document.getElementById("profileReferralInput").value.trim();
+      if (!checkReferralCode(code)) {
+        showToast("Kode referral tidak valid!", "error");
+        return;
+      }
+      currentUserProfile.role = "admin";
+      localStorage.setItem("cbt_session_user", JSON.stringify(currentUserProfile));
+      if (currentUserProfile.uid && !currentUserProfile.isGuest) {
+        try {
+          await setDoc(doc(db, "users", currentUserProfile.uid), { role: "admin" }, { merge: true });
+        } catch (_) {}
+      }
+      updateUIForUser();
+      closeModal("profileModal");
+      showToast("Selamat! Akun Anda kini berstatus ADMIN dan dapat mengimpor soal.", "success");
+    };
+
+    window.handleLogout = async function () {
+      try {
+        await signOut(auth);
+      } catch (_) {}
+      localStorage.removeItem("cbt_session_user");
+      currentUserProfile = null;
+      closeModal("profileModal");
+      document.getElementById("appShell").classList.add("hidden");
+      document.getElementById("authSection").classList.remove("hidden");
+      showToast("Anda telah keluar dari akun.", "info");
+    };
+
+    async function applyUserSession(profileData) {
+      currentUserProfile = profileData;
+      localStorage.setItem("cbt_session_user", JSON.stringify(profileData));
+      document.getElementById("authSection").classList.add("hidden");
+      document.getElementById("appShell").classList.remove("hidden");
+      updateUIForUser();
+      await loadExamPackages();
+      showDashboard();
+    }
+
+    function updateUIForUser() {
+      if (!currentUserProfile) return;
+      const isAdmin = currentUserProfile.role === "admin";
+      document.getElementById("headerUserName").textContent = currentUserProfile.name;
+      document.getElementById("userAvatarInitial").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
+
+      const badge = document.getElementById("roleBadgeHeader");
+      badge.textContent = isAdmin ? "ADMIN" : "SISWA";
+      badge.className = isAdmin
+        ? "px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-goldbrand-400 text-emeraldbrand-950"
+        : "px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-emeraldbrand-700 text-white border border-emeraldbrand-500";
+
+      // Tampilkan tombol Admin hanya untuk role admin
+      const navAdminBtn = document.getElementById("navAdminBtn");
+      const heroImportBtn = document.getElementById("heroImportBtn");
+      if (isAdmin) {
+        navAdminBtn.classList.remove("hidden");
+        heroImportBtn.classList.remove("hidden");
+      } else {
+        navAdminBtn.classList.add("hidden");
+        heroImportBtn.classList.add("hidden");
+      }
+
+      // Update modal profil
+      document.getElementById("modalAvatar").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
+      document.getElementById("modalUserName").textContent = currentUserProfile.name;
+      document.getElementById("modalUserEmail").textContent = currentUserProfile.email;
+      document.getElementById("modalUserRole").textContent = isAdmin ? "Administrator (Akses Penuh)" : "Peserta Ujian (Siswa)";
+      document.getElementById("upgradeReferralBox").style.display = isAdmin ? "none" : "block";
+    }
+
+    window.openProfileModal = function () {
+      updateUIForUser();
+      openModal("profileModal");
+    };
+
+    // =========================================================
+    // LOAD & RENDER PAKET SOAL (FIRESTORE + LOCAL STORAGE)
+    // =========================================================
+    async function loadExamPackages() {
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      let cloudPackages = [];
+
+      try {
+        const snap = await getDocs(collection(db, "exam_packages"));
+        snap.forEach((docSnap) => {
+          cloudPackages.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (err) {
+        console.warn("Menggunakan paket lokal karena offline/aturan Firestore:", err.message);
+      }
+
+      // Gabungkan tanpa duplikasi
+      const map = new Map();
+      map.set(DEFAULT_SEJARAH_PACKAGE.id, DEFAULT_SEJARAH_PACKAGE);
+      localCustom.forEach((p) => map.set(p.id, p));
+      cloudPackages.forEach((p) => map.set(p.id, p));
+
+      examPackages = Array.from(map.values());
+      renderPackagesGrid();
+    }
+
+    function renderPackagesGrid() {
+      const grid = document.getElementById("examPackagesGrid");
+      document.getElementById("packageCountBadge").textContent = `${examPackages.length} Paket Tersedia`;
+
+      grid.innerHTML = examPackages
+        .map((pkg) => {
+          const totalQ = pkg.questions ? pkg.questions.length : 0;
+          return `
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm hover:shadow-lg border border-slate-200 dark:border-slate-800 hover:border-goldbrand-500 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 dark:bg-emeraldbrand-900 text-emeraldbrand-800 dark:text-goldbrand-300 text-[11px] font-extrabold">
+                    ${pkg.subject || "Mata Pelajaran"}
+                  </span>
+                  <span class="text-xs font-bold text-slate-500 dark:text-slate-400">
+                    <i class="fa-regular fa-clock text-goldbrand-600 mr-1"></i>${pkg.duration || 60} Menit
+                  </span>
+                </div>
+                <h4 class="text-base font-extrabold text-slate-900 dark:text-white mb-2">${pkg.title}</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                  ${pkg.description || `Paket latihan soal CBT berisi ${totalQ} butir pertanyaan terstruktur.`}
+                </p>
+              </div>
+              <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-xs font-extrabold text-emeraldbrand-800 dark:text-emeraldbrand-300">
+                  <i class="fa-solid fa-list-check mr-1 text-goldbrand-600"></i> ${totalQ} Soal
+                </span>
+                <button type="button" onclick="startExam('${pkg.id}')" class="px-4 py-2 rounded-xl bg-emeraldbrand-800 hover:bg-emeraldbrand-700 text-white text-xs font-bold shadow transition flex items-center gap-1.5">
+                  <span>Kerjakan</span> <i class="fa-solid fa-arrow-right text-goldbrand-400"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    // =========================================================
+    // ENGINE CBT UJIAN
+    // =========================================================
+    window.showDashboard = function () {
+      clearInterval(timerInterval);
+      document.getElementById("examView").classList.add("hidden");
+      document.getElementById("resultView").classList.add("hidden");
+      document.getElementById("dashboardView").classList.remove("hidden");
+    };
+
+    window.startExam = function (pkgId) {
+      const pkg = examPackages.find((p) => p.id === pkgId);
+      if (!pkg || !pkg.questions || pkg.questions.length === 0) {
+        showToast("Paket soal kosong atau tidak ditemukan.", "error");
+        return;
+      }
+
+      currentExam = pkg;
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      flaggedQuestions = {};
+      timeRemainingSeconds = (pkg.duration || 60) * 60;
+
+      document.getElementById("examSubjectBadge").textContent = pkg.subject || "Evaluasi";
+      document.getElementById("examTitleDisplay").textContent = pkg.title;
+
+      document.getElementById("dashboardView").classList.add("hidden");
+      document.getElementById("resultView").classList.add("hidden");
+      document.getElementById("examView").classList.remove("hidden");
+
+      startTimer();
+      renderQuestionNavGrid();
+      renderCurrentQuestion();
+    };
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeRemainingSeconds--;
+        updateTimerDisplay();
+        if (timeRemainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          showToast("Waktu ujian telah habis! Jawaban dikumpulkan otomatis.", "warning");
+          finishAndGradeExam();
         }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timeRemainingSeconds / 60);
+      const secs = timeRemainingSeconds % 60;
+      document.getElementById("timerDisplay").textContent =
+        `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+    function getTypeLabel(type) {
+      const map = {
+        bs: "Benar / Salah",
+        pg: "Pilihan Ganda",
+        pgk: "Pilihan Ganda Kompleks (Pilih > 1)",
+        mj: "Menjodohkan",
+        ur: "Uraian / Esai"
+      };
+      return map[type] || "Pilihan Ganda";
+    }
+
+    function isQuestionAnswered(idx) {
+      const ans = userAnswers[idx];
+      if (ans === undefined || ans === null) return false;
+      if (Array.isArray(ans)) return ans.length > 0;
+      if (typeof ans === "string") return ans.trim().length > 0;
+      return true;
+    }
+
+    function renderQuestionNavGrid() {
+      const grid = document.getElementById("questionGridNav");
+      let answeredCount = 0;
+
+      grid.innerHTML = currentExam.questions
+        .map((_, idx) => {
+          const answered = isQuestionAnswered(idx);
+          if (answered) answeredCount++;
+          const flagged = !!flaggedQuestions[idx];
+          const isCurrent = idx === currentQuestionIndex;
+
+          let cls = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700";
+          if (flagged) {
+            cls = "bg-amber-400 text-slate-950 font-extrabold border border-amber-500";
+          } else if (answered) {
+            cls = "bg-emeraldbrand-700 text-white font-extrabold border border-emeraldbrand-600";
+          }
+
+          if (isCurrent) {
+            cls += " ring-2 ring-goldbrand-500 ring-offset-2 dark:ring-offset-slate-900";
+          }
+
+          return `
+            <button type="button" onclick="jumpToQuestion(${idx})" class="h-10 rounded-xl text-xs font-bold transition ${cls}">
+              ${idx + 1}
+            </button>
+          `;
+        })
+        .join("");
+
+      document.getElementById("answeredCounterText").textContent =
+        `Terjawab: ${answeredCount} / ${currentExam.questions.length}`;
+    }
+
+    window.jumpToQuestion = function (idx) {
+      currentQuestionIndex = idx;
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.navigateQuestion = function (step) {
+      const next = currentQuestionIndex + step;
+      if (next >= 0 && next < currentExam.questions.length) {
+        currentQuestionIndex = next;
+        renderCurrentQuestion();
+        renderQuestionNavGrid();
+      }
+    };
+
+    window.toggleFlagCurrent = function () {
+      flaggedQuestions[currentQuestionIndex] = document.getElementById("flagCheckbox").checked;
+      renderQuestionNavGrid();
+    };
+
+    function renderCurrentQuestion() {
+      const q = currentExam.questions[currentQuestionIndex];
+      const total = currentExam.questions.length;
+
+      document.getElementById("currentQNumBadge").textContent = `Soal No. ${currentQuestionIndex + 1} dari ${total}`;
+      document.getElementById("currentQTypeBadge").textContent = getTypeLabel(q.type);
+      document.getElementById("flagCheckbox").checked = !!flaggedQuestions[currentQuestionIndex];
+      document.getElementById("questionPromptArea").textContent = q.question;
+
+      document.getElementById("btnPrevQ").disabled = currentQuestionIndex === 0;
+      const btnNext = document.getElementById("btnNextQ");
+      if (currentQuestionIndex === total - 1) {
+        btnNext.innerHTML = `<span>Selesai</span> <i class="fa-solid fa-check"></i>`;
+        btnNext.onclick = confirmSubmitExam;
+      } else {
+        btnNext.innerHTML = `<span>Selanjutnya</span> <i class="fa-solid fa-chevron-right"></i>`;
+        btnNext.onclick = () => navigateQuestion(1);
+      }
+
+      const optContainer = document.getElementById("questionOptionsArea");
+      const currentAns = userAnswers[currentQuestionIndex];
+
+      if (q.type === "bs") {
+        optContainer.innerHTML = [
+          { val: true, label: "BENAR", icon: "fa-circle-check" },
+          { val: false, label: "SALAH", icon: "fa-circle-xmark" }
+        ]
+          .map((item) => {
+            const selected = currentAns === item.val;
+            return `
+              <button type="button" onclick="selectSingleAnswer(${item.val})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-3.5 ${
+                selected
+                  ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-900 dark:text-white font-extrabold"
+                  : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"
+              }">
+                <i class="fa-solid ${item.icon} text-lg ${selected ? "text-emeraldbrand-700 dark:text-goldbrand-400" : "text-slate-400"}"></i>
+                <span class="text-sm">${item.label}</span>
+              </button>
+            `;
+          })
+          .join("");
+      } else if (q.type === "pg" || q.type === "mj") {
+        const letters = ["A", "B", "C", "D", "E"];
+        optContainer.innerHTML = q.options
+          .map((optText, i) => {
+            const selected = currentAns === i;
+            return `
+              <button type="button" onclick="selectSingleAnswer(${i})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${
+                selected
+                  ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-950 dark:text-white font-bold"
+                  : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"
+              }">
+                <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-xs font-extrabold ${
+                  selected
+                    ? "bg-emeraldbrand-800 text-goldbrand-400"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                }">
+                  ${letters[i] || i + 1}
+                </span>
+                <span class="text-sm pt-0.5 leading-relaxed">${optText}</span>
+              </button>
+            `;
+          })
+          .join("");
+      } else if (q.type === "pgk") {
+        const selectedArr = Array.isArray(currentAns) ? currentAns : [];
+        optContainer.innerHTML =
+          `<p class="text-xs font-bold text-goldbrand-700 dark:text-goldbrand-400 mb-2"><i class="fa-solid fa-circle-info mr-1"></i> Centang semua pernyataan yang benar:</p>` +
+          q.options
+            .map((optText, i) => {
+              const checked = selectedArr.includes(i);
+              return `
+                <button type="button" onclick="toggleComplexAnswer(${i})" class="w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${
+                  checked
+                    ? "border-emeraldbrand-700 bg-emeraldbrand-50 dark:bg-emeraldbrand-900/40 text-emeraldbrand-950 dark:text-white font-bold"
+                    : "border-slate-200 dark:border-slate-800 hover:border-goldbrand-500"
+                }">
+                  <span class="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-xs border ${
+                    checked
+                      ? "bg-emeraldbrand-800 border-emeraldbrand-800 text-goldbrand-400"
+                      : "border-slate-400 text-transparent"
+                  }">
+                    <i class="fa-solid fa-check"></i>
+                  </span>
+                  <span class="text-sm leading-relaxed">${optText}</span>
+                </button>
+              `;
+            })
+            .join("");
+      } else if (q.type === "ur") {
+        const textVal = typeof currentAns === "string" ? currentAns : "";
+        optContainer.innerHTML = `
+          <div>
+            <label class="block text-xs font-bold text-slate-500 mb-2">Tuliskan jawaban uraian Anda secara lengkap dan jelas:</label>
+            <textarea
+              rows="5"
+              oninput="saveEssayAnswer(this.value)"
+              placeholder="Ketik jawaban uraian Anda di sini..."
+              class="w-full p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:border-emeraldbrand-700 outline-none"
+            >${textVal}</textarea>
+          </div>
+        `;
+      }
+    }
+
+    window.selectSingleAnswer = function (val) {
+      userAnswers[currentQuestionIndex] = val;
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.toggleComplexAnswer = function (idx) {
+      let arr = Array.isArray(userAnswers[currentQuestionIndex]) ? [...userAnswers[currentQuestionIndex]] : [];
+      if (arr.includes(idx)) {
+        arr = arr.filter((x) => x !== idx);
+      } else {
+        arr.push(idx);
+      }
+      userAnswers[currentQuestionIndex] = arr;
+      renderCurrentQuestion();
+      renderQuestionNavGrid();
+    };
+
+    window.saveEssayAnswer = function (val) {
+      userAnswers[currentQuestionIndex] = val;
+      renderQuestionNavGrid();
+    };
+
+    window.confirmSubmitExam = function () {
+      const unanswered = currentExam.questions.filter((_, i) => !isQuestionAnswered(i)).length;
+      const msg =
+        unanswered > 0
+          ? `Masih ada ${unanswered} soal yang belum dijawab. Yakin ingin mengumpulkan ujian sekarang?`
+          : "Semua soal sudah terjawab. Kumpulkan jawaban sekarang?";
+      if (confirm(msg)) {
+        finishAndGradeExam();
+      }
+    };
+
+    window.retryCurrentExam = function () {
+      if (currentExam) {
+        startExam(currentExam.id);
+      }
+    };
+
+    function finishAndGradeExam() {
+      clearInterval(timerInterval);
+      let totalPoints = 0;
+      let correctCount = 0;
+      const totalQ = currentExam.questions.length;
+
+      const reviewHtml = currentExam.questions
+        .map((q, idx) => {
+          const uAns = userAnswers[idx];
+          let isCorrect = false;
+          let userAnsText = "<em class='text-slate-400'>Tidak dijawab</em>";
+          let correctAnsText = "";
+
+          if (q.type === "bs") {
+            isCorrect = uAns === q.answer;
+            if (uAns !== undefined) userAnsText = uAns ? "BENAR" : "SALAH";
+            correctAnsText = q.answer ? "BENAR" : "SALAH";
+          } else if (q.type === "pg" || q.type === "mj") {
+            isCorrect = uAns === q.answer;
+            if (uAns !== undefined && q.options[uAns]) userAnsText = q.options[uAns];
+            correctAnsText = q.options[q.answer] || "";
+          } else if (q.type === "pgk") {
+            const uArr = Array.isArray(uAns) ? [...uAns].sort() : [];
+            const cArr = Array.isArray(q.answer) ? [...q.answer].sort() : [];
+            isCorrect = uArr.length === cArr.length && uArr.every((v, i) => v === cArr[i]);
+            if (uArr.length > 0) userAnsText = uArr.map((i) => q.options[i]).join("; ");
+            correctAnsText = cArr.map((i) => q.options[i]).join("; ");
+          } else if (q.type === "ur") {
+            const text = (uAns || "").toLowerCase().trim();
+            if (text.length > 0) userAnsText = uAns;
+            correctAnsText = q.sampleAnswer || "Sesuai rubrik pembahasan.";
+            const kws = q.keywords || [];
+            if (kws.length > 0 && text.length >= 10) {
+              const matched = kws.filter((k) => text.includes(k.toLowerCase())).length;
+              isCorrect = matched >= Math.max(1, Math.floor(kws.length / 2));
+            } else {
+              isCorrect = text.length >= 25;
+            }
+          }
+
+          if (isCorrect) {
+            totalPoints += 1;
+            correctCount += 1;
+          }
+
+          return `
+            <div class="p-4 rounded-2xl border ${
+              isCorrect
+                ? "border-emeraldbrand-300 bg-emeraldbrand-50/50 dark:bg-emeraldbrand-950/30"
+                : "border-rose-300 bg-rose-50/40 dark:bg-rose-950/20"
+            }">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-md bg-slate-800 text-white">
+                  No. ${idx + 1} • ${getTypeLabel(q.type)}
+                </span>
+                <span class="text-xs font-extrabold ${isCorrect ? "text-emeraldbrand-700 dark:text-emeraldbrand-400" : "text-rose-600"}">
+                  <i class="fa-solid ${isCorrect ? "fa-circle-check" : "fa-circle-xmark"} mr-1"></i>
+                  ${isCorrect ? "Tepat" : "Perlu Evaluasi"}
+                </span>
+              </div>
+              <p class="text-sm font-bold text-slate-900 dark:text-white mb-2">${q.question}</p>
+              <div class="text-xs space-y-1 text-slate-700 dark:text-slate-300">
+                <p><strong>Jawaban Anda:</strong> ${userAnsText}</p>
+                <p class="text-emeraldbrand-800 dark:text-goldbrand-300"><strong>Kunci / Acuan Jawaban:</strong> ${correctAnsText}</p>
+                ${q.explanation ? `<p class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400"><strong>Pembahasan:</strong> ${q.explanation}</p>` : ""}
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      const finalScore = Math.round((totalPoints / totalQ) * 100);
+      document.getElementById("resultExamTitle").textContent = currentExam.title;
+      document.getElementById("finalScoreDisplay").textContent = finalScore;
+      document.getElementById("scoreDetailCounts").textContent =
+        `Benar: ${correctCount} | Kurang Tepat: ${totalQ - correctCount} (dari ${totalQ} soal)`;
+      document.getElementById("reviewListContainer").innerHTML = reviewHtml;
+
+      document.getElementById("examView").classList.add("hidden");
+      document.getElementById("resultView").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // =========================================================
+    // ADMIN PANEL: IMPORT JSON/CSV & MANUAL BUILDER
+    // =========================================================
+    window.openAdminModal = function () {
+      if (!currentUserProfile || currentUserProfile.role !== "admin") {
+        showToast("Akses ditolak. Hanya Admin yang dapat mengelola paket soal.", "error");
+        return;
+      }
+      renderAdminManageList();
+      openModal("adminModal");
+    };
+
+    window.switchAdminTab = function (tab) {
+      ["import", "manual", "manage"].forEach((t) => {
+        document.getElementById(`admPane${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.toggle("hidden", t !== tab);
+        const btn = document.getElementById(`admTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (t === tab) {
+          btn.className = "px-4 py-3 text-xs font-extrabold text-emeraldbrand-800 dark:text-goldbrand-400 border-b-2 border-goldbrand-500";
+        } else {
+          btn.className = "px-4 py-3 text-xs font-bold text-slate-500 hover:text-slate-700";
+        }
+      });
+    };
+
+    window.downloadTemplate = function (fmt) {
+      if (fmt === "json") {
+        const sample = [
+          {
+            type: "pg",
+            question: "Contoh pertanyaan pilihan ganda?",
+            options: ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"],
+            answer: 0,
+            explanation: "Pilihan A benar karena..."
+          },
+          {
+            type: "bs",
+            question: "Contoh pernyataan Benar atau Salah.",
+            answer: true,
+            explanation: "Pernyataan ini bernilai benar."
+          }
+        ];
+        triggerDownload("template-soal-cbt.json", JSON.stringify(sample, null, 2), "application/json");
+      } else {
+        const csv =
+          `type,question,optA,optB,optC,optD,answer,explanation\n` +
+          `pg,"Ibu kota Provinsi Jawa Timur adalah...","Surabaya","Malang","Kediri","Sidoarjo",0,"Surabaya adalah ibu kota Jawa Timur."\n` +
+          `bs,"Budi Utomo berdiri pada tahun 1908.","BENAR","SALAH","","",0,"Budi Utomo berdiri 20 Mei 1908."`;
+        triggerDownload("template-soal-cbt.csv", csv, "text/csv");
+      }
+    };
+
+    function triggerDownload(filename, content, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    window.handleFileUpload = function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        const raw = evt.target.result;
+        if (file.name.endsWith(".csv")) {
+          const parsed = parseCsvToQuestions(raw);
+          document.getElementById("importJsonTextarea").value = JSON.stringify(parsed, null, 2);
+          showToast(`Berhasil mengonversi ${parsed.length} soal dari CSV!`, "success");
+        } else {
+          document.getElementById("importJsonTextarea").value = raw;
+          showToast("File JSON berhasil dimuat ke editor.", "success");
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    function parseCsvToQuestions(csvText) {
+      const lines = csvText.split(/\r?\n/).filter((l) => l.trim().length > 0);
+      const questions = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(",");
+        const clean = cols.map((c) => c.replace(/^"|"$/g, "").trim());
+        const type = (clean[0] || "pg").toLowerCase();
+        if (type === "bs") {
+          questions.push({
+            type: "bs",
+            question: clean[1] || "",
+            answer: Number(clean[6]) === 0 || String(clean[6]).toLowerCase() === "true",
+            explanation: clean[7] || ""
+          });
+        } else {
+          questions.push({
+            type: "pg",
+            question: clean[1] || "",
+            options: [clean[2], clean[3], clean[4], clean[5]].filter(Boolean),
+            answer: Number(clean[6]) || 0,
+            explanation: clean[7] || ""
+          });
+        }
+      }
+      return questions;
+    }
+
+    window.processImportPackage = async function () {
+      const title = document.getElementById("importTitle").value.trim();
+      const subject = document.getElementById("importSubject").value.trim() || "Umum";
+      const duration = parseInt(document.getElementById("importDuration").value, 10) || 60;
+      const rawJson = document.getElementById("importJsonTextarea").value.trim();
+
+      if (!title || !rawJson) {
+        showToast("Judul paket dan data JSON soal wajib diisi!", "error");
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(rawJson);
+        const questions = Array.isArray(parsed) ? parsed : parsed.questions;
+        if (!Array.isArray(questions) || questions.length === 0) {
+          throw new Error("Format JSON harus berupa array soal.");
+        }
+
+        const newPkg = {
+          id: "pkg_" + Date.now(),
+          title,
+          subject,
+          duration,
+          description: `Paket soal import (${questions.length} butir soal).`,
+          questions,
+          createdAt: new Date().toISOString()
+        };
+
+        await savePackageToStorageAndCloud(newPkg);
+        document.getElementById("importTitle").value = "";
+        document.getElementById("importJsonTextarea").value = "";
+        closeModal("adminModal");
+        showToast(`Paket "${title}" (${questions.length} soal) berhasil dipublikasikan!`, "success");
+      } catch (err) {
+        showToast("Format JSON tidak valid: " + err.message, "error");
+      }
+    };
+
+    window.addManualQuestionToDraft = function () {
+      const question = document.getElementById("manQuestion").value.trim();
+      const opts = [
+        document.getElementById("manOpt0").value.trim(),
+        document.getElementById("manOpt1").value.trim(),
+        document.getElementById("manOpt2").value.trim(),
+        document.getElementById("manOpt3").value.trim()
+      ];
+      const answer = parseInt(document.getElementById("manCorrect").value, 10);
+      const explanation = document.getElementById("manExplanation").value.trim();
+
+      if (!question || opts.some((o) => !o)) {
+        showToast("Pertanyaan dan keempat opsi jawaban wajib diisi.", "error");
+        return;
+      }
+
+      manualDraftQuestions.push({ type: "pg", question, options: opts, answer, explanation });
+      document.getElementById("manualDraftCount").textContent = `Draft: ${manualDraftQuestions.length} soal`;
+      document.getElementById("manQuestion").value = "";
+      ["manOpt0", "manOpt1", "manOpt2", "manOpt3", "manExplanation"].forEach((id) => (document.getElementById(id).value = ""));
+      showToast("Soal ditambahkan ke draft!", "success");
+    };
+
+    window.saveManualPackage = async function () {
+      const title = document.getElementById("manPkgTitle").value.trim();
+      const subject = document.getElementById("manPkgSubject").value.trim() || "Umum";
+      if (!title || manualDraftQuestions.length === 0) {
+        showToast("Isi judul paket dan minimal 1 soal di draft.", "error");
+        return;
+      }
+
+      const newPkg = {
+        id: "pkg_" + Date.now(),
+        title,
+        subject,
+        duration: 45,
+        description: `Paket soal buatan admin (${manualDraftQuestions.length} soal).`,
+        questions: [...manualDraftQuestions],
+        createdAt: new Date().toISOString()
+      };
+
+      await savePackageToStorageAndCloud(newPkg);
+      manualDraftQuestions = [];
+      document.getElementById("manualDraftCount").textContent = "Draft: 0 soal";
+      document.getElementById("manPkgTitle").value = "";
+      closeModal("adminModal");
+      showToast("Paket soal manual berhasil disimpan!", "success");
+    };
+
+    async function savePackageToStorageAndCloud(pkg) {
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]");
+      localCustom.push(pkg);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+
+      try {
+        await setDoc(doc(db, "exam_packages", pkg.id), pkg);
+      } catch (err) {
+        console.warn("Disimpan secara lokal:", err.message);
+      }
+      await loadExamPackages();
+    }
+
+    function renderAdminManageList() {
+      const container = document.getElementById("adminManageList");
+      container.innerHTML = examPackages
+        .map(
+          (p) => `
+          <div class="p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
+            <div>
+              <p class="text-xs font-extrabold">${p.title}</p>
+              <p class="text-[11px] text-slate-500">${p.subject} • ${p.questions.length} Soal</p>
+            </div>
+            ${
+              p.isDefault
+                ? `<span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">Bawaan</span>`
+                : `<button type="button" onclick="deleteCustomPackage('${p.id}')" class="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700">Hapus</button>`
+            }
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    window.deleteCustomPackage = async function (pkgId) {
+      if (!confirm("Hapus paket soal ini?")) return;
+      const localCustom = JSON.parse(localStorage.getItem("cbt_custom_packages") || "[]").filter((p) => p.id !== pkgId);
+      localStorage.setItem("cbt_custom_packages", JSON.stringify(localCustom));
+      try {
+        await deleteDoc(doc(db, "exam_packages", pkgId));
+      } catch (_) {}
+      await loadExamPackages();
+      renderAdminManageList();
+      showToast("Paket soal dihapus.", "info");
+    };
+
+    // =========================================================
+    // DARK MODE & INIT SESSION
+    // =========================================================
+    window.toggleDarkMode = function () {
+      const html = document.documentElement;
+      html.classList.toggle("dark");
+      const isDark = html.classList.contains("dark");
+      localStorage.setItem("cbt_theme", isDark ? "dark" : "light");
+      document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    };
+
+    if (localStorage.getItem("cbt_theme") === "dark") {
+      document.documentElement.classList.add("dark");
+      document.getElementById("darkIcon").className = "fa-solid fa-sun";
+    }
+
+    // Restore session jika sebelumnya sudah login
+    const savedSession = localStorage.getItem("cbt_session_user");
+    if (savedSession) {
+      try {
+        const parsed = JSON.parse(savedSession);
+        applyUserSession(parsed);
+      } catch (_) {}
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user && !currentUserProfile) {
+        try {
+          const snap = await getDoc(doc(db, "users", user.uid));
+          if (snap.exists()) {
+            await applyUserSession(snap.data());
+          }
+        } catch (_) {}
       }
     });
-
-    // =========================================================================
-    // NAVIGASI TAB
-// ... existing code ... -->
+  </script>
+</body>
+</html>
