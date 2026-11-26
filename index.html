@@ -1938,9 +1938,10 @@
       if (typeof unsubExamResults === "function") { unsubExamResults(); unsubExamResults = null; }
       if (typeof unsubTabLogs === "function") { unsubTabLogs(); unsubTabLogs = null; }
 
-      if (!canSyncRealtimeCloud()) return;
+      if (!db) return;
 
-      unsubUserProgress = onSnapshot(getUserProgressDocRef(), (snap) => {
+      if (canSyncRealtimeCloud()) {
+        unsubUserProgress = onSnapshot(getUserProgressDocRef(), (snap) => {
         if (!snap.exists()) return;
         const data = snap.data() || {};
         if (typeof data.xp === "number") {
@@ -1972,6 +1973,7 @@
         updateDashboardStats();
         renderPackagesGrid();
       }, () => {});
+      }
 
       unsubExamResults = onSnapshot(collection(db, "exam_results"), (snap) => {
         const cloudResults = [];
@@ -1999,16 +2001,28 @@
       }, () => {});
 
       unsubTabLogs = onSnapshot(collection(db, "tab_switch_logs"), (snap) => {
-        const cloudLogs = [];
-        snap.forEach((docSnap) => {
-          cloudLogs.push({ id: docSnap.id, ...docSnap.data() });
+        const localLogs = JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
+        const mergedMap = new Map();
+        localLogs.forEach((item) => {
+          if (item && item.id) mergedMap.set(item.id, item);
         });
-        cloudLogs.sort((a, b) => String(b.id || "").localeCompare(String(a.id || "")));
+        snap.forEach((docSnap) => {
+          const data = { id: docSnap.id, ...docSnap.data() };
+          mergedMap.set(data.id, data);
+        });
+        const cloudLogs = Array.from(mergedMap.values()).sort((a, b) => {
+          const tA = Number(a.createdAtMs || 0);
+          const tB = Number(b.createdAtMs || 0);
+          if (tA !== tB) return tB - tA;
+          return String(b.id || "").localeCompare(String(a.id || ""));
+        });
         localStorage.setItem("cbt_tab_switch_logs", JSON.stringify(cloudLogs.slice(0, 300)));
         if (!document.getElementById("adminModal").classList.contains("hidden")) {
           renderTabSwitchLogsUI(cloudLogs);
         }
-      }, () => {});
+      }, (err) => {
+        console.warn("tab_switch_logs onSnapshot warning:", err);
+      });
     }
 
     async function applyUserSession(rawProfile) {
@@ -2039,6 +2053,12 @@
             await syncProgressToRealtimeCloud(true);
           }
         } catch (_) {}
+      }
+      if (db) {
+        const pendingLogs = JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
+        pendingLogs.slice(0, 30).forEach((logItem) => {
+          if (logItem && logItem.id) pushTabLogToCloud(logItem);
+        });
       }
       updateDashboardStats();
       await loadExamPackages();
@@ -2722,18 +2742,36 @@
 
     let lastTabSwitchRecordedAt = 0;
 
+    async function pushTabLogToCloud(entry) {
+      if (!db || !entry || !entry.id) return false;
+      try {
+        await setDoc(doc(db, "tab_switch_logs", entry.id), {
+          ...entry,
+          serverTimestamp: serverTimestamp()
+        }, { merge: true });
+        return true;
+      } catch (err) {
+        console.warn("Tab switch log cloud sync failed:", err);
+        return false;
+      }
+    }
+
     function recordTabSwitchLog(eventType) {
       if (document.getElementById("examView").classList.contains("hidden")) return;
       if (!currentExam) return;
       const now = Date.now();
-      if (now - lastTabSwitchRecordedAt < 1500) return;
+      if (now - lastTabSwitchRecordedAt < 1200) return;
       lastTabSwitchRecordedAt = now;
 
       tabSwitchCount++;
       const qObj = currentExam.questions[currentQuestionIndex] || {};
+      const actorUid = currentUserProfile?.uid || (currentUserProfile?.isGuest ? "guest_local" : ("anon_" + (currentUserProfile?.username || "peserta")));
       const entry = {
-        id: "ts_" + now + "_" + Math.random().toString(36).slice(2, 6),
+        id: "ts_" + now + "_" + Math.random().toString(36).slice(2, 7),
+        createdAtMs: now,
         timestamp: new Date().toLocaleString("id-ID"),
+        uid: actorUid,
+        isGuest: !!currentUserProfile?.isGuest,
         participantName: currentUserProfile?.name || "Peserta",
         username: currentUserProfile?.username || "-",
         userClass: currentUserProfile?.userClass || "XI",
@@ -2748,11 +2786,13 @@
       };
 
       const existingLogs = JSON.parse(localStorage.getItem("cbt_tab_switch_logs") || "[]");
-      existingLogs.unshift(entry);
-      localStorage.setItem("cbt_tab_switch_logs", JSON.stringify(existingLogs.slice(0, 300)));
+      const deduped = [entry, ...existingLogs.filter((l) => l.id !== entry.id)].slice(0, 300);
+      localStorage.setItem("cbt_tab_switch_logs", JSON.stringify(deduped));
 
-      if (db && currentUserProfile?.uid && !currentUserProfile.isGuest) {
-        setDoc(doc(db, "tab_switch_logs", entry.id), entry).catch(() => {});
+      pushTabLogToCloud(entry);
+
+      if (!document.getElementById("adminModal").classList.contains("hidden")) {
+        renderTabSwitchLogsUI(deduped);
       }
 
       if (!examOptionsConfig.instantMode) {
@@ -3366,13 +3406,24 @@
       showToast("Log pindah tab dibersihkan.", "info");
     };
 
-    function renderAdminUsersAndReferrals() {
+    async function renderAdminUsersAndReferrals(cloudResultsOverride = null) {
       const codes = getValidReferralCodes();
       document.getElementById("activeReferralCodesList").innerHTML = codes.map((c) => `<span class="px-2.5 py-1 rounded-lg bg-goldbrand-500/20 border border-goldbrand-500/40 font-mono font-bold text-[11px]">${c}</span>`).join("");
 
-      const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
-      document.getElementById("adminResultsTable").innerHTML = history.length
-        ? history.map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) • ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">Skor: ${h.score}</span></div>`).join("")
+      let combinedResults = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
+      if (Array.isArray(cloudResultsOverride) && cloudResultsOverride.length > 0) {
+        combinedResults = cloudResultsOverride;
+      } else if (db) {
+        try {
+          const snap = await getDocs(collection(db, "exam_results"));
+          const arr = [];
+          snap.forEach((d) => arr.push({ id: d.id, ...d.data() }));
+          if (arr.length > 0) combinedResults = arr;
+        } catch (_) {}
+      }
+
+      document.getElementById("adminResultsTable").innerHTML = combinedResults.length
+        ? combinedResults.map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"><span><strong>${h.user}</strong> (${h.userClass || "XI"}) • ${h.title}</span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">Skor: ${h.score}</span></div>`).join("")
         : `<p class="text-slate-400">Belum ada data hasil ujian.</p>`;
     }
 
