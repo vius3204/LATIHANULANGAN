@@ -1308,7 +1308,7 @@
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import {
       getFirestore, doc, setDoc, getDoc, getDocs,
-      collection, query, where, deleteDoc
+      collection, query, where, deleteDoc, onSnapshot, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1813,6 +1813,15 @@
       localStorage.setItem("cbt_daily_goal", String(newGoal));
       localStorage.setItem("cbt_session_user", JSON.stringify(currentUserProfile));
       saveLocalUsernameMap(newUsername, currentUserProfile.email);
+      if (canSyncRealtimeCloud()) {
+        setDoc(doc(db, "users", currentUserProfile.uid), {
+          name: newName,
+          userClass: newClass,
+          username: newUsername,
+          dailyGoal: newGoal
+        }, { merge: true }).catch(() => {});
+        syncProgressToRealtimeCloud(true);
+      }
       updateUIForUser();
       updateDashboardStats();
       showToast("Profil dan target belajar diperbarui!", "success");
@@ -1840,6 +1849,168 @@
       document.getElementById("authSection").classList.remove("hidden");
     };
 
+    let unsubUserProgress = null;
+    let unsubExamResults = null;
+    let unsubTabLogs = null;
+
+    function canSyncRealtimeCloud() {
+      return !!(db && currentUserProfile && currentUserProfile.uid && !currentUserProfile.isGuest);
+    }
+
+    function getUserProgressDocRef() {
+      return doc(db, "user_progress", currentUserProfile.uid);
+    }
+
+    function buildProgressSnapshotPayload() {
+      const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
+      const totalXp = parseInt(localStorage.getItem("cbt_user_xp") || "0", 10) || 0;
+      const dailyGoal = parseInt(localStorage.getItem("cbt_daily_goal") || "20", 10) || 20;
+      const dailyProgress = JSON.parse(localStorage.getItem("cbt_daily_progress") || "{}");
+      const bookmarks = JSON.parse(localStorage.getItem("cbt_bookmarked_questions") || "[]");
+      const autosaveRaw = localStorage.getItem("cbt_autosave_exam");
+      let activeAutosave = null;
+      if (autosaveRaw) {
+        try { activeAutosave = JSON.parse(autosaveRaw); } catch (_) {}
+      }
+
+      return {
+        uid: currentUserProfile.uid,
+        name: currentUserProfile.name || "Peserta",
+        username: currentUserProfile.username || "-",
+        userClass: currentUserProfile.userClass || "XI",
+        email: currentUserProfile.email || "-",
+        role: currentUserProfile.role || "user",
+        xp: totalXp,
+        dailyGoal,
+        dailyProgress,
+        examHistory: history.slice(0, 60),
+        bookmarks: bookmarks.slice(0, 100),
+        activeAutosave,
+        updatedAt: new Date().toISOString(),
+        serverUpdatedAt: serverTimestamp()
+      };
+    }
+
+    async function syncProgressToRealtimeCloud(forceSet = false) {
+      if (!canSyncRealtimeCloud()) return;
+      try {
+        const payload = buildProgressSnapshotPayload();
+        if (forceSet) {
+          await setDoc(getUserProgressDocRef(), payload, { merge: true });
+        } else {
+          await setDoc(getUserProgressDocRef(), payload, { merge: true });
+        }
+      } catch (err) {
+        console.warn("Realtime progress sync warning:", err);
+      }
+    }
+
+    async function recordExamResultRealtime(resultEntry) {
+      const entryWithId = {
+        ...resultEntry,
+        id: resultEntry.id || ("res_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6)),
+        uid: currentUserProfile?.uid || "guest_local",
+        username: currentUserProfile?.username || "-",
+        createdAtMs: Date.now(),
+        createdAtIso: new Date().toISOString()
+      };
+
+      const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
+      const deduped = [entryWithId, ...history.filter((h) => h.id !== entryWithId.id)].slice(0, 60);
+      localStorage.setItem("cbt_exam_history", JSON.stringify(deduped));
+
+      await syncProgressToRealtimeCloud(true);
+
+      if (db && currentUserProfile?.uid && !currentUserProfile.isGuest) {
+        try {
+          await setDoc(doc(db, "exam_results", entryWithId.id), {
+            ...entryWithId,
+            serverTimestamp: serverTimestamp()
+          });
+        } catch (err) {
+          console.warn("Realtime exam_results sync warning:", err);
+        }
+      }
+    }
+
+    function startRealtimeListeners() {
+      if (typeof unsubUserProgress === "function") { unsubUserProgress(); unsubUserProgress = null; }
+      if (typeof unsubExamResults === "function") { unsubExamResults(); unsubExamResults = null; }
+      if (typeof unsubTabLogs === "function") { unsubTabLogs(); unsubTabLogs = null; }
+
+      if (!canSyncRealtimeCloud()) return;
+
+      unsubUserProgress = onSnapshot(getUserProgressDocRef(), (snap) => {
+        if (!snap.exists()) return;
+        const data = snap.data() || {};
+        if (typeof data.xp === "number") {
+          const localXp = parseInt(localStorage.getItem("cbt_user_xp") || "0", 10) || 0;
+          if (data.xp >= localXp) localStorage.setItem("cbt_user_xp", String(data.xp));
+        }
+        if (typeof data.dailyGoal === "number") {
+          localStorage.setItem("cbt_daily_goal", String(data.dailyGoal));
+        }
+        if (data.dailyProgress && typeof data.dailyProgress === "object") {
+          const localDaily = JSON.parse(localStorage.getItem("cbt_daily_progress") || "{}");
+          const mergedDaily = { ...localDaily };
+          Object.entries(data.dailyProgress).forEach(([k, v]) => {
+            mergedDaily[k] = Math.max(mergedDaily[k] || 0, Number(v) || 0);
+          });
+          localStorage.setItem("cbt_daily_progress", JSON.stringify(mergedDaily));
+        }
+        if (Array.isArray(data.bookmarks)) {
+          localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(data.bookmarks));
+        }
+        if (Array.isArray(data.examHistory) && data.examHistory.length > 0) {
+          const localHist = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
+          const map = new Map();
+          localHist.forEach((item, i) => map.set(item.id || `loc_${i}_${item.title}_${item.date}`, item));
+          data.examHistory.forEach((item, i) => map.set(item.id || `cld_${i}_${item.title}_${item.date}`, item));
+          const mergedHist = Array.from(map.values()).sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0)).slice(0, 60);
+          localStorage.setItem("cbt_exam_history", JSON.stringify(mergedHist));
+        }
+        updateDashboardStats();
+        renderPackagesGrid();
+      }, () => {});
+
+      unsubExamResults = onSnapshot(collection(db, "exam_results"), (snap) => {
+        const cloudResults = [];
+        snap.forEach((docSnap) => {
+          cloudResults.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        if (cloudResults.length > 0) {
+          const myUid = currentUserProfile?.uid;
+          const myName = currentUserProfile?.name;
+          const myResults = cloudResults
+            .filter((r) => (myUid && r.uid === myUid) || (!myUid && r.user === myName))
+            .sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+          if (myResults.length > 0) {
+            localStorage.setItem("cbt_exam_history", JSON.stringify(myResults.slice(0, 60)));
+            updateDashboardStats();
+            renderPackagesGrid();
+          }
+        }
+        if (!document.getElementById("historyModal").classList.contains("hidden")) {
+          renderHistoryModalContent(cloudResults);
+        }
+        if (!document.getElementById("adminModal").classList.contains("hidden")) {
+          renderAdminUsersAndReferrals(cloudResults);
+        }
+      }, () => {});
+
+      unsubTabLogs = onSnapshot(collection(db, "tab_switch_logs"), (snap) => {
+        const cloudLogs = [];
+        snap.forEach((docSnap) => {
+          cloudLogs.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        cloudLogs.sort((a, b) => String(b.id || "").localeCompare(String(a.id || "")));
+        localStorage.setItem("cbt_tab_switch_logs", JSON.stringify(cloudLogs.slice(0, 300)));
+        if (!document.getElementById("adminModal").classList.contains("hidden")) {
+          renderTabSwitchLogsUI(cloudLogs);
+        }
+      }, () => {});
+    }
+
     async function applyUserSession(rawProfile) {
       currentUserProfile = normalizeUserProfile(rawProfile);
       const isMaintenance = localStorage.getItem("cbt_maintenance") === "true";
@@ -1851,6 +2022,24 @@
       document.getElementById("authSection").classList.add("hidden");
       document.getElementById("appShell").classList.remove("hidden");
       updateUIForUser();
+      startRealtimeListeners();
+      if (canSyncRealtimeCloud()) {
+        try {
+          const snap = await getDoc(getUserProgressDocRef());
+          if (snap.exists()) {
+            const pData = snap.data() || {};
+            if (typeof pData.xp === "number") localStorage.setItem("cbt_user_xp", String(pData.xp));
+            if (typeof pData.dailyGoal === "number") localStorage.setItem("cbt_daily_goal", String(pData.dailyGoal));
+            if (pData.dailyProgress) localStorage.setItem("cbt_daily_progress", JSON.stringify(pData.dailyProgress));
+            if (Array.isArray(pData.bookmarks)) localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(pData.bookmarks));
+            if (Array.isArray(pData.examHistory) && pData.examHistory.length > 0) {
+              localStorage.setItem("cbt_exam_history", JSON.stringify(pData.examHistory));
+            }
+          } else {
+            await syncProgressToRealtimeCloud(true);
+          }
+        } catch (_) {}
+      }
       updateDashboardStats();
       await loadExamPackages();
       showDashboard();
@@ -2191,6 +2380,7 @@
       localStorage.setItem("cbt_autosave_exam", JSON.stringify({
         exam: currentExam, userAnswers, flaggedQuestions, timeRemainingSeconds, currentQuestionIndex, examOptionsConfig
       }));
+      syncProgressToRealtimeCloud(false);
     }
 
     function checkAutoSavedExam() {
@@ -2489,6 +2679,7 @@
         showToast("Soal disimpan ke Bank Soal Favorit!", "success");
       }
       localStorage.setItem("cbt_bookmarked_questions", JSON.stringify(bookmarks));
+      syncProgressToRealtimeCloud(false);
       renderCurrentQuestion();
     };
 
@@ -2705,16 +2896,16 @@
       document.getElementById("reviewListContainer").innerHTML = reviewHtml;
       document.getElementById("btnOpenCert").classList.toggle("hidden", finalScore < kkm);
 
-      const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
-      history.unshift({
+      recordExamResultRealtime({
         user: currentUserProfile?.name || "Peserta",
         userClass: currentUserProfile?.userClass || "XI",
         title: currentExam.title,
         score: finalScore,
+        correctCount,
+        totalQuestions: totalQ,
         tabSwitches: tabSwitchCount,
         date: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
       });
-      localStorage.setItem("cbt_exam_history", JSON.stringify(history.slice(0, 60)));
 
       document.getElementById("examView").classList.add("hidden");
       document.getElementById("resultView").classList.remove("hidden");
@@ -2745,14 +2936,15 @@
       openModal("certificateModal");
     };
 
-    window.openHistoryModal = function () {
+    function renderHistoryModalContent(globalCloudResults = null) {
       const history = JSON.parse(localStorage.getItem("cbt_exam_history") || "[]");
+      const leaderboardSource = Array.isArray(globalCloudResults) && globalCloudResults.length > 0 ? globalCloudResults : history;
       const recent8 = history.slice(0, 8).reverse();
       document.getElementById("scoreTrendChart").innerHTML = recent8.length
         ? recent8.map((h) => `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1"><span class="text-[10px] font-extrabold">${h.score}</span><div class="w-full rounded-t-lg bg-gradient-to-t from-emeraldbrand-700 to-goldbrand-500" style="height:${Math.max(10, h.score)}%"></div><span class="text-[9px] text-slate-400 truncate w-full text-center">${h.title.slice(0, 6)}</span></div>`).join("")
         : `<p class="text-xs text-slate-400 m-auto">Kerjakan minimal 1 paket untuk melihat grafik skor.</p>`;
 
-      const sorted = [...history].sort((a, b) => b.score - a.score).slice(0, 5);
+      const sorted = [...leaderboardSource].sort((a, b) => b.score - a.score).slice(0, 5);
       document.getElementById("leaderboardList").innerHTML = sorted.length
         ? sorted.map((h, i) => `<div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-between text-xs"><span class="font-bold">#${i + 1} ${h.user} <span class="text-slate-400 font-normal">(${h.title})</span></span><span class="font-extrabold text-emeraldbrand-600 dark:text-goldbrand-400">${h.score}</span></div>`).join("")
         : `<p class="text-xs text-slate-400">Belum ada data peringkat.</p>`;
@@ -2760,6 +2952,19 @@
       document.getElementById("userHistoryList").innerHTML = history.length
         ? history.map((h) => `<div class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs"><div><p class="font-bold">${h.title}</p><p class="text-[11px] text-slate-400">${h.date}</p></div><span class="px-2.5 py-1 rounded-lg bg-emeraldbrand-100 text-emeraldbrand-800 font-extrabold">${h.score}</span></div>`).join("")
         : `<p class="text-xs text-slate-400">Belum ada riwayat pengerjaan.</p>`;
+    }
+
+    window.openHistoryModal = async function () {
+      let cloudResults = null;
+      if (db) {
+        try {
+          const snap = await getDocs(collection(db, "exam_results"));
+          const arr = [];
+          snap.forEach((d) => arr.push({ id: d.id, ...d.data() }));
+          if (arr.length > 0) cloudResults = arr;
+        } catch (_) {}
+      }
+      renderHistoryModalContent(cloudResults);
       openModal("historyModal");
     };
 
@@ -3117,23 +3322,7 @@
       document.getElementById("admStatQ").textContent = totalQ;
       document.getElementById("admStatReports").textContent = reports.length;
 
-      const tabLogEl = document.getElementById("adminTabSwitchLogsList");
-      if (tabLogEl) {
-        tabLogEl.innerHTML = tabLogs.length
-          ? tabLogs.map((l) => `
-              <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
-                <div class="min-w-0">
-                  <p class="font-extrabold text-slate-900 dark:text-white truncate">
-                    ${l.participantName || "Peserta"} <span class="text-slate-400 font-normal">(${l.userClass || "XI"} • @${l.username || "-"})</span>
-                    <span class="ml-1 px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-mono text-[10px]">#${l.violationCount || 1}×</span>
-                  </p>
-                  <p class="text-[10px] text-slate-500 truncate">${l.examTitle || "Ujian"} • Soal No. ${l.questionNumber || "-"} (${l.eventType || "TAB_HIDDEN"})</p>
-                </div>
-                <span class="text-[10px] font-mono text-slate-400 shrink-0">${l.timestamp || "-"}</span>
-              </div>
-            `).join("")
-          : `<p class="text-slate-400">Belum ada aktivitas pindah tab/aplikasi yang tercatat.</p>`;
-      }
+      renderTabSwitchLogsUI(tabLogs);
 
       document.getElementById("adminReportsList").innerHTML = reports.length
         ? reports.map((r) => `<div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800"><p class="font-bold">${r.packageTitle} • <span class="text-slate-400 font-normal">${r.reporter} (${r.date})</span></p><p class="text-slate-600 dark:text-slate-300 mt-0.5">${r.question}</p><p class="text-rose-700 dark:text-rose-300 font-semibold mt-1">Alasan: ${r.reason}</p></div>`).join("")
@@ -3145,8 +3334,33 @@
     }
 
     window.clearAllReports = function () { localStorage.removeItem("cbt_question_reports"); renderAdminAnalytics(); };
-    window.clearTabSwitchLogs = function () {
+    function renderTabSwitchLogsUI(tabLogs) {
+      const tabLogEl = document.getElementById("adminTabSwitchLogsList");
+      if (!tabLogEl) return;
+      tabLogEl.innerHTML = tabLogs.length
+        ? tabLogs.map((l) => `
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
+              <div class="min-w-0">
+                <p class="font-extrabold text-slate-900 dark:text-white truncate">
+                  ${l.participantName || "Peserta"} <span class="text-slate-400 font-normal">(${l.userClass || "XI"} • @${l.username || "-"})</span>
+                  <span class="ml-1 px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-mono text-[10px]">#${l.violationCount || 1}×</span>
+                </p>
+                <p class="text-[10px] text-slate-500 truncate">${l.examTitle || "Ujian"} • Soal No. ${l.questionNumber || "-"} (${l.eventType || "TAB_HIDDEN"})</p>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400 shrink-0">${l.timestamp || "-"}</span>
+            </div>
+          `).join("")
+        : `<p class="text-slate-400">Belum ada aktivitas pindah tab/aplikasi yang tercatat.</p>`;
+    }
+
+    window.clearTabSwitchLogs = async function () {
       localStorage.removeItem("cbt_tab_switch_logs");
+      if (db) {
+        try {
+          const snap = await getDocs(collection(db, "tab_switch_logs"));
+          await Promise.all(snap.docs.map((d) => deleteDoc(doc(db, "tab_switch_logs", d.id))));
+        } catch (_) {}
+      }
       logAdminAudit("Membersihkan log informasi pindah tab peserta");
       renderAdminAnalytics();
       showToast("Log pindah tab dibersihkan.", "info");
